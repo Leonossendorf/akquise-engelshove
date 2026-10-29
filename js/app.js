@@ -68,6 +68,14 @@
     anwenden();
   }
 
+  // Galerien: alle Fotos zeigen
+  document.querySelectorAll("[data-mehr]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      b.closest(".galerie").querySelectorAll(".g-item[hidden]").forEach(function (f) { f.hidden = false; });
+      b.parentNode.remove();
+    });
+  });
+
   // Formulare mit Weichen
   document.querySelectorAll("form[data-demo]").forEach(function (form) {
     var weichen = form.querySelectorAll("[data-weiche]");

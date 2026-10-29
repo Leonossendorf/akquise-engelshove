@@ -283,6 +283,28 @@ p{margin:0 0 1em;max-width:68ch}
 .kopf h1{max-width:18ch}
 .kopf .lead{max-width:60ch}
 
+/* Galerien */
+.galerie{margin-top:40px}
+.galerie h3{display:flex;gap:10px;align-items:baseline;font-size:22px}
+.galerie h3 .leise{font-size:14px;font-weight:400;font-family:var(--schrift-text)}
+.g-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;grid-auto-flow:dense}
+.g-item{margin:0;aspect-ratio:4/3;overflow:hidden;background:var(--putz-dunkel);border:var(--rand)}
+.g-item.g-hoch{aspect-ratio:3/4;grid-row:span 1}
+.g-item img{width:100%;height:100%;object-fit:cover;display:block}
+.g-item[hidden]{display:none}
+.g-mehr{margin:16px 0 0}
+@media (max-width:700px){.g-grid{grid-template-columns:repeat(2,1fr)}}
+/* Team mit Fotos */
+.team-liste .portrait{flex:none;width:56px;height:70px;object-fit:cover;object-position:top;border-radius:var(--radius);background:var(--putz-dunkel)}
+.chef .portrait-gross{width:120px;height:150px;object-fit:cover;object-position:top;border-radius:var(--radius);float:left;margin:0 18px 6px 0}
+.chef div::after{content:"";display:block;clear:both}
+.chef-text{display:block}
+/* Presse-Scans */
+.scans{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px}
+.scans img{width:100%;height:auto;border:var(--rand);background:#fff}
+.partner-logos{display:flex;flex-wrap:wrap;gap:14px 22px;list-style:none;padding:0;margin:0;align-items:center}
+.partner-logos li{background:#fff;border:var(--rand);padding:10px 14px;display:flex;align-items:center;height:64px}
+.partner-logos img{max-height:40px;width:auto;max-width:140px}
 /* Diverses */
 .liste-klar{padding-left:20px}
 .liste-klar li{margin-bottom:6px}
