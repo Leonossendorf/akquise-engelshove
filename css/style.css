@@ -4,6 +4,7 @@
 @font-face{font-family:"Source Serif 4";src:url("../fonts/source-serif-4-latin-wght-normal.woff2") format("woff2");font-weight:200 900;font-display:swap}
 
 :root{
+  color-scheme:only light;
   --klinker:#7a3b2e; --klinker-dunkel:#5c2b21; --anthrazit:#2a2a2a; --putz:#f5f2ed; --putz-dunkel:#ebe6de;
   --taupe:#b9b0a5; --taupe-dunkel:#8a8176; --linie:rgba(42,42,42,.32); --weiss:#fff;
   --text:#2a2a2a; --text-leise:#5a5650;
@@ -238,11 +239,20 @@ p{margin:0 0 1em;max-width:68ch}
 .chips label:hover{border-color:var(--klinker);color:var(--klinker)}
 .chips input:checked + label:hover{color:#fff}
 .feld{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.feld input,.feld textarea,.feld select{font:inherit;padding:12px 14px;border:2px solid var(--taupe);border-radius:var(--radius);background:#fff;min-height:48px;color:var(--text)}
-.feld input:focus-visible,.feld textarea:focus-visible{outline:none;border-color:var(--klinker);box-shadow:var(--fokus)}
+/* Felder immer hell mit dunkler Schrift, unabhängig vom Systemthema (auch Chrome „Auto Dark“, Autofill, Auswahllisten) */
+.formular,.formular input,.formular textarea,.formular select{color-scheme:only light}
+.feld input,.feld textarea,.feld select{font:inherit;padding:12px 14px;border:2px solid #8a8176;border-radius:var(--radius);background:#fff !important;background-color:#fff !important;min-height:48px;color:#2a2a2a !important;-webkit-text-fill-color:#2a2a2a;caret-color:#7a3b2e;appearance:auto;-webkit-appearance:auto;box-shadow:none}
+.feld select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%232a2a2a' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center !important;padding-right:40px}
+.feld select option{color:#2a2a2a;background:#fff}
+.feld input::placeholder,.feld textarea::placeholder{color:#6b655d;opacity:1}
+.feld input:-webkit-autofill,.feld input:-webkit-autofill:hover,.feld input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 1000px #fff inset;-webkit-text-fill-color:#2a2a2a;caret-color:#7a3b2e}
+.feld textarea{min-height:120px;resize:vertical}
+.feld input[type=file]{padding:10px 14px}
+.feld input[type=file]::file-selector-button{font:inherit;font-family:var(--schrift-kopf);font-weight:600;color:#2a2a2a;background:#f5f2ed;border:2px solid #2a2a2a;border-radius:var(--radius);padding:6px 12px;margin-right:12px;cursor:pointer}
+.feld input:focus-visible,.feld textarea:focus-visible,.feld select:focus-visible{outline:none;border-color:var(--klinker) !important;box-shadow:var(--fokus) !important}
 .feld .fehler{color:#9b2c1f;font-size:14px;display:none}
 .feld.ungueltig .fehler{display:block}
-.feld.ungueltig input{border-color:#9b2c1f}
+.feld.ungueltig input{border-color:#9b2c1f !important}
 .zwei-felder{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media (max-width:600px){.zwei-felder{grid-template-columns:1fr}}
 .demo-note{font-size:14px;color:var(--text-leise);margin:8px 0 0}
