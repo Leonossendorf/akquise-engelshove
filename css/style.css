@@ -39,6 +39,25 @@ p{margin:0 0 1em;max-width:68ch}
 .abschnitt--dunkel .plan{color:var(--taupe)}
 .abschnitt--dunkel .plan::after{background:rgba(245,242,237,.3)}
 
+/* Dezente Animationen: Einblenden beim Scrollen, Hover, Übergänge (prefers-reduced-motion schaltet alles ab) */
+.einblenden{opacity:0;transform:translateY(14px);transition:opacity .55s ease var(--verz,0ms),transform .55s ease var(--verz,0ms)}
+.einblenden.sichtbar{opacity:1;transform:none}
+.einblenden.g-item[hidden]{display:none}
+.btn,.kachel,.karte,.presse-liste li,.team-liste li,.nav a,.filter button,.chips label,.g-item img,.stempel b{transition:transform .25s ease,box-shadow .25s ease,background-color .2s ease,color .2s ease,border-color .2s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px -10px rgba(42,42,42,.5)}
+.kachel:hover,.karte:hover,.presse-liste li:hover,.team-liste li:hover{transform:translateY(-3px);box-shadow:0 16px 30px -18px rgba(42,42,42,.45)}
+.kachel::after{transition:transform .25s ease}
+.kachel:hover::after{transform:translateX(4px)}
+.g-item img{transition:transform .5s ease}
+.g-item:hover img{transform:scale(1.04)}
+.plan::after{transform-origin:left;transition:transform .6s ease .2s}
+.einblenden:not(.sichtbar) .plan::after{transform:scaleX(0)}
+@media (prefers-reduced-motion:reduce){
+  .einblenden{opacity:1;transform:none;transition:none}
+  .btn,.kachel,.karte,.presse-liste li,.team-liste li,.nav a,.filter button,.chips label,.g-item img,.stempel b,.kachel::after,.plan::after{transition:none}
+  .btn:hover,.kachel:hover,.karte:hover,.presse-liste li:hover,.team-liste li:hover,.kachel:hover::after,.g-item:hover img{transform:none}
+}
+
 /* Skip-Link, Entwurfsleiste */
 .skip{position:absolute;left:-999px;top:8px;background:var(--anthrazit);color:#fff;padding:10px 14px;z-index:100;text-decoration:none}
 .skip:focus{left:8px}
@@ -76,13 +95,31 @@ p{margin:0 0 1em;max-width:68ch}
   .brand-sub{display:none}
 }
 
-/* Hero: Strich zu Stein */
-.hero{padding:clamp(28px,5vw,60px) 0 clamp(40px,6vw,80px);position:relative}
-.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4vw,56px);align-items:center}
-.hero h1{margin-bottom:.35em}
-.hero h1 .strich{font-weight:300;color:var(--text-leise)}
-.hero .lead{max-width:48ch}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 8px}
+/* Hero: Strich zu Stein als Planfeld mit Planstempel */
+.hero{padding:clamp(20px,3vw,36px) 0 clamp(40px,6vw,80px);position:relative}
+.hero-buehne{position:relative}
+.hero-titel{position:absolute;left:0;top:0;z-index:3;max-width:min(560px,70%);padding:clamp(14px,2.4vw,28px) clamp(16px,2.6vw,32px) clamp(12px,2vw,22px) 0;background:var(--putz);pointer-events:none}
+.hero-titel .plan{margin-bottom:10px}
+.hero h1{margin:0;font-size:clamp(36px,6.2vw,84px);line-height:.98;letter-spacing:-.02em}
+.hero h1 .strich{font-weight:300;color:var(--text-leise);display:block}
+.hero-titel::after{content:"";position:absolute;right:-1px;bottom:-1px;width:28px;height:28px;border-right:1px solid var(--linie);border-bottom:1px solid var(--linie)}
+.hero-stempel{position:absolute;right:clamp(12px,2vw,28px);bottom:clamp(12px,2vw,28px);z-index:3;width:min(420px,calc(100% - 24px));background:var(--putz);border:1.5px solid var(--anthrazit);box-shadow:0 20px 40px -24px rgba(0,0,0,.6);font-family:var(--schrift-kopf)}
+.hero-stempel dl{display:grid;grid-template-columns:auto 1fr;margin:0;font-size:13px}
+.hero-stempel dt,.hero-stempel dd{margin:0;padding:7px 12px;border-bottom:1px solid var(--linie)}
+.hero-stempel dt{text-transform:uppercase;letter-spacing:.12em;font-size:11px;color:var(--klinker);font-weight:600;border-right:1px solid var(--linie);white-space:nowrap}
+.hero-stempel dd{font-weight:550;color:var(--anthrazit)}
+.hero-stempel .lead{font-family:var(--schrift-text);font-size:16px;margin:0;padding:12px 12px 4px;color:var(--text)}
+.hero-cta{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px 12px}
+.hero-cta .btn{font-size:15px;padding:11px 16px;min-height:44px}
+.hero .reveal{aspect-ratio:16/9;border:1px solid var(--anthrazit)}
+.reveal-hinweis{justify-content:flex-end}
+@media (max-width:860px){
+  .hero-titel{position:static;max-width:none;padding:0 0 14px}
+  .hero-titel::after{display:none}
+  .hero .reveal{aspect-ratio:4/3}
+  .hero-stempel{position:static;width:auto;margin-top:14px;box-shadow:none}
+  .reveal-hinweis{justify-content:flex-start}
+}
 .reveal{position:relative;aspect-ratio:3/2;overflow:hidden;border:var(--rand);background:var(--putz-dunkel);box-shadow:0 20px 50px -30px rgba(42,42,42,.5)}
 .reveal img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .reveal .foto{clip-path:inset(0 0 0 var(--teil,50%))}
@@ -97,7 +134,6 @@ p{margin:0 0 1em;max-width:68ch}
 .masslinie{position:absolute;left:0;right:0;bottom:-14px;height:1px;background:var(--linie)}
 .masslinie::before,.masslinie::after{content:"";position:absolute;top:-5px;width:1px;height:11px;background:var(--linie)}
 .masslinie::before{left:0}.masslinie::after{right:0}
-@media (max-width:860px){.hero-grid{grid-template-columns:1fr}.hero-grid>div:last-child{order:-1}}
 
 /* Band (Karriere-Hinweis) */
 .band{background:var(--klinker);color:#fff;font-family:var(--schrift-kopf);font-weight:600;text-align:center;padding:10px var(--gutter);font-size:15px}
@@ -256,9 +292,17 @@ p{margin:0 0 1em;max-width:68ch}
 .zwei-felder{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media (max-width:600px){.zwei-felder{grid-template-columns:1fr}}
 .demo-note{font-size:14px;color:var(--text-leise);margin:8px 0 0}
-.bestaetigung{display:none;background:var(--putz-dunkel);border-left:5px solid var(--klinker);padding:18px 20px;margin-top:20px}
-.bestaetigung.sichtbar{display:block}
-.bestaetigung b{font-family:var(--schrift-kopf)}
+.bestaetigung{display:none;background:var(--anthrazit);color:var(--putz);padding:22px 24px;margin-top:22px;border-radius:var(--radius);position:relative;padding-left:64px}
+.bestaetigung.sichtbar{display:block;animation:rein .5s ease}
+.bestaetigung::before{content:"";position:absolute;left:22px;top:24px;width:26px;height:26px;border-radius:50%;background:var(--klinker)}
+.bestaetigung::after{content:"";position:absolute;left:31px;top:30px;width:7px;height:12px;border-right:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(45deg)}
+.bestaetigung b{font-family:var(--schrift-kopf);display:block;font-size:20px;margin-bottom:4px}
+.bestaetigung [data-text]{color:rgba(245,242,237,.85)}
+@keyframes rein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bestaetigung.sichtbar{animation:none}}
+.formular fieldset{margin-bottom:28px}
+.formular .btn{width:100%;max-width:360px;font-size:17px;min-height:54px}
+.feld{margin-bottom:20px}
 .weiche{display:none}
 .weiche.aktiv{display:block}
 .rueckweg{font-size:14px;color:var(--text-leise);margin:-6px 0 14px}

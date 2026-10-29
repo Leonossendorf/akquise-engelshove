@@ -3,6 +3,29 @@
   "use strict";
   var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Sanftes Einblenden beim Scrollen (Abschnitte, Karten, Kacheln, Phasen)
+  var ziele = document.querySelectorAll(".abschnitt .wrap > *, .kachel, .karte, .phase, .stempel > div, .presse-liste li, .team-liste li, .g-item, .kopf .wrap > *, .hero-stempel, .hero-titel");
+  if (!reduziert) {
+    var offen = [];
+    ziele.forEach(function (el, i) { el.classList.add("einblenden"); el.style.setProperty("--verz", ((i % 6) * 70) + "ms"); offen.push(el); });
+    var pruefen = function () {
+      var h = window.innerHeight || document.documentElement.clientHeight;
+      offen = offen.filter(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < h * 0.94 && r.bottom > 0) { el.classList.add("sichtbar"); return false; }
+        return true;
+      });
+      if (!offen.length) { window.removeEventListener("scroll", geplant); window.removeEventListener("resize", geplant); }
+    };
+    var tick = false;
+    var geplant = function () { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; pruefen(); }); } };
+    window.addEventListener("scroll", geplant, { passive: true });
+    window.addEventListener("resize", geplant);
+    pruefen(); setTimeout(pruefen, 300); setTimeout(pruefen, 1500);
+    // Sicherheitsnetz: nach kurzer Zeit alles zeigen, was noch nicht gezeigt wurde und im Bild ist; Rest beim Scrollen
+    setTimeout(function () { if (document.hidden) offen.forEach(function (el) { el.classList.add("sichtbar"); }); }, 2500);
+  }
+
   // Menü am Handy
   var mb = document.querySelector(".menu-btn"), nav = document.querySelector(".nav");
   if (mb && nav) {

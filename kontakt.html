@@ -11,7 +11,7 @@
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/publicsans-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20261029b">
+<link rel="stylesheet" href="css/style.css?v=20261029c">
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
@@ -43,14 +43,7 @@
         <input type="radio" id="a2" name="art" value="umbau"><label for="a2">Umbau / Modernisierung</label>
         <input type="radio" id="a3" name="art" value="gewerbe"><label for="a3">Gewerbe</label>
         <input type="radio" id="a4" name="art" value="interieur"><label for="a4">Interieur</label></div></fieldset>
-      <fieldset><legend>Grundstück <span class="opt">(Angabe optional)</span></legend><div class="chips">
-        <input type="radio" id="g1" name="grundstueck" value="vorhanden"><label for="g1">vorhanden</label>
-        <input type="radio" id="g2" name="grundstueck" value="suche"><label for="g2">in Suche</label>
-        <input type="radio" id="g3" name="grundstueck" value="offen"><label for="g3">noch offen</label></div></fieldset>
-      <div class="zwei-felder">
-        <div class="feld"><label for="ort">Ort des Vorhabens <span class="opt">(Angabe optional)</span></label><input id="ort" name="ort" type="text"></div>
-        <div class="feld"><label class="block" for="zeit">Wunschzeitraum <span class="opt">(Angabe optional)</span></label><select id="zeit" name="zeitraum"><option value="">Bitte wählen</option><option>dieses Jahr</option><option>nächstes Jahr</option><option>später</option></select></div>
-      </div>
+      <div class="feld"><label for="ort">Ort des Vorhabens <span class="opt">(Angabe optional)</span></label><input id="ort" name="ort" type="text" autocomplete="address-level2"></div>
     </div>
     <div data-weiche="energie" class="weiche">
       <fieldset><legend>Was interessiert Sie? <span class="opt">(Angabe optional)</span></legend><div class="chips">
@@ -58,9 +51,6 @@
         <input type="checkbox" id="e2" name="energie" value="pv"><label for="e2">Photovoltaik mit Speicher</label>
         <input type="checkbox" id="e3" name="energie" value="lueftung"><label for="e3">Lüftung</label>
         <input type="checkbox" id="e4" name="energie" value="foerderung"><label for="e4">Förderung</label></div></fieldset>
-      <fieldset><legend>Neubau oder Bestand? <span class="opt">(Angabe optional)</span></legend><div class="chips">
-        <input type="radio" id="eb1" name="bestand" value="neubau"><label for="eb1">Neubau</label>
-        <input type="radio" id="eb2" name="bestand" value="bestand"><label for="eb2">Bestehendes Haus</label></div></fieldset>
     </div>
     <div data-weiche="bewerbung" class="weiche">
       <fieldset><legend>Wofür bewerben Sie sich?</legend><div class="chips">
@@ -76,7 +66,7 @@
     <div class="feld"><label for="k-text">Was Sie uns noch sagen möchten <span class="opt">(Angabe optional)</span></label><textarea id="k-text" name="text" rows="4"></textarea></div>
     <button class="btn" type="submit">Anfrage abschicken</button>
     <p class="demo-note">Entwurf: Das Formular verschickt nichts.</p>
-    <div class="bestaetigung" role="status"><b>Danke.</b> <span data-text></span></div>
+    <div class="bestaetigung" role="status"><b>Danke, das ist angekommen.</b><span data-text></span></div>
   </form>
   <div class="adresse">
     <p><b>Engelshove Bau GmbH</b><br>Ingenieur-Büro | Architektur | Bauunternehmen<br>Dieselstraße 3<br>48485 Neuenkirchen<br><span class="leise">Gewerbegebiet Nord</span></p>
