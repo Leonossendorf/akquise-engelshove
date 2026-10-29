@@ -106,6 +106,8 @@ p{margin:0 0 1em;max-width:68ch}
 .kacheln{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
 .kachel{display:block;text-decoration:none;color:var(--anthrazit);border:var(--rand);padding:18px 18px 16px;background:var(--weiss);position:relative;min-height:112px;border-radius:var(--radius)}
 .kachel:hover{border-color:var(--klinker);color:var(--klinker)}
+.abschnitt--dunkel .kachel{color:var(--anthrazit)}
+.abschnitt--dunkel .kachel:hover{color:var(--klinker)}
 .kachel .nr{font-family:var(--schrift-kopf);font-size:12px;letter-spacing:.14em;color:var(--klinker);display:block;margin-bottom:8px}
 .kachel strong{font-family:var(--schrift-kopf);font-size:19px;display:block;margin-bottom:4px}
 .kachel span.klein{font-size:15px;color:var(--text-leise)}
@@ -139,7 +141,7 @@ p{margin:0 0 1em;max-width:68ch}
 .karte summary::before{content:"+ ";}
 .karte details[open] summary::before{content:"– "}
 .karte .quelle{font-size:13px;color:var(--text-leise);margin-top:6px}
-.karte.ohne-bild figure{display:grid;place-items:center;color:var(--taupe-dunkel);font-family:var(--schrift-kopf);font-size:13px;letter-spacing:.1em;text-transform:uppercase;aspect-ratio:4/2}
+.karte.ohne-bild figure{display:grid;place-items:center;color:var(--text-leise);font-family:var(--schrift-kopf);font-size:13px;letter-spacing:.1em;text-transform:uppercase;aspect-ratio:4/2}
 @media (max-width:900px){.karten{grid-template-columns:1fr 1fr}}
 @media (max-width:600px){.karten{grid-template-columns:1fr}}
 
