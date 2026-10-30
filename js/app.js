@@ -39,20 +39,25 @@
   var reveal = document.querySelector(".reveal");
   if (reveal) {
     var range = reveal.querySelector("input[type=range]");
-    var setzen = function (v) { reveal.style.setProperty("--teil", v + "%"); range.value = v; };
+    var setzen = function (v) {
+      v = +v;
+      reveal.style.setProperty("--teil", v + "%");
+      reveal.style.setProperty("--m", (v * 1.06 - 3) + "%"); // Übergangsband läuft an beiden Enden ganz aus dem Bild
+      range.value = v;
+    };
     range.addEventListener("input", function () { setzen(range.value); });
     if (reduziert) { setzen(50); }
     else {
       // Einmaliger ruhiger Übergang: vom Strich (links) zum Stein, dann bleibt der Griff in der Mitte
-      var start = null, dauer = 2600, von = 100, bis = 50;
+      var start = null, dauer = 3400, von = 100, bis = 50;
       var schritt = function (t) {
         if (!start) start = t;
-        var p = Math.min(1, (t - start) / dauer); p = 1 - Math.pow(1 - p, 3);
+        var p = Math.min(1, (t - start) / dauer); p = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
         setzen(von + (bis - von) * p);
         if (p < 1 && !reveal.dataset.berührt) requestAnimationFrame(schritt);
       };
       setzen(100);
-      setTimeout(function () { requestAnimationFrame(schritt); }, 500);
+      setTimeout(function () { requestAnimationFrame(schritt); }, 900);
       range.addEventListener("pointerdown", function () { reveal.dataset.berührt = "1"; });
     }
   }
