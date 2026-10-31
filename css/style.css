@@ -306,3 +306,8 @@ a:hover{text-decoration-color:var(--licht)}
 .lb-zu{top:6px;right:8px}.lb-z{left:6px;top:50%;transform:translateY(-50%)}.lb-v{right:6px;top:50%;transform:translateY(-50%)}
 @media (max-width:760px){.lb-z,.lb-v{top:auto;bottom:6px;transform:none}}
 @media (max-width:760px){.top-anf{display:none}.p-kopf .wrap{padding-bottom:calc(74px + env(safe-area-inset-bottom))}.p-kopf{height:calc(var(--buehne) - var(--kopfhoehe))}}
+.p-platz{height:calc(var(--buehne) - var(--kopfhoehe))}
+.p-platz .lead{margin:10px 0 22px;color:var(--hell)}
+.p-platz .held-wege{display:flex;flex-wrap:wrap;gap:10px}
+.p-platz .wrap{padding-bottom:clamp(30px,8vh,80px)}
+@media (max-width:760px){.p-platz .wrap{padding-bottom:calc(84px + env(safe-area-inset-bottom))}}
