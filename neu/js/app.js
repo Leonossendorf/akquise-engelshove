@@ -4,7 +4,7 @@
   var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Sanftes Einblenden beim Scrollen (Abschnitte, Karten, Kacheln, Phasen)
-  var ziele = document.querySelectorAll(".abschnitt .wrap > *, .kachel, .karte, .phase, .stempel > div, .presse-liste li, .team-liste li, .g-item, .kopf .wrap > *, .hero-stempel, .hero-titel");
+  var ziele = document.querySelectorAll("body:not(.start) .kopf .wrap > *, body:not(.start) .phase");
   if (!reduziert) {
     var offen = [];
     ziele.forEach(function (el, i) { el.classList.add("einblenden"); el.style.setProperty("--verz", ((i % 6) * 70) + "ms"); offen.push(el); });
@@ -35,37 +35,51 @@
     });
   }
 
-  // Hero: Strich zu Stein (Schieber)
-  var reveal = document.querySelector(".reveal");
-  if (reveal) {
-    var range = reveal.querySelector("input[type=range]");
-    var setzen = function (v) {
-      v = +v;
-      reveal.style.setProperty("--teil", v + "%");
-      reveal.style.setProperty("--m", (v * 1.06 - 3) + "%"); // Übergangsband läuft an beiden Enden ganz aus dem Bild
-      range.value = v;
-    };
-    range.addEventListener("input", function () { setzen(range.value); });
-    if (reduziert) { setzen(50); }
-    else {
-      // Einmaliger ruhiger Übergang: vom Strich (links) zum Stein, dann bleibt der Griff in der Mitte
-      var start = null, dauer = 3400, von = 100, bis = 50;
-      var schritt = function (t) {
-        if (!start) start = t;
-        var p = Math.min(1, (t - start) / dauer); p = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-        setzen(von + (bis - von) * p);
-        if (p < 1 && !reveal.dataset.berührt) requestAnimationFrame(schritt);
+  // Satellitenkarte: Punkt zeigt Bild und Text
+  var sat = document.querySelector("[data-sat]");
+  if (sat) {
+    var si = sat.querySelector(".sat-info"), slink = si.querySelector(".sat-link"), simg = si.querySelector("img"), sh = si.querySelector("h3"), sp = si.querySelector("p");
+    sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (b) {
+      var waehlen = function () {
+        sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+        simg.src = b.dataset.bild; sh.textContent = b.dataset.titel; sp.textContent = b.dataset.text; slink.href = b.dataset.link;
       };
-      setzen(100);
-      setTimeout(function () { requestAnimationFrame(schritt); }, 900);
-      range.addEventListener("pointerdown", function () { reveal.dataset.berührt = "1"; });
-    }
+      b.addEventListener("click", waehlen); b.addEventListener("mouseenter", waehlen);
+    });
   }
+
+  // Große Ansicht für Fotos und Scans
+  var lb = null, lbListe = [], lbNr = 0;
+  var lbZeige = function (n) {
+    lbNr = (n + lbListe.length) % lbListe.length;
+    lb.querySelector("img").src = lbListe[lbNr].href;
+  };
+  var lbZu = function () { if (lb) { lb.remove(); lb = null; document.documentElement.style.overflow = ""; } };
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[data-lb]");
+    if (!a) return;
+    e.preventDefault();
+    var gruppe = a.closest(".p-fotos, .g-grid, .scans");
+    lbListe = Array.prototype.slice.call((gruppe || document).querySelectorAll("a[data-lb]")).filter(function (x) { return x.offsetParent !== null; });
+    lb = document.createElement("div"); lb.className = "lb";
+    lb.innerHTML = '<img alt=""><button type="button" class="lb-zu">Schließen</button><button type="button" class="lb-z">Zurück</button><button type="button" class="lb-v">Weiter</button>';
+    document.body.appendChild(lb); document.documentElement.style.overflow = "hidden";
+    lbZeige(lbListe.indexOf(a));
+    lb.addEventListener("click", function (x) {
+      if (x.target.classList.contains("lb-v")) lbZeige(lbNr + 1);
+      else if (x.target.classList.contains("lb-z")) lbZeige(lbNr - 1);
+      else lbZu();
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (!lb) return;
+    if (e.key === "Escape") lbZu(); else if (e.key === "ArrowRight") lbZeige(lbNr + 1); else if (e.key === "ArrowLeft") lbZeige(lbNr - 1);
+  });
 
   // Projektfilter
   var filter = document.querySelector("[data-filter]");
   if (filter) {
-    var karten = Array.prototype.slice.call(document.querySelectorAll("[data-art]"));
+    var karten = Array.prototype.slice.call(document.querySelectorAll(".karte[data-art]"));
     var treffer = document.querySelector(".treffer");
     var aktiv = { art: "alle", ort: "alle" };
     var anwenden = function () {
@@ -86,13 +100,6 @@
     // Ort aus der Karte oder aus dem Link (#ort=rheine)
     var h = location.hash.match(/ort=([a-z-]+)/);
     if (h) { var btn = filter.querySelector('button[data-gruppe="ort"][data-wert="' + h[1] + '"]'); if (btn) btn.click(); }
-    document.querySelectorAll(".region-svg .punkt").forEach(function (p) {
-      p.style.cursor = "pointer";
-      p.addEventListener("click", function () {
-        var btn = filter.querySelector('button[data-gruppe="ort"][data-wert="' + p.dataset.ort + '"]');
-        if (btn) { btn.click(); filter.scrollIntoView({ behavior: reduziert ? "auto" : "smooth", block: "start" }); }
-      });
-    });
     anwenden();
   }
 
