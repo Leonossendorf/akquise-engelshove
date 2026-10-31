@@ -4,7 +4,7 @@
   var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Sanftes Einblenden beim Scrollen (Abschnitte, Karten, Kacheln, Phasen)
-  var ziele = document.querySelectorAll("body:not(.start) .abschnitt .wrap > *, body:not(.start) .karte, body:not(.start) .phase, body:not(.start) .presse-liste li, body:not(.start) .team-gross li, body:not(.start) .g-item, body:not(.start) .kopf .wrap > *");
+  var ziele = document.querySelectorAll("body:not(.start) .kopf .wrap > *, body:not(.start) .phase");
   if (!reduziert) {
     var offen = [];
     ziele.forEach(function (el, i) { el.classList.add("einblenden"); el.style.setProperty("--verz", ((i % 6) * 70) + "ms"); offen.push(el); });
@@ -38,20 +38,48 @@
   // Satellitenkarte: Punkt zeigt Bild und Text
   var sat = document.querySelector("[data-sat]");
   if (sat) {
-    var si = sat.querySelector(".sat-info"), simg = si.querySelector("img"), sh = si.querySelector("h3"), sp = si.querySelector("p");
+    var si = sat.querySelector(".sat-info"), slink = si.querySelector(".sat-link"), simg = si.querySelector("img"), sh = si.querySelector("h3"), sp = si.querySelector("p");
     sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (b) {
       var waehlen = function () {
         sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-        simg.src = b.dataset.bild; sh.textContent = b.dataset.titel; sp.textContent = b.dataset.text;
+        simg.src = b.dataset.bild; sh.textContent = b.dataset.titel; sp.textContent = b.dataset.text; slink.href = b.dataset.link;
       };
       b.addEventListener("click", waehlen); b.addEventListener("mouseenter", waehlen);
     });
   }
 
+  // Große Ansicht für Fotos und Scans
+  var lb = null, lbListe = [], lbNr = 0;
+  var lbZeige = function (n) {
+    lbNr = (n + lbListe.length) % lbListe.length;
+    lb.querySelector("img").src = lbListe[lbNr].href;
+  };
+  var lbZu = function () { if (lb) { lb.remove(); lb = null; document.documentElement.style.overflow = ""; } };
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[data-lb]");
+    if (!a) return;
+    e.preventDefault();
+    var gruppe = a.closest(".p-fotos, .g-grid, .scans");
+    lbListe = Array.prototype.slice.call((gruppe || document).querySelectorAll("a[data-lb]")).filter(function (x) { return x.offsetParent !== null; });
+    lb = document.createElement("div"); lb.className = "lb";
+    lb.innerHTML = '<img alt=""><button type="button" class="lb-zu">Schließen</button><button type="button" class="lb-z">Zurück</button><button type="button" class="lb-v">Weiter</button>';
+    document.body.appendChild(lb); document.documentElement.style.overflow = "hidden";
+    lbZeige(lbListe.indexOf(a));
+    lb.addEventListener("click", function (x) {
+      if (x.target.classList.contains("lb-v")) lbZeige(lbNr + 1);
+      else if (x.target.classList.contains("lb-z")) lbZeige(lbNr - 1);
+      else lbZu();
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (!lb) return;
+    if (e.key === "Escape") lbZu(); else if (e.key === "ArrowRight") lbZeige(lbNr + 1); else if (e.key === "ArrowLeft") lbZeige(lbNr - 1);
+  });
+
   // Projektfilter
   var filter = document.querySelector("[data-filter]");
   if (filter) {
-    var karten = Array.prototype.slice.call(document.querySelectorAll("[data-art]"));
+    var karten = Array.prototype.slice.call(document.querySelectorAll(".karte[data-art]"));
     var treffer = document.querySelector(".treffer");
     var aktiv = { art: "alle", ort: "alle" };
     var anwenden = function () {

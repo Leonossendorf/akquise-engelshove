@@ -66,16 +66,16 @@
     E.film.style.visibility = f >= 1 ? "hidden" : "visible";
     filmLage(f);
 
-    E.boden.style.strokeDashoffset = 1 - strecke(.065, .115, p);
+    E.boden.style.strokeDashoffset = 1 - strecke(.004, .05, p);
     for (var i = 0; i < kontur.length; i++) {
-      var a = .1 + i / kontur.length * .13;
+      var a = .025 + i / kontur.length * .11;
       kontur[i].style.strokeDashoffset = 1 - teil(a, a + .045, p);
     }
-    E.mittel.style.opacity = teil(.2, .26, p);
-    E.fein.style.opacity = teil(.25, .31, p) * .68;
-    E.w1.style.opacity = teil(.075, .11, p) * (1 - teil(.255, .29, p));
+    E.mittel.style.opacity = teil(.13, .19, p);
+    E.fein.style.opacity = teil(.17, .23, p) * .68;
+    E.w1.style.opacity = teil(.03, .07, p) * (1 - teil(.2, .23, p));
 
-    var q = strecke(.31, .55, p);
+    var q = strecke(.24, .5, p);
     if (mauerBereit) {
       gl.uniform1f(gp, q); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES, 0, 3);
       E.mauer.style.visibility = q > 0 && q < 1 ? "visible" : "hidden";
@@ -84,22 +84,22 @@
       E.tag.style.opacity = q > 0 ? 1 : 0;
       E.tag.style.clipPath = "inset(" + (1 - q) * 100 + "% 0 0 0)";
     }
-    E.w2.style.opacity = teil(.3, .34, p) * (1 - teil(.46, .5, p));
-    E.linien.style.opacity = 1 - teil(.47, .56, p);
-    E.linien.style.visibility = p > .56 ? "hidden" : "visible";
+    E.w2.style.opacity = teil(.23, .27, p) * (1 - teil(.42, .46, p));
+    E.linien.style.opacity = 1 - teil(.42, .51, p);
+    E.linien.style.visibility = p > .51 ? "hidden" : "visible";
 
-    E.dunkel.style.opacity = teil(.6, .7, p);
-    E.l1.style.opacity = teil(.69, .73, p);
-    E.l2.style.opacity = teil(.73, .78, p);
-    E.l3.style.opacity = teil(.78, .84, p);
-    E.w3.style.opacity = teil(.7, .74, p) * (1 - teil(.88, .91, p));
+    E.dunkel.style.opacity = teil(.55, .67, p);
+    E.l1.style.opacity = teil(.66, .71, p);
+    E.l2.style.opacity = teil(.71, .77, p);
+    E.l3.style.opacity = teil(.77, .84, p);
+    E.w3.style.opacity = teil(.67, .72, p) * (1 - teil(.88, .91, p));
     E.umfeld.style.opacity = teil(.84, .94, p);
     var t = teil(.91, .97, p);
     E.ende.style.opacity = t; E.ende.style.visibility = t < .02 ? "hidden" : "visible";
 
     var k = 1 + .05 * teil(.5, .96, p);
     szene.style.transform = "translateX(-50%) scale(" + k.toFixed(4) + ")";
-    kopf.classList.toggle("dunkelschrift", aktiv === 1 && p > .515 && p < .635);
+    kopf.classList.toggle("dunkelschrift", aktiv === 1 && p > .47 && p < .59);
   };
   var bilden = function () {
     laeuft = false;
