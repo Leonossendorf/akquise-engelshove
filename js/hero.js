@@ -2,10 +2,8 @@
 (function () {
   "use strict";
   var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var knoepfe = Array.prototype.slice.call(document.querySelectorAll(".umschalter [data-wahl]"));
   var kopf = document.querySelector(".top");
   var ablauf = document.querySelector(".ablauf");
-  var spiegel = document.querySelector(".held--spiegel");
   var buehne = ablauf.querySelector(".held-buehne");
   var szene = ablauf.querySelector(".szene");
   var el = function (s) { return ablauf.querySelector(s); };
@@ -116,7 +114,7 @@
     ziel = Math.max(0, Math.min(1, (oben - r.top) / weg));
     if (!laeuft) { laeuft = true; requestAnimationFrame(bilden); }
   };
-  var kopfGrund = function () { kopf.classList.toggle("fest", (aktiv === 1 ? ablauf : spiegel).getBoundingClientRect().bottom < 120); };
+  var kopfGrund = function () { kopf.classList.toggle("fest", ablauf.getBoundingClientRect().bottom < 120); };
 
   // Film: läuft stumm los, „Ton an“ schaltet die Musik dazu, beim Wegscrollen wird sie leise
   var film = el("video"), tonKnopf = el(".ton"), haltKnopf = el(".halt");
@@ -148,23 +146,8 @@
     knopfText();
   });
 
-  var zeigen = function (n, erst) {
-    aktiv = n;
-    ablauf.hidden = n !== 1; spiegel.hidden = n !== 2;
-    knoepfe.forEach(function (k) { k.setAttribute("aria-pressed", +k.dataset.wahl === n ? "true" : "false"); });
-    if (!erst) {
-      var a = new URL(window.location.href); a.searchParams.set("hero", n);
-      try { history.replaceState(null, "", a.pathname + a.search); } catch (e) {}
-      window.scrollTo({ top: 0, behavior: "instant" });
-    }
-    kopf.classList.remove("fest", "dunkelschrift");
-    if (n === 1) { stand = ziel = 0; if (!reduziert) malen(0); if (!angehalten) filmStart(); }
-    else { film.pause(); spiegel.classList.remove("held--auf"); void spiegel.offsetWidth; spiegel.classList.add("held--auf"); }
-  };
-
   if (!reduziert) { ablauf.classList.add("laeuft"); malen(0); mauerStart(); }
   knopfText();
-  knoepfe.forEach(function (k) { k.addEventListener("click", function () { zeigen(+k.dataset.wahl); }); });
   var plan = false;
   var beimScrollen = function () {
     messen();
@@ -172,6 +155,6 @@
   };
   window.addEventListener("scroll", beimScrollen, { passive: true });
   window.addEventListener("resize", function () { groesse(); beimScrollen(); });
-  zeigen(new URLSearchParams(window.location.search).get("hero") === "2" ? 2 : 1, true);
+  if (!angehalten) filmStart();
   messen(); kopfGrund();
 })();

@@ -4,7 +4,7 @@
   var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Sanftes Einblenden beim Scrollen (Abschnitte, Karten, Kacheln, Phasen)
-  var ziele = document.querySelectorAll(".abschnitt .wrap > *, .kachel, .karte, .phase, .stempel > div, .presse-liste li, .team-liste li, .g-item, .kopf .wrap > *, .hero-stempel, .hero-titel");
+  var ziele = document.querySelectorAll("body:not(.start) .abschnitt .wrap > *, body:not(.start) .karte, body:not(.start) .phase, body:not(.start) .presse-liste li, body:not(.start) .team-gross li, body:not(.start) .g-item, body:not(.start) .kopf .wrap > *");
   if (!reduziert) {
     var offen = [];
     ziele.forEach(function (el, i) { el.classList.add("einblenden"); el.style.setProperty("--verz", ((i % 6) * 70) + "ms"); offen.push(el); });
@@ -35,31 +35,17 @@
     });
   }
 
-  // Hero: Strich zu Stein (Schieber)
-  var reveal = document.querySelector(".reveal");
-  if (reveal) {
-    var range = reveal.querySelector("input[type=range]");
-    var setzen = function (v) {
-      v = +v;
-      reveal.style.setProperty("--teil", v + "%");
-      reveal.style.setProperty("--m", (v * 1.06 - 3) + "%"); // Übergangsband läuft an beiden Enden ganz aus dem Bild
-      range.value = v;
-    };
-    range.addEventListener("input", function () { setzen(range.value); });
-    if (reduziert) { setzen(50); }
-    else {
-      // Einmaliger ruhiger Übergang: vom Strich (links) zum Stein, dann bleibt der Griff in der Mitte
-      var start = null, dauer = 3400, von = 100, bis = 50;
-      var schritt = function (t) {
-        if (!start) start = t;
-        var p = Math.min(1, (t - start) / dauer); p = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-        setzen(von + (bis - von) * p);
-        if (p < 1 && !reveal.dataset.berührt) requestAnimationFrame(schritt);
+  // Satellitenkarte: Punkt zeigt Bild und Text
+  var sat = document.querySelector("[data-sat]");
+  if (sat) {
+    var si = sat.querySelector(".sat-info"), simg = si.querySelector("img"), sh = si.querySelector("h3"), sp = si.querySelector("p");
+    sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (b) {
+      var waehlen = function () {
+        sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+        simg.src = b.dataset.bild; sh.textContent = b.dataset.titel; sp.textContent = b.dataset.text;
       };
-      setzen(100);
-      setTimeout(function () { requestAnimationFrame(schritt); }, 900);
-      range.addEventListener("pointerdown", function () { reveal.dataset.berührt = "1"; });
-    }
+      b.addEventListener("click", waehlen); b.addEventListener("mouseenter", waehlen);
+    });
   }
 
   // Projektfilter
@@ -86,13 +72,6 @@
     // Ort aus der Karte oder aus dem Link (#ort=rheine)
     var h = location.hash.match(/ort=([a-z-]+)/);
     if (h) { var btn = filter.querySelector('button[data-gruppe="ort"][data-wert="' + h[1] + '"]'); if (btn) btn.click(); }
-    document.querySelectorAll(".region-svg .punkt").forEach(function (p) {
-      p.style.cursor = "pointer";
-      p.addEventListener("click", function () {
-        var btn = filter.querySelector('button[data-gruppe="ort"][data-wert="' + p.dataset.ort + '"]');
-        if (btn) { btn.click(); filter.scrollIntoView({ behavior: reduziert ? "auto" : "smooth", block: "start" }); }
-      });
-    });
     anwenden();
   }
 
