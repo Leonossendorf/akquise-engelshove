@@ -53,10 +53,8 @@ body.start .top.fest{background:#000;color:var(--hell)}
 .wort--frei{-webkit-text-stroke:14px #000;paint-order:stroke fill}
 /* Zuhause: der Moment, in dem das Haus fertig ist */
 .ende{top:auto;bottom:clamp(28px,6vh,64px);left:var(--gutter);right:var(--gutter);width:auto;max-width:none}
-.ende::before{content:"";position:absolute;left:calc(-1 * var(--gutter));right:calc(-1 * var(--gutter));bottom:calc(-1 * clamp(28px,6vh,64px));top:-34vh;z-index:-1;background:linear-gradient(to top,rgba(0,0,0,.86),rgba(0,0,0,.4) 55%,rgba(0,0,0,0));pointer-events:none}
-.ende h2{margin:0 0 .16em;font-family:var(--schrift-gross);font-stretch:125%;font-weight:170;font-size:clamp(58px,9.4vw,170px);line-height:.94;letter-spacing:-.02em;text-shadow:0 2px 40px rgba(0,0,0,.6)}
-.ende .held-satz{max-width:46ch;margin-bottom:26px;color:var(--hell);font-size:clamp(18px,1.5vw,26px);font-weight:300;line-height:1.4}
-.ende .held-wege{gap:8px 24px}
+.ende::before{content:"";position:absolute;left:calc(-1 * var(--gutter));right:calc(-1 * var(--gutter));bottom:calc(-1 * clamp(28px,6vh,64px));top:-24vh;z-index:-1;background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,.3) 60%,rgba(0,0,0,0));pointer-events:none}
+.ende h2{margin:0;font-family:var(--schrift-gross);font-stretch:125%;font-weight:170;font-size:clamp(58px,9.4vw,170px);line-height:.94;letter-spacing:-.02em;text-shadow:0 2px 40px rgba(0,0,0,.6)}
 .laeuft .ende{opacity:0;visibility:hidden}
 
 /* Kapitel: die Bühne bleibt stehen, das Scrollen treibt den Ablauf */

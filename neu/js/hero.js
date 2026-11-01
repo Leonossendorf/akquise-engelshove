@@ -14,13 +14,14 @@
   var teil = function (a, b, p) { var t = Math.max(0, Math.min(1, (p - a) / (b - a))); return t * t * (3 - 2 * t); };
   var strecke = function (a, b, p) { return Math.max(0, Math.min(1, (p - a) / (b - a))); };
 
-  // Reihenfolge der Linien: oben und unten fangen zugleich an und treffen sich in der Mitte. Oben sieht man beim Scrollen zuerst.
+  // Reihenfolge der Linien: von unten nach oben. Der Film schiebt sich nach oben weg, darunter wächst die Zeichnung mit dem Scrollen nach;
+  // das Dach und das Wort kommen erst, wenn der Film ganz weg ist.
   var rang = kontur.map(function () { return 0; }), rangMax = 1;
   try {
     var mitte = kontur.map(function (p) { var b = p.getBBox(); return b.y + b.height / 2; });
-    var folge = kontur.map(function (_, i) { return i; }).sort(function (a, b) { return mitte[a] - mitte[b]; });
-    folge.forEach(function (i, pos) { rang[i] = Math.min(pos, kontur.length - 1 - pos); });
-    rangMax = Math.max(1, Math.max.apply(null, rang));
+    var folge = kontur.map(function (_, i) { return i; }).sort(function (a, b) { return mitte[b] - mitte[a]; });
+    folge.forEach(function (i, pos) { rang[i] = pos; });
+    rangMax = Math.max(1, kontur.length - 1);
   } catch (e) { kontur.forEach(function (_, i) { rang[i] = i; }); rangMax = Math.max(1, kontur.length - 1); }
 
   // Mauer: das Tagbild wird Stein für Stein von unten aufgebaut, außerhalb des Hauses blendet es weich ein
@@ -76,14 +77,14 @@
     filmLage(f);
     if (E.wink) E.wink.classList.toggle("da", winkAn && p < .01);
 
-    E.boden.style.strokeDashoffset = 1 - strecke(.004, .05, p);
+    E.boden.style.strokeDashoffset = 1 - strecke(.003, .03, p);
     for (var i = 0; i < kontur.length; i++) {
-      var a = .025 + rang[i] / rangMax * .11;
-      kontur[i].style.strokeDashoffset = 1 - teil(a, a + .05, p);
+      var a = .008 + rang[i] / rangMax * .125;
+      kontur[i].style.strokeDashoffset = 1 - teil(a, a + .045, p);
     }
-    E.mittel.style.opacity = teil(.13, .19, p);
-    E.fein.style.opacity = teil(.17, .23, p) * .68;
-    E.w1.style.opacity = teil(.03, .07, p) * (1 - teil(.2, .23, p));
+    E.mittel.style.opacity = teil(.15, .2, p);
+    E.fein.style.opacity = teil(.18, .235, p) * .68;
+    E.w1.style.opacity = teil(.085, .12, p) * (1 - teil(.2, .23, p));
 
     var q = strecke(.24, .5, p);
     if (mauerBereit) {
@@ -115,7 +116,7 @@
     // Die Bilder der Jahre schon entpacken, bevor sie dran sind: dann kommt das erste Bild scharf
     if (!vorgeladen && p > .6) {
       vorgeladen = true;
-      Array.prototype.forEach.call(document.querySelectorAll(".k-jahre img"), function (im) { if (im.decode) im.decode().catch(function () {}); });
+      Array.prototype.forEach.call(document.querySelectorAll(".k-jahre img, .k-wand img"), function (im) { if (im.decode) im.decode().catch(function () {}); });
     }
   };
   var bilden = function () {
