@@ -70,23 +70,24 @@
 
   // Ablauf. p läuft von 0 (oben) bis 1 (Seite geht weiter)
   var stand = 0, ziel = 0, laeuft = false, filmWeg = false, vorgeladen = false;
+  // Der Film schiebt sich über ein Fünftel des Wegs langsam nach oben weg; darunter wächst die Zeichnung von unten mit.
   var malen = function (p) {
-    var f = teil(0, .075, p);
+    var f = teil(0, .2, p);
     E.film.style.transform = "translate3d(0," + (-f * 101) + "%,0)";
     E.film.style.visibility = f >= 1 ? "hidden" : "visible";
     filmLage(f);
-    if (E.wink) E.wink.classList.toggle("da", winkAn && p < .01);
+    if (E.wink) E.wink.classList.toggle("da", winkAn && p < .005);
 
-    E.boden.style.strokeDashoffset = 1 - strecke(.003, .03, p);
+    E.boden.style.strokeDashoffset = 1 - strecke(.01, .06, p);
     for (var i = 0; i < kontur.length; i++) {
-      var a = .008 + rang[i] / rangMax * .125;
-      kontur[i].style.strokeDashoffset = 1 - teil(a, a + .045, p);
+      var a = .02 + rang[i] / rangMax * .2;
+      kontur[i].style.strokeDashoffset = 1 - teil(a, a + .05, p);
     }
-    E.mittel.style.opacity = teil(.15, .2, p);
-    E.fein.style.opacity = teil(.18, .235, p) * .68;
-    E.w1.style.opacity = teil(.085, .12, p) * (1 - teil(.2, .23, p));
+    E.mittel.style.opacity = teil(.28, .33, p);
+    E.fein.style.opacity = teil(.31, .36, p) * .68;
+    E.w1.style.opacity = teil(.23, .27, p) * (1 - teil(.36, .39, p));
 
-    var q = strecke(.24, .5, p);
+    var q = strecke(.38, .6, p);
     if (mauerBereit) {
       gl.uniform1f(gp, q); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES, 0, 3);
       E.mauer.style.visibility = q > 0 && q < 1 ? "visible" : "hidden";
@@ -95,26 +96,26 @@
       E.tag.style.opacity = q > 0 ? 1 : 0;
       E.tag.style.clipPath = "inset(" + (1 - q) * 100 + "% 0 0 0)";
     }
-    E.w2.style.opacity = teil(.23, .27, p) * (1 - teil(.42, .46, p));
-    E.linien.style.opacity = 1 - teil(.42, .51, p);
-    E.linien.style.visibility = p > .51 ? "hidden" : "visible";
+    E.w2.style.opacity = teil(.38, .42, p) * (1 - teil(.56, .6, p));
+    E.linien.style.opacity = 1 - teil(.56, .64, p);
+    E.linien.style.visibility = p > .64 ? "hidden" : "visible";
 
-    E.dunkel.style.opacity = teil(.55, .67, p);
-    E.l1.style.opacity = teil(.66, .71, p);
-    E.l2.style.opacity = teil(.71, .77, p);
-    E.l3.style.opacity = teil(.77, .84, p);
-    E.w3.style.opacity = teil(.67, .72, p) * (1 - teil(.88, .91, p));
-    E.umfeld.style.opacity = teil(.84, .94, p);
-    var t = teil(.9, .97, p);
+    E.dunkel.style.opacity = teil(.66, .75, p);
+    E.l1.style.opacity = teil(.74, .78, p);
+    E.l2.style.opacity = teil(.78, .83, p);
+    E.l3.style.opacity = teil(.83, .88, p);
+    E.w3.style.opacity = teil(.75, .8, p) * (1 - teil(.92, .94, p));
+    E.umfeld.style.opacity = teil(.88, .95, p);
+    var t = teil(.93, .98, p);
     E.ende.style.opacity = t; E.ende.style.visibility = t < .02 ? "hidden" : "visible";
     E.ende.style.transform = "translate3d(0," + ((1 - t) * 28).toFixed(1) + "px,0)";
 
-    var k = 1 + .05 * teil(.5, .96, p);
+    var k = 1 + .05 * teil(.6, .97, p);
     szene.style.transform = "translateX(-50%) scale(" + k.toFixed(4) + ")";
-    kopf.classList.toggle("dunkelschrift", aktiv === 1 && p > .47 && p < .59);
+    kopf.classList.toggle("dunkelschrift", aktiv === 1 && p > .59 && p < .7);
 
     // Die Bilder der Jahre schon entpacken, bevor sie dran sind: dann kommt das erste Bild scharf
-    if (!vorgeladen && p > .6) {
+    if (!vorgeladen && p > .7) {
       vorgeladen = true;
       Array.prototype.forEach.call(document.querySelectorAll(".k-jahre img, .k-wand img"), function (im) { if (im.decode) im.decode().catch(function () {}); });
     }
@@ -125,11 +126,13 @@
     if (Math.abs(ziel - stand) < .0004) stand = ziel; else { laeuft = true; requestAnimationFrame(bilden); }
     malen(stand);
   };
+  var erst = true;
   var messen = function () {
     if (reduziert || aktiv !== 1) return;
     var r = ablauf.getBoundingClientRect(), weg = r.height - buehne.offsetHeight;
     var oben = parseFloat(getComputedStyle(buehne).top) || 0;
     ziel = Math.max(0, Math.min(1, (oben - r.top) / weg));
+    if (erst) { erst = false; stand = ziel; }   // beim Neuladen mitten auf der Seite sofort am richtigen Stand, ohne Anlauf
     if (!laeuft) { laeuft = true; requestAnimationFrame(bilden); }
   };
   var kopfGrund = function () { kopf.classList.toggle("fest", ablauf.getBoundingClientRect().bottom < 120); };

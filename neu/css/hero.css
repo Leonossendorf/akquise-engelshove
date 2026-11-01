@@ -21,16 +21,16 @@ body.start .top.fest{background:#000;color:var(--hell)}
 .film-schicht{position:absolute;inset:0;z-index:6;overflow:hidden;background:#000;will-change:transform}
 .held-knoepfe{position:absolute;right:var(--gutter);bottom:clamp(28px,6vh,64px);z-index:4;display:flex;gap:22px}
 .held-knopf{min-height:44px;padding:0 4px;background:none;border:0;color:var(--hell);font:inherit;font-size:15px;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
-/* Nach dem Film: ein Licht läuft die Linie hinunter und lädt zum Scrollen ein */
-.wink{position:absolute;left:50%;bottom:clamp(22px,5vh,56px);z-index:5;display:flex;flex-direction:column;align-items:center;gap:12px;margin-left:-40px;width:80px;color:var(--hell);font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:0;transition:opacity .9s ease;pointer-events:none}
+/* Nach dem Film: zwei Pfeilspitzen fallen nach unten und laden zum Scrollen ein */
+.wink{position:absolute;left:50%;bottom:clamp(26px,6vh,64px);z-index:5;width:48px;height:48px;margin-left:-24px;opacity:0;transition:opacity .9s ease;pointer-events:none}
 .wink.da{opacity:1}
-.wink i{position:relative;display:block;width:1px;height:62px;background:rgba(243,242,239,.22);overflow:hidden}
-.wink i::after{content:"";position:absolute;left:-1px;top:-40%;width:3px;height:40%;border-radius:2px;background:var(--licht);box-shadow:0 0 10px 2px rgba(227,178,122,.6)}
-.wink.da i::after{animation:wink-lauf 1.7s cubic-bezier(.45,0,.2,1) infinite}
-@keyframes wink-lauf{0%{top:-40%}75%,100%{top:110%}}
+.wink i{position:absolute;left:50%;top:4px;width:18px;height:18px;margin-left:-11px;border-right:1.5px solid var(--hell);border-bottom:1.5px solid var(--hell);transform:rotate(45deg);opacity:0}
+.wink.da i{animation:wink-pfeil 1.9s ease-in-out infinite}
+.wink.da i+i{animation-delay:.4s}
+@keyframes wink-pfeil{0%{transform:translateY(-8px) rotate(45deg);opacity:0}35%{opacity:1}100%{transform:translateY(18px) rotate(45deg);opacity:0}}
 
 /* Der Strich, der Stein, das Licht */
-.ablauf.laeuft{height:760vh}
+.ablauf.laeuft{height:920vh}
 .szene-rahmen{position:absolute;inset:0;overflow:hidden}
 .szene{position:absolute;left:50%;top:0;width:max(100%,calc(var(--buehne) * 1.5792));aspect-ratio:2560/1621;transform:translateX(-50%);transform-origin:50% 42%}
 .szene img,.szene svg,.szene canvas{position:absolute;display:block;max-width:none}
@@ -89,7 +89,7 @@ html:not(.bewegt) .jt li{margin-bottom:.7em}
 .wand>img{position:absolute;display:block}
 .wand-atlas{inset:0;width:100%;height:100%}
 .wand-mitte{left:50%;top:50%;width:7.1429%;height:12.5%;object-fit:cover}
-.bewegt .wand{transform-origin:53.571% 56.25%;will-change:transform}
+.bewegt .wand{transform-origin:53.571% 56.25%}
 .wand-dunkel{position:absolute;inset:0;background:#000;opacity:.62}
 .bewegt .wand-dunkel{opacity:0}
 .wand-text{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--gutter)}

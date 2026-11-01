@@ -123,6 +123,7 @@
     });
     if (laeuft) requestAnimationFrame(schritt);
   };
+  var erst = true;
   var messen = function () {
     var h = window.innerHeight;
     liste.forEach(function (k) {
@@ -131,6 +132,8 @@
       var weg = r.height - k.st.offsetHeight, oben = parseFloat(getComputedStyle(k.st).top) || 0;
       k.ziel = Math.max(0, Math.min(1, (oben - r.top) / weg));
     });
+    // Beim Neuladen mitten auf der Seite steht jedes Kapitel sofort richtig, statt von vorn anzulaufen
+    if (erst) { erst = false; liste.forEach(function (k) { k.stand = k.ziel; k.fn(k.stand); }); }
     if (!laeuft) { laeuft = true; requestAnimationFrame(schritt); }
   };
   liste.forEach(function (k) { k.fn(0); });
