@@ -31,6 +31,10 @@ body.start .top.fest{background:#000;color:var(--hell)}
 
 /* Der Strich, der Stein, das Licht */
 .ablauf.laeuft{height:920vh}
+/* Raststellen: beim Film, beim fertigen Strich, beim Stein, beim Licht und bei Zuhause bleibt das Scrollen kurz hängen */
+html.bewegt{scroll-snap-type:y proximity}
+.rast{display:none}
+.laeuft .rast{display:block;position:absolute;left:0;width:1px;height:1px;top:calc(var(--p) * (920vh - var(--buehne)) - var(--leiste));scroll-snap-align:start}
 .szene-rahmen{position:absolute;inset:0;overflow:hidden}
 .szene{position:absolute;left:50%;top:0;width:max(100%,calc(var(--buehne) * 1.5792));aspect-ratio:2560/1621;transform:translateX(-50%);transform-origin:50% 42%}
 .szene img,.szene svg,.szene canvas{position:absolute;display:block;max-width:none}
