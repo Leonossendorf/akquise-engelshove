@@ -23,11 +23,12 @@
           st[i].style.transform = "translate3d(0," + (-(d + ueber) * 9.0909).toFixed(3) + "%,0)";
         });
         var sb = [0, .24, .48, .72];
+        // Nur die Bilder, die gerade zu sehen sind, liegen auf dem Bildschirm. So bleibt die Zahl ganz und nichts flackert.
         bilder.forEach(function (b, i) {
           var a = sb[i], o = i === 0 ? teil(0, .08, p) : teil(a, a + .1, p);
           if (i < bilder.length - 1 && p > sb[i + 1] + .1) o = 0;
-          b.style.opacity = o;
-          b.firstElementChild.style.transform = "scale(" + (1.14 - .14 * strecke(a - .05, a + .34, p)).toFixed(4) + ")";
+          b.style.opacity = o; b.style.visibility = o > 0 ? "visible" : "hidden";
+          if (o > 0) b.firstElementChild.style.transform = "scale(" + (1.14 - .14 * strecke(a - .05, a + .34, p)).toFixed(4) + ")";
         });
         txt.forEach(function (t, i) {
           var a = sb[i] + .03, o = teil(a, a + .06, p) * (i === 3 ? 1 : 1 - teil(sb[i + 1], sb[i + 1] + .05, p));

@@ -8,11 +8,20 @@
   var szene = ablauf.querySelector(".szene");
   var el = function (s) { return ablauf.querySelector(s); };
   var E = { film: el(".film-schicht"), tag: el(".e-tag"), mauer: el(".e-mauer"), linien: el(".e-linien"), boden: el(".boden"), mittel: el(".mittel"), fein: el(".fein"), dunkel: el(".e-dunkel"),
-    l1: el(".l1"), l2: el(".l2"), l3: el(".l3"), umfeld: el(".e-umfeld"), w1: el(".w1"), w2: el(".w2"), w3: el(".w3"), ende: el(".ende") };
+    l1: el(".l1"), l2: el(".l2"), l3: el(".l3"), umfeld: el(".e-umfeld"), w1: el(".w1"), w2: el(".w2"), w3: el(".w3"), ende: el(".ende"), wink: el(".wink") };
   var kontur = Array.prototype.slice.call(ablauf.querySelectorAll(".kontur path"));
   var aktiv = 1;
   var teil = function (a, b, p) { var t = Math.max(0, Math.min(1, (p - a) / (b - a))); return t * t * (3 - 2 * t); };
   var strecke = function (a, b, p) { return Math.max(0, Math.min(1, (p - a) / (b - a))); };
+
+  // Reihenfolge der Linien: oben und unten fangen zugleich an und treffen sich in der Mitte. Oben sieht man beim Scrollen zuerst.
+  var rang = kontur.map(function () { return 0; }), rangMax = 1;
+  try {
+    var mitte = kontur.map(function (p) { var b = p.getBBox(); return b.y + b.height / 2; });
+    var folge = kontur.map(function (_, i) { return i; }).sort(function (a, b) { return mitte[a] - mitte[b]; });
+    folge.forEach(function (i, pos) { rang[i] = Math.min(pos, kontur.length - 1 - pos); });
+    rangMax = Math.max(1, Math.max.apply(null, rang));
+  } catch (e) { kontur.forEach(function (_, i) { rang[i] = i; }); rangMax = Math.max(1, kontur.length - 1); }
 
   // Mauer: das Tagbild wird Stein für Stein von unten aufgebaut, außerhalb des Hauses blendet es weich ein
   var gl = null, gp = null, mauerBereit = false;
@@ -59,17 +68,18 @@
   };
 
   // Ablauf. p läuft von 0 (oben) bis 1 (Seite geht weiter)
-  var stand = 0, ziel = 0, laeuft = false, filmWeg = false;
+  var stand = 0, ziel = 0, laeuft = false, filmWeg = false, vorgeladen = false;
   var malen = function (p) {
     var f = teil(0, .075, p);
     E.film.style.transform = "translate3d(0," + (-f * 101) + "%,0)";
     E.film.style.visibility = f >= 1 ? "hidden" : "visible";
     filmLage(f);
+    if (E.wink) E.wink.classList.toggle("da", winkAn && p < .01);
 
     E.boden.style.strokeDashoffset = 1 - strecke(.004, .05, p);
     for (var i = 0; i < kontur.length; i++) {
-      var a = .025 + i / kontur.length * .11;
-      kontur[i].style.strokeDashoffset = 1 - teil(a, a + .045, p);
+      var a = .025 + rang[i] / rangMax * .11;
+      kontur[i].style.strokeDashoffset = 1 - teil(a, a + .05, p);
     }
     E.mittel.style.opacity = teil(.13, .19, p);
     E.fein.style.opacity = teil(.17, .23, p) * .68;
@@ -94,12 +104,19 @@
     E.l3.style.opacity = teil(.77, .84, p);
     E.w3.style.opacity = teil(.67, .72, p) * (1 - teil(.88, .91, p));
     E.umfeld.style.opacity = teil(.84, .94, p);
-    var t = teil(.91, .97, p);
+    var t = teil(.9, .97, p);
     E.ende.style.opacity = t; E.ende.style.visibility = t < .02 ? "hidden" : "visible";
+    E.ende.style.transform = "translate3d(0," + ((1 - t) * 28).toFixed(1) + "px,0)";
 
     var k = 1 + .05 * teil(.5, .96, p);
     szene.style.transform = "translateX(-50%) scale(" + k.toFixed(4) + ")";
     kopf.classList.toggle("dunkelschrift", aktiv === 1 && p > .47 && p < .59);
+
+    // Die Bilder der Jahre schon entpacken, bevor sie dran sind: dann kommt das erste Bild scharf
+    if (!vorgeladen && p > .6) {
+      vorgeladen = true;
+      Array.prototype.forEach.call(document.querySelectorAll(".k-jahre img"), function (im) { if (im.decode) im.decode().catch(function () {}); });
+    }
   };
   var bilden = function () {
     laeuft = false;
@@ -116,33 +133,57 @@
   };
   var kopfGrund = function () { kopf.classList.toggle("fest", ablauf.getBoundingClientRect().bottom < 120); };
 
-  // Film: läuft stumm los, „Ton an“ schaltet die Musik dazu, beim Wegscrollen wird sie leise
+  // Film: läuft mit Ton los, wenn der Browser das erlaubt. Sonst stumm, und der Ton kommt bei der ersten Berührung der Seite dazu.
+  // Der Film läuft einmal und bleibt stehen, danach lädt ein Hinweis zum Scrollen ein.
   var film = el("video"), tonKnopf = el(".ton"), haltKnopf = el(".halt");
   var sparen = navigator.connection && navigator.connection.saveData;
-  var angehalten = !!(reduziert || sparen);
+  var angehalten = !!(reduziert || sparen), tonGewollt = !reduziert, tonWartet = false, winkAn = false;
   var filmLaden = function () {
     if (film.getAttribute("src")) return;
     film.setAttribute("src", Math.max(window.innerWidth, window.innerHeight) > 1280 ? film.dataset.gross : film.dataset.klein);
   };
+  var knopfText = function () {
+    haltKnopf.textContent = angehalten ? (film.ended ? "Film noch einmal" : "Film abspielen") : "Film anhalten";
+    tonKnopf.textContent = film.muted ? "Ton an" : "Ton aus";
+  };
+  var wink = function (an) { winkAn = an; if (E.wink) E.wink.classList.toggle("da", an && stand < .01); };
   var filmStart = function () {
     filmLaden();
+    if (film.ended) film.currentTime = 0;
+    wink(false);
+    film.muted = !tonGewollt;
     var v = film.play();
-    if (v && v.catch) v.catch(function () { angehalten = true; knopfText(); });
+    if (v && v.catch) v.catch(function () {
+      if (!film.muted) {
+        film.muted = true; tonWartet = true; knopfText();
+        var v2 = film.play();
+        if (v2 && v2.catch) v2.catch(function () { angehalten = true; knopfText(); });
+      } else { angehalten = true; knopfText(); }
+    });
+    knopfText();
   };
-  var knopfText = function () { haltKnopf.textContent = angehalten ? "Film abspielen" : "Film anhalten"; tonKnopf.textContent = film.muted ? "Ton an" : "Ton aus"; };
+  var tonFrei = function () {
+    if (!tonWartet || !tonGewollt) return;
+    tonWartet = false;
+    if (!filmWeg && !angehalten) { film.muted = false; film.volume = 1; }
+    knopfText();
+  };
+  ["pointerdown", "keydown", "touchend"].forEach(function (n) { window.addEventListener(n, tonFrei, { passive: true }); });
   var filmLage = function (f) {
     var weg = f >= 1;
     if (weg !== filmWeg) { filmWeg = weg; if (weg) film.pause(); else if (!angehalten && aktiv === 1) filmStart(); }
     if (!film.muted) film.volume = Math.max(0, 1 - f);
   };
+  film.addEventListener("ended", function () { angehalten = true; knopfText(); wink(true); });
   haltKnopf.addEventListener("click", function () {
     angehalten = !angehalten;
-    if (angehalten) film.pause(); else filmStart();
-    knopfText();
+    if (angehalten) { film.pause(); knopfText(); } else filmStart();
   });
   tonKnopf.addEventListener("click", function () {
-    film.muted = !film.muted;
-    if (!film.muted) { film.volume = 1; angehalten = false; filmStart(); }
+    tonGewollt = film.muted;
+    tonWartet = false;
+    film.muted = !tonGewollt;
+    if (tonGewollt) { film.volume = 1; if (angehalten || film.paused) { angehalten = false; filmStart(); } }
     knopfText();
   });
 
@@ -156,5 +197,7 @@
   window.addEventListener("scroll", beimScrollen, { passive: true });
   window.addEventListener("resize", function () { groesse(); beimScrollen(); });
   if (!angehalten) filmStart();
+  // Wer keinen Film sieht, bekommt den Hinweis nach ein paar Sekunden
+  setTimeout(function () { if (film.paused) wink(true); }, 8000);
   messen(); kopfGrund();
 })();
