@@ -5,35 +5,47 @@
 
   var strom = document.querySelector(".gal-strom");
   if (strom) {
-    // Bei jedem Besuch neu gemischt
-    var figs = alle(strom, ".gal-b");
-    for (var i = figs.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = figs[i]; figs[i] = figs[j]; figs[j] = t; }
-    figs.forEach(function (f) { strom.appendChild(f); });
-    var musik = document.querySelector(".gal-musik"), audio = document.querySelector(".gal-audio"), auto = document.querySelector(".gal-auto"), lauf = null;
+    // Die Highlights am Anfang bleiben in ihrer Reihenfolge, der Rest wird bei jedem Besuch neu gemischt
+    var start = alle(strom, ".gal-b.start"), rest = alle(strom, ".gal-b:not(.start)");
+    for (var i = rest.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = rest[i]; rest[i] = rest[j]; rest[j] = t; }
+    var figs = start.concat(rest); figs.forEach(function (f) { strom.appendChild(f); });
+    var musik = document.querySelector(".gal-musik"), audio = document.querySelector(".gal-audio"), auto = document.querySelector(".gal-auto"), zaehler = document.querySelector(".gal-zaehler"), lauf = null;
     var aktuell = function () {
       var m = window.innerHeight / 2, best = 0, bd = 1e9;
       figs.forEach(function (f, i) { var r = f.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - m); if (d < bd) { bd = d; best = i; } });
       return best;
     };
     var geh = function (i) { i = Math.max(0, Math.min(figs.length - 1, i)); figs[i].scrollIntoView({ behavior: "smooth", block: "center" }); };
-    var stopp = function () { if (lauf) { clearInterval(lauf); lauf = null; auto.textContent = "Diashow"; auto.setAttribute("aria-pressed", "false"); } };
+    var stopp = function () { if (lauf) { clearInterval(lauf); lauf = null; auto.setAttribute("aria-pressed", "false"); } };
     auto.addEventListener("click", function () {
       if (lauf) return stopp();
-      auto.textContent = "Diashow läuft"; auto.setAttribute("aria-pressed", "true");
+      auto.setAttribute("aria-pressed", "true");
       geh(aktuell() + 1); lauf = setInterval(function () { var a = aktuell(); if (a >= figs.length - 1) return stopp(); geh(a + 1); }, 5200);
     });
     musik.addEventListener("click", function () {
-      if (audio.paused) { audio.volume = .7; audio.play().then(function () { musik.textContent = "Musik aus"; }).catch(function () {}); }
-      else { audio.pause(); musik.textContent = "Musik an"; }
+      if (audio.paused) { audio.volume = .55; audio.play().then(function () { musik.setAttribute("aria-pressed", "true"); }).catch(function () {}); }
+      else { audio.pause(); musik.setAttribute("aria-pressed", "false"); }
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); stopp(); geh(aktuell() + 1); }
       if (e.key === "ArrowUp" || e.key === "ArrowLeft") { e.preventDefault(); stopp(); geh(aktuell() - 1); }
     });
     ["wheel", "touchstart"].forEach(function (ev) { strom.addEventListener(ev, stopp, { passive: true }); });
-    // Bilder werden sichtbar, sobald sie geladen sind
-    figs.forEach(function (f) { var im = f.querySelector("img"); if (im.complete) f.classList.add("da"); else im.addEventListener("load", function () { f.classList.add("da"); }); });
+    var zeig = function (f) { var im = f.querySelector(".gal-bild"); if (im.complete && im.naturalWidth) f.classList.add("da"); else im.addEventListener("load", function () { f.classList.add("da"); }); };
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (e) { e.forEach(function (y) { if (y.isIntersecting) { zeig(y.target); } }); }, { rootMargin: "20% 0px 20% 0px" });
+      figs.forEach(function (f) { io.observe(f); });
+    } else figs.forEach(zeig);
+    var zaehlen = function () { zaehler.textContent = (aktuell() + 1) + " / " + figs.length; };
+    window.addEventListener("scroll", zaehlen, { passive: true }); zaehlen();
   }
+
+  // Bewerbung: die Person in der Mitte des Bildschirms wird farbig
+  var kb = alle(document, ".kb-liste li");
+  if (kb.length && "IntersectionObserver" in window) {
+    var iok = new IntersectionObserver(function (e) { e.forEach(function (y) { y.target.classList.toggle("nah", y.isIntersecting); }); }, { rootMargin: "-22% 0px -22% 0px", threshold: .2 });
+    kb.forEach(function (li) { iok.observe(li); });
+  } else kb.forEach(function (li) { li.classList.add("nah"); });
 
   alle(document, ".stil-kopf").forEach(function (k) {
     k.addEventListener("click", function () {

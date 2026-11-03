@@ -35,7 +35,7 @@ p{margin:0 0 1em;max-width:68ch}
 
 /* Kopf: Name, Anfragen, Menü */
 .top{position:sticky;top:var(--leiste);z-index:60;color:var(--hell);background:#000;transition:color .35s ease,background-color .35s ease}
-.top-in{display:flex;align-items:center;gap:26px;min-height:var(--kopfhoehe);padding:0 var(--gutter)}
+.top-in{display:flex;align-items:center;gap:26px;min-height:var(--kopfhoehe);padding:0 var(--gutter);max-width:none}
 .brand{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;margin-right:auto}
 .brand svg{width:28px;height:28px;flex:none}
 .brand-name{font-family:var(--schrift-gross);font-stretch:125%;font-weight:300;font-size:20px;letter-spacing:.07em}
