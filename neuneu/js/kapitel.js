@@ -9,9 +9,9 @@
   var K = {
     jahre: function (el) {
       var bilder = alle(el, ".jb"), txt = alle(el, ".jt li"), st = alle(el, ".st i");
-      var stops = [[.1, 1984], [.28, 2000], [.52, 2012], [.76, 2026]];
+      var stops = [[.1, 1994], [.28, 2000], [.52, 2012], [.76, 2026]];
       var wert = function (p) {
-        var v = 1984;
+        var v = 1994;
         for (var i = 1; i < stops.length; i++) v += (stops[i][1] - stops[i - 1][1]) * teil(stops[i - 1][0] + .07, stops[i][0] + .07, p);
         return v;
       };
@@ -48,38 +48,32 @@
         zahl.textContent = n >= 800 ? "800+" : String(Math.max(1, n));
       };
     },
-    team: function (el) {
-      var reihe = el.querySelector(".t-reihe"), zahl = el.querySelector(".t-zahl"), n = reihe.children.length, st = el.querySelector(".k-stage");
-      var weg = 0, mess = function () { weg = reihe.scrollWidth - st.clientWidth; };
+    haeuser: function (el) {
+      var kopf = el.querySelector(".h-kopf"), te = alle(el, ".h-teil"), mehr = el.querySelector(".h-mehr"), leiste = alle(el, ".h-leiste i"), n = te.length, s = .08, slot = (1 - s - .04) / n;
+      return function (p) {
+        kopf.style.opacity = 1 - teil(.03, .09, p);
+        te.forEach(function (x, i) {
+          var a = s + i * slot, q = strecke(a, a + slot, p), rein = i === 0 ? teil(.02, .09, p) : teil(a, a + slot * .3, p);
+          var sicht = p >= a - slot * .2 && p < a + slot * 2.2;
+          x.style.visibility = sicht || i === n - 1 ? "visible" : "hidden";
+          if (!sicht && i !== n - 1) return;
+          x.style.opacity = rein;
+          x.firstElementChild.style.transform = "scale(" + (1.12 - .12 * q).toFixed(4) + ")";
+          var name = x.querySelector(".h-name"); name.style.opacity = teil(.18, .4, q) * (i === n - 1 ? 1 : 1 - teil(.9, 1, q)); name.style.transform = "translate3d(0," + ((1 - teil(.18, .45, q)) * 24).toFixed(1) + "px,0)";
+          if (leiste[i]) leiste[i].style.transform = "scaleX(" + q.toFixed(3) + ")";
+        });
+        mehr.style.opacity = teil(.9, .97, p);
+      };
+    },
+    hand: function (el) {
+      var reihe = el.querySelector(".hd-reihe"), kopf = el.querySelector(".hd-kopf"), lauf = el.querySelector(".hd-lauf i"), st = el.querySelector(".k-stage");
+      var weg = 0, mess = function () { weg = Math.max(0, reihe.scrollWidth - st.clientWidth); };
       mess(); window.addEventListener("resize", mess); window.addEventListener("load", mess);
       return function (p) {
-        var t = strecke(.04, .94, p);
+        var t = strecke(.1, .94, p);
         reihe.style.transform = "translate3d(" + (-weg * t).toFixed(1) + "px,0,0)";
-        zahl.textContent = String(Math.max(1, Math.min(30, Math.round(1 + 29 * Math.pow(t, .9)))));
-      };
-    },
-    note: function (el) {
-      var i = el.querySelector(".note-linie i"), z = el.querySelector(".note-zahl");
-      return function (p) {
-        var t = teil(.12, .78, p);
-        i.style.transform = "scaleX(" + t.toFixed(4) + ")";
-        z.textContent = (t * 4.9).toFixed(1).replace(".", ",");
-      };
-    },
-    haeuser: function (el) {
-      var kopf = el.querySelector(".h-kopf h2"), te = alle(el, ".h-teil"), mehr = el.querySelector(".h-mehr"), n = te.length, s = .08;
-      return function (p) {
-        kopf.style.opacity = 1 - teil(.04, .1, p);
-        te.forEach(function (x, i) {
-          var a = s + i * (1 - s) / n, b = a + (1 - s) / n * .62, q = strecke(a, b, p), z = teil(0, 1, q);
-          var sicht = p >= a && (i === n - 1 || p < a + (1 - s) / n * 1.7);
-          x.style.visibility = sicht ? "visible" : "hidden";
-          if (!sicht) return;
-          x.style.clipPath = "inset(" + ((1 - z) * 22).toFixed(2) + "% " + ((1 - z) * 30).toFixed(2) + "%)";
-          x.firstElementChild.style.transform = "scale(" + (1.22 - .22 * z).toFixed(4) + ")";
-          var name = x.querySelector(".h-name"); name.style.opacity = teil(.55, 1, q); name.style.transform = "translate3d(0," + (1 - teil(.5, 1, q)) * 30 + "px,0)";
-        });
-        mehr.style.opacity = teil(.92, .98, p);
+        kopf.style.opacity = 1 - teil(.86, .94, p);
+        lauf.style.transform = "scaleX(" + t.toFixed(4) + ")";
       };
     },
     umbau: function (el) {
@@ -104,8 +98,11 @@
       };
     },
     presse: function (el) {
-      var r = el.querySelector(".ring");
-      return function (p) { r.style.transform = "rotate(" + (28 - 56 * p).toFixed(3) + "deg)"; };
+      var r = el.querySelector(".ring"), li = el.querySelector(".note-linie i"), z = el.querySelector(".note-zahl"), note = el.querySelector(".p-note");
+      return function (p) {
+        r.style.transform = "rotate(" + (28 - 56 * p).toFixed(3) + "deg)";
+        var t = teil(.2, .8, p); li.style.transform = "scaleX(" + t.toFixed(4) + ")"; z.textContent = (t * 4.9).toFixed(1).replace(".", ","); note.style.opacity = teil(.12, .26, p);
+      };
     }
   };
 
