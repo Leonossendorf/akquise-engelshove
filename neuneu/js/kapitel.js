@@ -57,7 +57,7 @@
           var sicht = p >= a - slot * .2 && p < a + slot * 2.2;
           x.style.visibility = sicht || i === n - 1 ? "visible" : "hidden";
           if (!sicht && i !== n - 1) return;
-          x.style.opacity = rein;
+          x.style.opacity = rein; x.style.pointerEvents = rein > .5 ? "auto" : "none";
           x.firstElementChild.style.transform = "scale(" + (1.12 - .12 * q).toFixed(4) + ")";
           var name = x.querySelector(".h-name"); name.style.opacity = teil(.18, .4, q) * (i === n - 1 ? 1 : 1 - teil(.9, 1, q)); name.style.transform = "translate3d(0," + ((1 - teil(.18, .45, q)) * 24).toFixed(1) + "px,0)";
           if (leiste[i]) leiste[i].style.transform = "scaleX(" + q.toFixed(3) + ")";
