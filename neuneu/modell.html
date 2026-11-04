@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de-DE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Modell (Test) – Engelshove Bau GmbH, Neuenkirchen (Entwurf)</title>
+<meta name="description" content="Testseite: drei Wege, ein Haus auf seiner Projektseite drehbar zu zeigen.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="img/favicon.png">
+<link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/publicsans-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css?v=20261103b">
+<link rel="stylesheet" href="css/modell.css?v=20261104a">
+<script type="importmap">{"imports":{"three":"./js/lib/three.module.min.js"}}</script>
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<div class="draftbar" role="region" aria-label="Hinweis zum Entwurf">Unverbindlicher Entwurf von Leon Oßendorf, kein offizieller Auftritt der Engelshove Bau GmbH.</div>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="index.html" aria-label="Engelshove Bau GmbH, zur Startseite"><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="miter"><path d="M20 3 L37 20 L20 37 L3 20 Z"/><path d="M13 20 L22.5 10.5"/><path d="M17.5 24.5 L27 15"/></g></svg><span><span class="brand-name">Engelshove</span><span class="brand-sub">Ingenieur-Büro · Architektur · Bauunternehmen</span></span></a>
+    <a class="top-anf" href="kontakt.html?thema=bauvorhaben">Anfragen</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+    <nav class="nav" id="hauptmenue" aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="wohnhaus.html">Wohnhaus</a><a href="leistungen.html">Leistungen</a><a href="projekte.html">Projekte</a><a href="galerie.html">Bilder</a><a href="modell.html">Modell (Test)</a><a href="presse.html">Presse</a><a href="team.html">Team</a><a href="karriere.html">Karriere</a><a href="kontakt.html">Kontakt</a></nav>
+  </div>
+</header>
+<main id="inhalt">
+<section class="mo">
+  <div class="mo-kopf"><p class="plan">Testseite, nur für uns</p><h1>Ein Haus zum Anfassen.</h1><p class="lead">Drei Wege, wie ein Projekt auf seiner Seite drehbar werden kann. Alles hier ist ein Versuch mit vorhandenem Material und Testdateien, nichts davon ist fertig.</p></div>
+
+  <section class="mo-teil"><p class="plan">Weg 1, aus Video</p><h2>Drohnenflug zum Ziehen.</h2>
+    <div class="mo-grid"><div class="mo-flug" data-n="56"><img src="img/modell/flug-01.webp" alt="Haus Kottig aus der Luft, Drohnenflug"><i></i><span>Ziehen</span></div>
+    <div class="mo-text"><p><b>Was das ist:</b> 56 Einzelbilder aus Jochens Drohnenflug um Haus Kottig. Man zieht mit der Maus oder dem Finger, und die Kamera fliegt vor und zurück. Ohne Ziehen pendelt die Fahrt von selbst.</p>
+    <p><b>Was es braucht:</b> einen Drohnenflug um das Haus, einmal langsam rundherum. Daraus werden 60 bis 90 Bilder.</p>
+    <ul><li><b>Wirkung</b> fotorealistisch, es ist das echte Haus</li><li><b>Aufwand</b> gering, ein Flug je Projekt</li><li><b>Grenze</b> fester Weg, kein freies Drehen, kein Blick von oben</li><li><b>Gewicht</b> hier 8,7 MB für 56 Bilder, geht mit kleineren Bildern auf 3 MB</li></ul></div></div>
+  </section>
+
+  <section class="mo-teil"><p class="plan">Weg 2, selbst gebaut</p><h2>Das Haus im Strich-Stil, in 3D.</h2>
+    <div class="mo-grid"><div><div class="mo-haus"></div><div class="mo-regler-zeile"><span>Strich</span><input class="mo-regler" type="range" min="0" max="1" step="0.01" value="0" aria-label="Vom Strich zum Stein"><span>Stein</span></div></div>
+    <div class="mo-text"><p><b>Was das ist:</b> die groben Massen des Hauses aus dem Hero, als weiße Kanten auf Schwarz, wie die Zeichnung am Anfang der Startseite. Man dreht es mit der Maus, und der Regler füllt die Flächen wie Stein.</p>
+    <p><b>Was es braucht:</b> nichts vom Betrieb. Ich baue die Massen aus Fotos und Plänen nach, je Haus ein paar Stunden. Mit einem Export aus Allplan geht es genauer.</p>
+    <ul><li><b>Wirkung</b> passt zum Leitmotiv „Vom Strich zum Stein“, wirkt wie ein Plan, nicht wie ein Rendering</li><li><b>Aufwand</b> mittel, je Haus nachbauen oder aus CAD übernehmen</li><li><b>Grenze</b> kein Foto, keine Details wie Klinker oder Garten</li><li><b>Gewicht</b> unter 1 MB</li></ul></div></div>
+  </section>
+
+  <section class="mo-teil"><p class="plan">Weg 3, aus CAD</p><h2>Ein echtes Modell im Viewer.</h2>
+    <div class="mo-grid"><div><model-viewer class="mo-cad" src="img/modell/stuhl.glb" alt="Testmodell: ein Sessel aus den offiziellen glTF-Beispielen" camera-controls auto-rotate shadow-intensity="1" exposure="0.9" touch-action="pan-y"></model-viewer>
+    <p class="mo-hinweis">Testmodell: ein Sessel aus den Beispieldateien der Khronos Group, weil wir noch kein Haus als Datei haben. Der Viewer ist derselbe, mit dem später das Haus gezeigt würde.</p></div>
+    <div class="mo-text"><p><b>Was das ist:</b> ein 3D-Modell im Format glTF, das der Browser selbst anzeigt. Drehen, zoomen, auf dem Handy sogar in den Raum stellen.</p>
+    <p><b>Was es braucht:</b> das Modell aus dem Büro. Allplan kann Modelle als IFC oder OBJ ausgeben, daraus mache ich glTF. Yamen oder Amèlie müssten einmal probieren, ob der Export brauchbar ist: Flächen mit Material, ohne Innenleben.</p>
+    <ul><li><b>Wirkung</b> wie eine Visualisierung, mit Materialien und Licht</li><li><b>Aufwand</b> hängt am Export; wenn das klappt, je Haus eine Stunde Aufbereitung</li><li><b>Grenze</b> Modelle aus CAD sind oft schwer (50 MB und mehr) und müssen verkleinert werden</li><li><b>Gewicht</b> Testmodell 4 MB</li></ul></div></div>
+  </section>
+
+  <section class="mo-teil"><p class="plan">Nicht gebaut</p><h2>KI-Modell und Fotogrammetrie.</h2>
+    <div class="mo-grid"><div class="mo-text"><p><b>Fotogrammetrie:</b> aus vielen Drohnenfotos rechnet ein Programm ein 3D-Modell. Beeindruckend und fotorealistisch, aber je Haus mehrere Stunden Rechnen und Nacharbeit, und die Modelle sind groß. Erst sinnvoll, wenn ein Haus das wirklich verdient.</p>
+    <p><b>KI-Modell aus einem Foto:</b> Dienste wie Meshy oder Luma machen aus einem Bild ein grobes 3D-Modell. Für Häuser heute noch zu ungenau, die Rückseite wird erfunden. Das würde ich nicht auf die Seite stellen.</p></div>
+    <div class="mo-text"><p><b>Mein Rat:</b> Weg 1 für die sechs Highlights, weil er zu „die Bilder sprechen für sich“ passt und nur einen Drohnenflug braucht. Weg 2 als Idee für die Projektseite des Lamellenhauses, weil er das Leitmotiv weiterführt. Weg 3 als Frage an das Büro mitnehmen.</p></div></div>
+  </section>
+</section></main>
+<footer class="fuss">
+  <div class="wrap">
+    <div class="fuss-grid">
+      <div>
+        <p class="fuss-h">Engelshove Bau GmbH</p>
+        <p>Ingenieur-Büro | Architektur | Bauunternehmen<br>Dieselstraße 3, 48485 Neuenkirchen<br>Telefon <a href="tel:+495973909230">05973 / 90 923 0</a> · Telefax 05973 / 90 923 20<br><a href="mailto:info@engelshove.de">info@engelshove.de</a><br>Montag bis Freitag 08:00 bis 17:00 Uhr</p>
+      </div>
+      <div>
+        <p class="fuss-h">Seiten</p>
+        <ul><li><a href="leistungen.html">Leistungen</a></li><li><a href="energie.html">Energie und Förderung</a></li><li><a href="so-bauen-wir.html">So bauen wir</a></li><li><a href="projekte.html">Projekte</a></li><li><a href="presse.html">Presse</a></li><li><a href="team.html">Team</a></li><li><a href="karriere.html">Karriere</a></li><li><a href="kontakt.html">Kontakt</a></li></ul>
+      </div>
+      <div>
+        <p class="fuss-h">Rechtliches und mehr</p>
+        <ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="https://www.instagram.com/engelshove_bau_architektur/" rel="noopener">Instagram</a></li><li><a href="https://www.facebook.com/Engelshove-Bau-344614682222143/" rel="noopener">Facebook</a></li><li><a href="https://www.pinterest.de/engelshove_bau/" rel="noopener">Pinterest</a></li></ul>
+      </div>
+    </div>
+    <p class="hinweis">Unverbindlicher Entwurf von Leon Oßendorf, kein offizieller Auftritt der Engelshove Bau GmbH. Fotos und Film: Engelshove Bau GmbH (von engelshove.de, dem Google-Profil und aus dem Projektordner des Betriebs), Film und Schnitt Arnt Haug, Teamfotos Fotodesign M. Mai, nur für diesen Entwurf. Musik in der Galerie: „Floating Cities“ von Kevin MacLeod (incompetech.com), CC BY 4.0. Zahlen zu Förderprogrammen: Stand Oktober 2026, ohne Gewähr.</p>
+  </div>
+</footer>
+<div class="daumen" aria-label="Schnellkontakt"><a class="d-tel" href="tel:+495973909230">Anrufen</a><a class="d-anf" href="kontakt.html?thema=bauvorhaben">Anfragen</a></div>
+<script src="js/app.js?v=20261031c"></script>
+<script type="module" src="js/lib/model-viewer.min.js"></script>
+<script type="module" src="js/modell.js?v=20261104a"></script>
+</body>
+</html>
