@@ -38,6 +38,12 @@
     } else figs.forEach(zeig);
     var zaehlen = function () { zaehler.textContent = (aktuell() + 1) + " / " + figs.length; };
     window.addEventListener("scroll", zaehlen, { passive: true }); zaehlen();
+    // Die Diashow läuft von selbst los; wer selbst scrollt, übernimmt. Musik startet mit der ersten Berührung, solange sie nicht abgeschaltet wurde.
+    var starte = function () { if (!lauf && !document.hidden) { auto.setAttribute("aria-pressed", "true"); lauf = setInterval(function () { var a = aktuell(); if (a >= figs.length - 1) return stopp(); geh(a + 1); }, 5200); } };
+    setTimeout(starte, 2600);
+    var musikAus = false; musik.addEventListener("click", function () { musikAus = !audio.paused ? false : true; });
+    var erste = function () { if (!musikAus && audio.paused) { audio.volume = .55; audio.play().then(function () { musik.setAttribute("aria-pressed", "true"); }).catch(function () {}); } };
+    ["pointerdown", "keydown", "touchstart"].forEach(function (ev) { window.addEventListener(ev, erste, { once: true, passive: true }); });
   }
 
   // Bewerbung: die Person in der Mitte des Bildschirms wird farbig

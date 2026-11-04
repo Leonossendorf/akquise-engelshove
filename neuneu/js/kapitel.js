@@ -98,10 +98,11 @@
       };
     },
     presse: function (el) {
-      var r = el.querySelector(".ring"), li = el.querySelector(".note-linie i"), z = el.querySelector(".note-zahl"), note = el.querySelector(".p-note");
+      var r = el.querySelector(".ring"), li = el.querySelector(".note-linie i"), z = el.querySelector(".note-zahl"), note = el.querySelector(".p-note"), high = el.querySelector(".p-high");
       return function (p) {
         r.style.transform = "rotate(" + (28 - 56 * p).toFixed(3) + "deg)";
         var t = teil(.2, .8, p); li.style.transform = "scaleX(" + t.toFixed(4) + ")"; z.textContent = (t * 4.9).toFixed(1).replace(".", ","); note.style.opacity = teil(.12, .26, p);
+        if (high) { var h = teil(.06, .3, p); high.style.opacity = h; high.style.transform = "translate3d(0," + ((1 - h) * 40).toFixed(1) + "px,0) scale(" + (.94 + .06 * h).toFixed(4) + ")"; }
       };
     }
   };
