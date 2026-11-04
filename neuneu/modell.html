@@ -12,7 +12,7 @@
 <link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/publicsans-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css?v=20261103b">
-<link rel="stylesheet" href="css/modell.css?v=20261104a">
+<link rel="stylesheet" href="css/modell.css?v=20261104b">
 <script type="importmap">{"imports":{"three":"./js/lib/three.module.min.js"}}</script>
 </head>
 <body>
@@ -28,34 +28,29 @@
 </header>
 <main id="inhalt">
 <section class="mo">
-  <div class="mo-kopf"><p class="plan">Testseite, nur für uns</p><h1>Ein Haus zum Anfassen.</h1><p class="lead">Drei Wege, wie ein Projekt auf seiner Seite drehbar werden kann. Alles hier ist ein Versuch mit vorhandenem Material und Testdateien, nichts davon ist fertig.</p></div>
+  <div class="mo-kopf"><p class="plan">Testseite, nur für uns</p><h1>Ein Haus zum Anfassen.</h1><p class="lead">Drei Wege, ein Projekt drehbar zu zeigen. Versuche mit vorhandenem Material, nichts ist fertig.</p></div>
 
   <section class="mo-teil"><p class="plan">Weg 1, aus Video</p><h2>Drohnenflug zum Ziehen.</h2>
     <div class="mo-grid"><div class="mo-flug" data-n="56"><img src="img/modell/flug-01.webp" alt="Haus Kottig aus der Luft, Drohnenflug"><i></i><span>Ziehen</span></div>
-    <div class="mo-text"><p><b>Was das ist:</b> 56 Einzelbilder aus Jochens Drohnenflug um Haus Kottig. Man zieht mit der Maus oder dem Finger, und die Kamera fliegt vor und zurück. Ohne Ziehen pendelt die Fahrt von selbst.</p>
-    <p><b>Was es braucht:</b> einen Drohnenflug um das Haus, einmal langsam rundherum. Daraus werden 60 bis 90 Bilder.</p>
-    <ul><li><b>Wirkung</b> fotorealistisch, es ist das echte Haus</li><li><b>Aufwand</b> gering, ein Flug je Projekt</li><li><b>Grenze</b> fester Weg, kein freies Drehen, kein Blick von oben</li><li><b>Gewicht</b> hier 8,7 MB für 56 Bilder, geht mit kleineren Bildern auf 3 MB</li></ul></div></div>
+    <div class="mo-text"><p>56 Bilder aus Jochens Drohnenflug. Ziehen, und die Kamera fliegt vor und zurück.</p>
+    <ul><li><b>Wirkung</b> fotorealistisch</li><li><b>Braucht</b> einen Drohnenflug rundherum</li><li><b>Grenze</b> fester Weg, kein freies Drehen</li></ul></div></div>
   </section>
 
   <section class="mo-teil"><p class="plan">Weg 2, selbst gebaut</p><h2>Das Haus im Strich-Stil, in 3D.</h2>
     <div class="mo-grid"><div><div class="mo-haus"></div><div class="mo-regler-zeile"><span>Strich</span><input class="mo-regler" type="range" min="0" max="1" step="0.01" value="0" aria-label="Vom Strich zum Stein"><span>Stein</span></div></div>
-    <div class="mo-text"><p><b>Was das ist:</b> die groben Massen des Hauses aus dem Hero, als weiße Kanten auf Schwarz, wie die Zeichnung am Anfang der Startseite. Man dreht es mit der Maus, und der Regler füllt die Flächen wie Stein.</p>
-    <p><b>Was es braucht:</b> nichts vom Betrieb. Ich baue die Massen aus Fotos und Plänen nach, je Haus ein paar Stunden. Mit einem Export aus Allplan geht es genauer.</p>
-    <ul><li><b>Wirkung</b> passt zum Leitmotiv „Vom Strich zum Stein“, wirkt wie ein Plan, nicht wie ein Rendering</li><li><b>Aufwand</b> mittel, je Haus nachbauen oder aus CAD übernehmen</li><li><b>Grenze</b> kein Foto, keine Details wie Klinker oder Garten</li><li><b>Gewicht</b> unter 1 MB</li></ul></div></div>
+    <div class="mo-text"><p>Die Massen des Hero-Hauses als weiße Kanten. Drehen, und mit dem Regler vom Strich zum Stein.</p>
+    <ul><li><b>Wirkung</b> wie ein Plan, passt zum Leitmotiv</li><li><b>Braucht</b> nichts vom Betrieb</li><li><b>Grenze</b> kein Foto, keine Details</li></ul></div></div>
   </section>
 
-  <section class="mo-teil"><p class="plan">Weg 3, aus CAD</p><h2>Ein echtes Modell im Viewer.</h2>
-    <div class="mo-grid"><div><model-viewer class="mo-cad" src="img/modell/stuhl.glb" alt="Testmodell: ein Sessel aus den offiziellen glTF-Beispielen" camera-controls auto-rotate shadow-intensity="1" exposure="0.9" touch-action="pan-y"></model-viewer>
-    <p class="mo-hinweis">Testmodell: ein Sessel aus den Beispieldateien der Khronos Group, weil wir noch kein Haus als Datei haben. Der Viewer ist derselbe, mit dem später das Haus gezeigt würde.</p></div>
-    <div class="mo-text"><p><b>Was das ist:</b> ein 3D-Modell im Format glTF, das der Browser selbst anzeigt. Drehen, zoomen, auf dem Handy sogar in den Raum stellen.</p>
-    <p><b>Was es braucht:</b> das Modell aus dem Büro. Allplan kann Modelle als IFC oder OBJ ausgeben, daraus mache ich glTF. Yamen oder Amèlie müssten einmal probieren, ob der Export brauchbar ist: Flächen mit Material, ohne Innenleben.</p>
-    <ul><li><b>Wirkung</b> wie eine Visualisierung, mit Materialien und Licht</li><li><b>Aufwand</b> hängt am Export; wenn das klappt, je Haus eine Stunde Aufbereitung</li><li><b>Grenze</b> Modelle aus CAD sind oft schwer (50 MB und mehr) und müssen verkleinert werden</li><li><b>Gewicht</b> Testmodell 4 MB</li></ul></div></div>
+  <section class="mo-teil"><p class="plan">Weg 3, aus CAD</p><h2>Ein echtes Haus aus der Planungsdatei.</h2>
+    <model-viewer class="mo-cad gross" src="img/modell/haus.glb" alt="Testhaus aus einer BIM-Planungsdatei, drehbar" camera-controls auto-rotate auto-rotate-delay="1500" rotation-per-second="18deg" camera-orbit="35deg 72deg 30m" min-camera-orbit="auto 40deg auto" max-camera-orbit="auto 90deg auto" shadow-intensity="1.2" exposure="1" environment-image="neutral" touch-action="pan-y"></model-viewer>
+    <div class="mo-grid kurz"><div class="mo-text"><p><b>Was das ist:</b> ein Beispielhaus aus einer Planungsdatei im Format IFC, wie es Allplan ausgibt. Ich habe daraus das Web-Modell gerechnet: Wände, Decken, Fenster, Türen, Treppe, mit Farben je Bauteil. Das Haus ist das freie Musterhaus des Karlsruher Instituts für Technologie, kein Engelshove-Haus.</p></div>
+    <div class="mo-text"><ul><li><b>Wirkung</b> wie im Planungsprogramm, drehbar und zoombar</li><li><b>Aufwand</b> Export aus Allplan durch das Büro, Rest bei mir</li><li><b>Gewicht</b> dieses Haus 0,4 MB</li></ul></div></div>
   </section>
 
   <section class="mo-teil"><p class="plan">Nicht gebaut</p><h2>KI-Modell und Fotogrammetrie.</h2>
-    <div class="mo-grid"><div class="mo-text"><p><b>Fotogrammetrie:</b> aus vielen Drohnenfotos rechnet ein Programm ein 3D-Modell. Beeindruckend und fotorealistisch, aber je Haus mehrere Stunden Rechnen und Nacharbeit, und die Modelle sind groß. Erst sinnvoll, wenn ein Haus das wirklich verdient.</p>
-    <p><b>KI-Modell aus einem Foto:</b> Dienste wie Meshy oder Luma machen aus einem Bild ein grobes 3D-Modell. Für Häuser heute noch zu ungenau, die Rückseite wird erfunden. Das würde ich nicht auf die Seite stellen.</p></div>
-    <div class="mo-text"><p><b>Mein Rat:</b> Weg 1 für die sechs Highlights, weil er zu „die Bilder sprechen für sich“ passt und nur einen Drohnenflug braucht. Weg 2 als Idee für die Projektseite des Lamellenhauses, weil er das Leitmotiv weiterführt. Weg 3 als Frage an das Büro mitnehmen.</p></div></div>
+    <div class="mo-grid kurz"><div class="mo-text"><p><b>Fotogrammetrie</b> rechnet aus vielen Drohnenfotos ein echtes 3D-Modell: beeindruckend, aber je Haus Stunden Rechenzeit und große Dateien. <b>KI aus einem Foto</b> erfindet die Rückseite, für Häuser noch zu ungenau.</p></div>
+    <div class="mo-text"><p><b>Mein Rat:</b> Weg 1 für die Highlights, Weg 3 als Frage ans Büro, Weg 2 als Idee fürs Lamellenhaus.</p></div></div>
   </section>
 </section></main>
 <footer class="fuss">
@@ -80,6 +75,6 @@
 <div class="daumen" aria-label="Schnellkontakt"><a class="d-tel" href="tel:+495973909230">Anrufen</a><a class="d-anf" href="kontakt.html?thema=bauvorhaben">Anfragen</a></div>
 <script src="js/app.js?v=20261031c"></script>
 <script type="module" src="js/lib/model-viewer.min.js"></script>
-<script type="module" src="js/modell.js?v=20261104a"></script>
+<script type="module" src="js/modell.js?v=20261104b"></script>
 </body>
 </html>
