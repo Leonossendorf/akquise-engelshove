@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Modell (Test) – Engelshove Bau GmbH, Neuenkirchen (Entwurf)</title>
-<meta name="description" content="Testseite: drei Wege, ein Haus auf seiner Projektseite drehbar zu zeigen.">
+<meta name="description" content="Testseite: vier Wege, ein Haus auf seiner Projektseite drehbar zu zeigen.">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/publicsans-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css?v=20261103b">
-<link rel="stylesheet" href="css/modell.css?v=20261104b">
+<link rel="stylesheet" href="css/modell.css?v=20261105a">
 <script type="importmap">{"imports":{"three":"./js/lib/three.module.min.js"}}</script>
 </head>
 <body>
@@ -28,7 +28,7 @@
 </header>
 <main id="inhalt">
 <section class="mo">
-  <div class="mo-kopf"><p class="plan">Testseite, nur für uns</p><h1>Ein Haus zum Anfassen.</h1><p class="lead">Drei Wege, ein Projekt drehbar zu zeigen. Versuche mit vorhandenem Material, nichts ist fertig.</p></div>
+  <div class="mo-kopf"><p class="plan">Testseite, nur für uns</p><h1>Ein Haus zum Anfassen.</h1><p class="lead">Vier Wege, ein Projekt drehbar zu zeigen. Versuche mit vorhandenem Material, nichts ist fertig.</p></div>
 
   <section class="mo-teil"><p class="plan">Weg 1, aus Video</p><h2>Drohnenflug zum Ziehen.</h2>
     <div class="mo-grid"><div class="mo-flug" data-n="56"><img src="img/modell/flug-01.webp" alt="Haus Kottig aus der Luft, Drohnenflug"><i></i><span>Ziehen</span></div>
@@ -48,9 +48,14 @@
     <div class="mo-text"><ul><li><b>Wirkung</b> wie im Planungsprogramm, drehbar und zoombar</li><li><b>Aufwand</b> Export aus Allplan durch das Büro, Rest bei mir</li><li><b>Gewicht</b> 4,6 MB, aus 49 MB Planung</li></ul></div></div>
   </section>
 
-  <section class="mo-teil"><p class="plan">Nicht gebaut</p><h2>KI-Modell und Fotogrammetrie.</h2>
-    <div class="mo-grid kurz"><div class="mo-text"><p><b>Fotogrammetrie</b> rechnet aus vielen Drohnenfotos ein echtes 3D-Modell: beeindruckend, aber je Haus Stunden Rechenzeit und große Dateien. <b>KI aus einem Foto</b> erfindet die Rückseite, für Häuser noch zu ungenau.</p></div>
-    <div class="mo-text"><p><b>Mein Rat:</b> Weg 1 für die Highlights, Weg 3 als Frage ans Büro, Weg 2 als Idee fürs Lamellenhaus.</p></div></div>
+  <section class="mo-teil"><p class="plan">Weg 4, aus Drohnenvideo</p><h2>Ein ganzes Grundstück, aus Fotos gerechnet.</h2>
+    <model-viewer class="mo-cad gross" src="img/modell/herrenhaus.glb" alt="Herrenhaus mit Park, aus einem Drohnenvideo gerechnet, drehbar" camera-controls auto-rotate auto-rotate-delay="1500" rotation-per-second="8deg" camera-orbit="30deg 55deg 105%" min-camera-orbit="auto 20deg auto" max-camera-orbit="auto 78deg auto" shadow-intensity="0.5" exposure="1.1" environment-image="neutral" touch-action="pan-y"></model-viewer>
+    <div class="mo-grid kurz"><div class="mo-text"><p>Aus einem einzigen Drohnenvideo, zwei Minuten einmal rund ums Haus, hat die Fotogrammetrie Haus und Park als echtes 3D-Modell gerechnet: 150 Einzelbilder, 124.000 Flächen, eine Fototextur. Testobjekt ist ein Herrenhaus aus freiem Videomaterial, weil es einen solchen Flug von einem Engelshove-Haus noch nicht gibt.</p></div>
+    <div class="mo-text"><ul><li><b>Wirkung</b> fotorealistisch und frei drehbar, mit Garten und Umgebung</li><li><b>Braucht</b> einen Drohnenflug rundherum, am besten in zwei Höhen</li><li><b>Gewicht</b> 7 MB, etwa eine Stunde Rechenzeit</li></ul></div></div>
+  </section>
+
+  <section class="mo-teil"><p class="plan">Nicht gebaut</p><h2>KI-Modell aus einem Foto.</h2>
+    <div class="mo-grid kurz"><div class="mo-text"><p><b>KI aus einem Foto</b> erfindet alles, was nicht auf dem Bild ist: Rückseite, Fensterteilung, Dachanschlüsse. Für den ersten Blick brauchbar, als Beleg für Bauqualität nicht.</p></div></div>
   </section>
 </section></main>
 <footer class="fuss">
@@ -75,6 +80,6 @@
 <div class="daumen" aria-label="Schnellkontakt"><a class="d-tel" href="tel:+495973909230">Anrufen</a><a class="d-anf" href="kontakt.html?thema=bauvorhaben">Anfragen</a></div>
 <script src="js/app.js?v=20261031c"></script>
 <script type="module" src="js/lib/model-viewer.min.js"></script>
-<script type="module" src="js/modell.js?v=20261104b"></script>
+<script type="module" src="js/modell.js?v=20261105a"></script>
 </body>
 </html>

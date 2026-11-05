@@ -47,7 +47,15 @@ import { OrbitControls } from "./lib/OrbitControls.js";
   szene.add(new THREE.HemisphereLight(0xf3f2ef, 0x101010, .9)); var sonne = new THREE.DirectionalLight(0xffe2bd, .9); sonne.position.set(-8, 12, 6); szene.add(sonne);
   var setze = function (t) { flaechen.forEach(function (m) { m.material.opacity = t; }); kante.opacity = .95 - .55 * t; fein.opacity = .32 * (1 - t); };
   regler.addEventListener("input", function () { setze(parseFloat(regler.value)); });
-  box.addEventListener("pointerdown", function () { st.autoRotate = false; });
+  st.enableZoom = false; box.addEventListener("pointerdown", function () { st.autoRotate = false; st.enableZoom = true; }); box.addEventListener("pointerleave", function () { st.enableZoom = false; });
   window.addEventListener("resize", function () { W = box.clientWidth; H = box.clientHeight; kam.aspect = W / H; kam.updateProjectionMatrix(); r.setSize(W, H); });
   (function lauf() { st.update(); r.render(szene, kam); requestAnimationFrame(lauf); })();
 })();
+
+// Mausrad zoomt erst nach einem Klick ins Modell, vorher rollt die Seite normal weiter (Leon, 05.11.)
+document.querySelectorAll("model-viewer").forEach(function (mv) {
+  mv.setAttribute("disable-zoom", ""); mv.setAttribute("interaction-prompt", "none");
+  var hinweis = document.createElement("span"); hinweis.className = "mo-zoom"; hinweis.textContent = "Klicken, dann drehen und zoomen"; mv.appendChild(hinweis);
+  mv.addEventListener("pointerdown", function () { mv.removeAttribute("disable-zoom"); mv.classList.add("aktiv"); });
+  mv.addEventListener("pointerleave", function () { mv.setAttribute("disable-zoom", ""); mv.classList.remove("aktiv"); });
+});

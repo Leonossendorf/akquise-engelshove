@@ -26,3 +26,7 @@ model-viewer.mo-cad{width:100%;aspect-ratio:16/9;}
 model-viewer.mo-cad.gross{aspect-ratio:auto;height:min(78vh,900px);margin-bottom:18px;background:radial-gradient(ellipse at 50% 70%,#141414,#000 70%);--poster-color:transparent}
 .mo-hinweis{margin-top:14px;padding:12px 14px;border:1px dashed var(--haar);color:var(--hell-leise);font-size:14px}
 @media (max-width:900px){.mo-grid{grid-template-columns:1fr}}
+
+model-viewer.mo-cad{position:relative}
+.mo-zoom{position:absolute;left:14px;bottom:12px;padding:6px 10px;border:1px solid var(--haar);border-radius:999px;background:rgba(0,0,0,.55);color:var(--hell-leise);font-size:13px;pointer-events:none;transition:opacity .4s}
+model-viewer.aktiv .mo-zoom{opacity:0}
