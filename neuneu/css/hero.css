@@ -361,3 +361,5 @@ html:not(.bewegt) .p-high{position:relative;left:auto;top:auto;margin:30px auto;
 .p-note .k-satz{margin:0;font-size:clamp(14px,1.05vw,17px)}
 html:not(.bewegt) .p-note{position:relative;left:auto;bottom:auto;opacity:1;padding:20px var(--gutter) 0;width:auto}
 html:not(.bewegt) .p-note .note-linie i{transform:none}
+
+.tu-weg{margin-top:22px}
