@@ -64,7 +64,7 @@ document.querySelectorAll(".mo-par").forEach(function (box) {
     fragmentShader: "uniform sampler2D bild;varying vec2 vUv;void main(){gl_FragColor=texture2D(bild,vUv);}" });
   szene.add(new THREE.Mesh(new THREE.PlaneGeometry(ar, 1, 400, 260), m));
   // Abstand, bei dem das Bild den Kasten gerade füllt (Höhe 1 oder Breite ar, je nach Seitenverhältnis des Kastens)
-  var voll = function () { var t = Math.tan(kam.fov * Math.PI / 360); return Math.max(.5 / t, (ar / 2) / (t * kam.aspect)) * .985; };
+  var voll = function () { var t = Math.tan(kam.fov * Math.PI / 360); return Math.max(.5 / t, (ar / 2) / (t * kam.aspect)) * .90; };
   var zx = 0, zy = 0, mx = 0, my = 0;
   box.addEventListener("pointermove", function (e) { var b = box.getBoundingClientRect(); zx = ((e.clientX - b.left) / b.width - .5) * 2; zy = ((e.clientY - b.top) / b.height - .5) * 2; });
   box.addEventListener("pointerleave", function () { zx = 0; zy = 0; });
