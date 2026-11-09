@@ -52,6 +52,32 @@ import { OrbitControls } from "./lib/OrbitControls.js";
   (function lauf() { st.update(); r.render(szene, kam); requestAnimationFrame(lauf); })();
 })();
 
+// 5 Lebendiges Foto: eine KI-Tiefenkarte gibt dem Foto Relief, die Kamera fährt hinein; Maus und Finger verschieben den Blick
+document.querySelectorAll(".mo-par").forEach(function (box) {
+  var W = box.clientWidth, H = box.clientHeight, ar = parseFloat(box.dataset.ar) || 1.5;
+  var r = new THREE.WebGLRenderer({ antialias: true }); r.setPixelRatio(Math.min(2, devicePixelRatio)); r.setSize(W, H); r.outputColorSpace = THREE.LinearSRGBColorSpace; box.appendChild(r.domElement);
+  var szene = new THREE.Scene(), kam = new THREE.PerspectiveCamera(26, W / H, .01, 50);
+  var lader = new THREE.TextureLoader(), bild = lader.load(box.dataset.img), tiefe = lader.load(box.dataset.tiefe);
+  bild.colorSpace = THREE.NoColorSpace; bild.minFilter = THREE.LinearFilter; tiefe.minFilter = THREE.LinearFilter;
+  var m = new THREE.ShaderMaterial({ uniforms: { bild: { value: bild }, tiefe: { value: tiefe }, staerke: { value: parseFloat(box.dataset.staerke) || .24 } },
+    vertexShader: "uniform sampler2D tiefe;uniform float staerke;varying vec2 vUv;void main(){vUv=uv;float d=texture2D(tiefe,uv).r;vec3 p=position;p.z=(d-.5)*staerke;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}",
+    fragmentShader: "uniform sampler2D bild;varying vec2 vUv;void main(){gl_FragColor=texture2D(bild,vUv);}" });
+  szene.add(new THREE.Mesh(new THREE.PlaneGeometry(ar, 1, 400, 260), m));
+  // Abstand, bei dem das Bild den Kasten gerade füllt (Höhe 1 oder Breite ar, je nach Seitenverhältnis des Kastens)
+  var voll = function () { var t = Math.tan(kam.fov * Math.PI / 360); return Math.max(.5 / t, (ar / 2) / (t * kam.aspect)) * .985; };
+  var zx = 0, zy = 0, mx = 0, my = 0;
+  box.addEventListener("pointermove", function (e) { var b = box.getBoundingClientRect(); zx = ((e.clientX - b.left) / b.width - .5) * 2; zy = ((e.clientY - b.top) / b.height - .5) * 2; });
+  box.addEventListener("pointerleave", function () { zx = 0; zy = 0; });
+  window.addEventListener("resize", function () { W = box.clientWidth; H = box.clientHeight; kam.aspect = W / H; kam.updateProjectionMatrix(); r.setSize(W, H); });
+  var t0 = performance.now();
+  (function lauf() {
+    var t = (performance.now() - t0) / 1000, u = (1 - Math.cos(t / 9 * Math.PI * 2)) / 2; // 0 bis 1 bis 0, 9 Sekunden je Runde
+    mx += (zx - mx) * .04; my += (zy - my) * .04;
+    var d = voll(); kam.position.set(Math.sin(t / 9 * Math.PI * 2) * .035 + mx * .07, Math.cos(t / 9 * Math.PI * 2) * .015 - my * .045, d - u * d * .22);
+    kam.lookAt(mx * .02, -my * .012, 0); r.render(szene, kam); requestAnimationFrame(lauf);
+  })();
+});
+
 // Mausrad zoomt erst nach einem Klick ins Modell, vorher rollt die Seite normal weiter (Leon, 05.11.)
 document.querySelectorAll("model-viewer").forEach(function (mv) {
   mv.setAttribute("disable-zoom", ""); mv.setAttribute("interaction-prompt", "none");

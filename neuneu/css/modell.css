@@ -28,5 +28,8 @@ model-viewer.mo-cad.gross{aspect-ratio:auto;height:min(78vh,900px);margin-bottom
 @media (max-width:900px){.mo-grid{grid-template-columns:1fr}}
 
 model-viewer.mo-cad{position:relative}
+.mo-par{position:relative;aspect-ratio:3/2;background:#000;overflow:hidden;cursor:crosshair;touch-action:pan-y}.mo-par canvas{display:block;width:100%!important;height:100%!important}
+.mo-zwei{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.5vw,24px);margin-bottom:18px}@media(max-width:800px){.mo-zwei{grid-template-columns:1fr}}
+.mo-par span{position:absolute;left:14px;bottom:12px;padding:6px 10px;border:1px solid var(--haar);border-radius:999px;background:rgba(0,0,0,.55);color:var(--hell-leise);font-size:13px;pointer-events:none}
 .mo-zoom{position:absolute;left:14px;bottom:12px;padding:6px 10px;border:1px solid var(--haar);border-radius:999px;background:rgba(0,0,0,.55);color:var(--hell-leise);font-size:13px;pointer-events:none;transition:opacity .4s}
 model-viewer.aktiv .mo-zoom{opacity:0}
