@@ -1,0 +1,35 @@
+/* Testseite Modell */
+.mo{background:#000;color:var(--hell)}
+.mo-kopf{padding:clamp(30px,6vh,70px) var(--gutter) clamp(20px,4vh,40px)}
+.mo-kopf h1{margin:0 0 .3em;font-size:clamp(40px,6vw,96px);font-weight:200;line-height:1}
+.mo-kopf .lead{max-width:62ch}
+.mo-teil{padding:clamp(30px,5vh,60px) var(--gutter);border-top:1px solid var(--haar)}
+.mo-teil h2{margin:0 0 .2em;font-size:clamp(28px,3.4vw,52px);font-weight:220;line-height:1.05}
+.mo-teil .plan{color:var(--licht);font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
+.mo-grid.kurz{grid-template-columns:minmax(0,1.3fr) minmax(280px,1fr)}
+.mo-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:clamp(20px,3vw,50px);align-items:start}
+.mo-text p{margin:0 0 12px;color:var(--hell-leise);font-size:clamp(15px,1.1vw,18px);line-height:1.5}
+.mo-text b{color:var(--hell)}
+.mo-text ul{margin:10px 0 0;padding:0;list-style:none}.mo-text li{padding:6px 0;border-top:1px solid var(--haar);font-size:15px;color:var(--hell-leise)}
+.mo-text li b{display:inline-block;min-width:110px;color:var(--licht);font-weight:500}
+.mo-flug{position:relative;aspect-ratio:16/9;min-height:min(60vh,700px);background:#050505;overflow:hidden;cursor:grab;user-select:none;touch-action:pan-y}
+.mo-flug.zieht{cursor:grabbing}
+.mo-flug img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.mo-flug::after{content:"";position:absolute;left:var(--gutter);right:var(--gutter);bottom:18px;height:1px;background:var(--haar)}
+.mo-flug i{position:absolute;left:var(--gutter);bottom:14px;width:9px;height:9px;margin-left:-4px;border-radius:50%;background:var(--licht);transform:translateX(calc(var(--p,0) * (100vw - 2 * var(--gutter) - 2 * var(--gutter))));transition:transform .08s linear}
+.mo-flug span{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);padding:8px 14px;background:rgba(0,0,0,.45);border:1px solid rgba(243,242,239,.3);font-size:13px;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(6px);pointer-events:none}
+.mo-haus{position:relative;aspect-ratio:16/10;min-height:min(70vh,760px);background:radial-gradient(ellipse at 50% 70%,#101010,#000 70%);overflow:hidden;cursor:grab}
+.mo-haus canvas{display:block;width:100%!important;height:100%!important}
+.mo-regler-zeile{display:flex;align-items:center;gap:14px;margin-top:14px;color:var(--hell-leise);font-size:14px}
+.mo-regler{flex:1;accent-color:var(--licht)}
+model-viewer.mo-cad{width:100%;aspect-ratio:16/9;}
+model-viewer.mo-cad.gross{aspect-ratio:auto;height:min(78vh,900px);margin-bottom:18px;background:radial-gradient(ellipse at 50% 70%,#141414,#000 70%);--poster-color:transparent}
+.mo-hinweis{margin-top:14px;padding:12px 14px;border:1px dashed var(--haar);color:var(--hell-leise);font-size:14px}
+@media (max-width:900px){.mo-grid{grid-template-columns:1fr}}
+
+model-viewer.mo-cad{position:relative}
+.mo-par{position:relative;aspect-ratio:3/2;background:#000;overflow:hidden;cursor:crosshair;touch-action:pan-y}.mo-par canvas{display:block;width:100%!important;height:100%!important}
+.mo-zwei{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.5vw,24px);margin-bottom:18px}@media(max-width:800px){.mo-zwei{grid-template-columns:1fr}}
+.mo-par span{position:absolute;left:14px;bottom:12px;padding:6px 10px;border:1px solid var(--haar);border-radius:999px;background:rgba(0,0,0,.55);color:var(--hell-leise);font-size:13px;pointer-events:none}
+.mo-zoom{position:absolute;left:14px;bottom:12px;padding:6px 10px;border:1px solid var(--haar);border-radius:999px;background:rgba(0,0,0,.55);color:var(--hell-leise);font-size:13px;pointer-events:none;transition:opacity .4s}
+model-viewer.aktiv .mo-zoom{opacity:0}
