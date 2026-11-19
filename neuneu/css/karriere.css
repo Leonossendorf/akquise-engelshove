@@ -56,3 +56,9 @@
 .ig-satz{margin:8px 0 0;max-width:46ch;color:var(--hell-leise)}
 .ig-knopf{gap:12px;min-height:58px;padding:0 28px}
 .ig-knopf svg{width:22px;height:22px}
+/* Mitlaufender Knopf "Jetzt bewerben" (Leon 19.11.) */
+.bw-float{position:fixed;right:var(--gutter);bottom:clamp(18px,4vh,40px);z-index:57;display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;background:var(--hell);color:#000;font-size:17px;font-weight:500;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:opacity .35s ease,transform .35s ease}
+.bw-float::after{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-5px}
+.bw-float:hover{background:var(--licht)}
+.bw-float.weg{opacity:0;transform:translateY(16px);pointer-events:none}
+@media (max-width:760px){.bw-float{display:none}}
