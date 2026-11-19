@@ -28,6 +28,26 @@
 .it-hoch{grid-column:span 2}.it-hoch a{aspect-ratio:3/4}
 .it-quer{grid-column:span 3}.it-quer a{aspect-ratio:16/10}
 @media (max-width:860px){.it-wand{grid-template-columns:repeat(2,1fr)}.it-gross,.it-hoch,.it-quer{grid-column:span 1;grid-row:auto}.it-quer a{aspect-ratio:3/4}.it-gross{grid-column:span 2}}
+/* Team, Kilimanjaro, Unterwegs */
+.tm{background:#000;padding-top:clamp(40px,6vw,90px)}
+.tm-gross{margin:0}.tm-gross img{width:100%;height:auto;max-height:92vh;object-fit:cover}
+.tm-text{margin-top:clamp(24px,4vw,50px)}
+.tm-zwei{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,24px);margin-top:clamp(20px,3vw,40px);padding-bottom:clamp(50px,8vw,120px)}
+.tm figure,.kili figure,.unterwegs figure{margin:0}
+.tm figcaption,.kili figcaption,.unterwegs figcaption{margin-top:10px;color:var(--hell-sacht);font-size:14px}
+.tm-zwei img,.kili-wand img,.uw-wand img{width:100%;height:100%;object-fit:cover}
+.kili-wand a,.uw-wand a{display:block;overflow:hidden;background:var(--f2)}
+.kili-wand{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(10px,1.4vw,22px);align-items:start}
+.kili-a{grid-column:span 4}.kili-a a{aspect-ratio:4/3}
+.kili-c{grid-column:span 2}.kili-c a{aspect-ratio:4/3}.kili-c img{object-position:center 35%}
+.kili-b{grid-column:span 2}.kili-b a{aspect-ratio:2/3}.kili-b img{object-position:72% center}
+.kili-d{grid-column:span 2}.kili-d a{aspect-ratio:4/3}
+.kili-e{grid-column:span 2}.kili-e a{aspect-ratio:4/3}
+.uw-wand{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(10px,1.4vw,22px);align-items:start}
+.uw-a{grid-column:span 6}.uw-a a{aspect-ratio:959/588}
+.uw-b{grid-column:span 3}.uw-b a{aspect-ratio:900/1030}
+.uw-c{grid-column:span 3}.uw-c a{aspect-ratio:900/1030}.uw-c img{object-position:center 60%}
+@media (max-width:860px){.tm-zwei{grid-template-columns:1fr}.kili-wand,.uw-wand{grid-template-columns:1fr 1fr}.kili-a,.uw-a{grid-column:span 2}.kili-b,.kili-c,.kili-d,.kili-e,.uw-b,.uw-c{grid-column:span 1;grid-row:auto}}
 /* Instagram-Band */
 .ig{background:var(--f1);border-top:1px solid var(--haar);border-bottom:1px solid var(--haar)}
 .ig-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;padding-top:clamp(40px,6vw,80px);padding-bottom:clamp(40px,6vw,80px)}
