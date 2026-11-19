@@ -100,10 +100,10 @@
     E.linien.style.opacity = 1 - teil(.56, .64, p);
     E.linien.style.visibility = p > .64 ? "hidden" : "visible";
 
-    E.dunkel.style.opacity = teil(.66, .74, p);
-    E.l1.style.opacity = teil(.73, .77, p);
-    E.l2.style.opacity = teil(.77, .81, p);
-    E.l3.style.opacity = teil(.81, .85, p);
+    E.dunkel.style.opacity = teil(.62, .78, p);   // langsamere Dämmerung (19.11.)
+    E.l1.style.opacity = teil(.70, .76, p);
+    E.l2.style.opacity = teil(.73, .80, p);
+    E.l3.style.opacity = teil(.76, .83, p);
     E.w3.style.opacity = teil(.74, .79, p) * (1 - teil(.88, .9, p));
     E.umfeld.style.opacity = teil(.85, .9, p);
     // Zuhause steht ab 94 % und bleibt bis zum Ende des Wegs stehen, damit es wirken kann
