@@ -22,9 +22,14 @@
       auto.setAttribute("aria-pressed", "true");
       geh(aktuell() + 1); lauf = setInterval(function () { var a = aktuell(); if (a >= figs.length - 1) return stopp(); geh(a + 1); }, 5200);
     });
+    // Musik: Der Knopf zeigt immer den echten Zustand (Ereignisse des Players), ein Klick schaltet genau einmal um.
+    var musikGewollt = true;
+    var spielen = function () { audio.volume = .55; var q = audio.play(); if (q && q.catch) q.catch(function () {}); };
+    var anzeigen = function () { musik.setAttribute("aria-pressed", audio.paused ? "false" : "true"); };
+    ["play", "playing", "pause", "ended"].forEach(function (ev) { audio.addEventListener(ev, anzeigen); });
     musik.addEventListener("click", function () {
-      if (audio.paused) { audio.volume = .55; audio.play().then(function () { musik.setAttribute("aria-pressed", "true"); }).catch(function () {}); }
-      else { audio.pause(); musik.setAttribute("aria-pressed", "false"); }
+      if (!audio.paused) { musikGewollt = false; audio.pause(); }
+      else { musikGewollt = true; spielen(); }
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); stopp(); geh(aktuell() + 1); }
@@ -41,9 +46,13 @@
     // Die Diashow läuft von selbst los; wer selbst scrollt, übernimmt. Musik startet mit der ersten Berührung, solange sie nicht abgeschaltet wurde.
     var starte = function () { if (!lauf && !document.hidden) { auto.setAttribute("aria-pressed", "true"); lauf = setInterval(function () { var a = aktuell(); if (a >= figs.length - 1) return stopp(); geh(a + 1); }, 5200); } };
     setTimeout(starte, 2600);
-    var musikAus = false; musik.addEventListener("click", function () { musikAus = !audio.paused ? false : true; });
-    var erste = function () { if (!musikAus && audio.paused) { audio.volume = .55; audio.play().then(function () { musik.setAttribute("aria-pressed", "true"); }).catch(function () {}); } };
-    ["pointerdown", "keydown", "touchstart"].forEach(function (ev) { window.addEventListener(ev, erste, { once: true, passive: true }); });
+    // Der Browser erlaubt Ton erst nach der ersten Berührung. Die gilt überall außer auf dem Musikknopf selbst (der schaltet selbst).
+    var erste = function (e) {
+      if (e && e.target && e.target.closest && e.target.closest(".gal-musik")) return;
+      if (musikGewollt && audio.paused) spielen();
+      ["pointerdown", "keydown", "touchstart"].forEach(function (ev) { window.removeEventListener(ev, erste, true); });
+    };
+    ["pointerdown", "keydown", "touchstart"].forEach(function (ev) { window.addEventListener(ev, erste, true); });
   }
 
   // Bewerbung: die Person in der Mitte des Bildschirms wird farbig

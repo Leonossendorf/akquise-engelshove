@@ -93,7 +93,7 @@ html:not(.bewegt) .jt li{margin-bottom:.7em}
 .wand{position:absolute;left:50%;top:50%;width:max(100%,calc(var(--buehne)*1.7742));aspect-ratio:3080/1736;transform:translate(-50%,-50%)}
 .wand>img{position:absolute;display:block}
 .wand-atlas{inset:0;width:100%;height:100%}
-.wand-mitte{left:50%;top:50%;width:7.1429%;height:12.5%;object-fit:cover}
+.wand-mitte{left:50%;top:50%;width:7.1429%;height:12.5%;object-fit:cover}.wand-k{position:absolute;width:7.1429%;height:12.5%;object-fit:cover}
 .bewegt .wand{transform-origin:53.571% 56.25%}
 .wand-dunkel{position:absolute;inset:0;background:#000;opacity:.62}
 .bewegt .wand-dunkel{opacity:0}
