@@ -1,0 +1,38 @@
+
+/* Karriere: Hero als laufende Bildwand der Italien-Fahrten */
+.kh{position:relative;min-height:calc(var(--buehne) - var(--kopfhoehe));display:flex;align-items:flex-end;overflow:hidden;background:#000}
+.kh-wand{position:absolute;inset:0 0 0 30%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;transform:rotate(-4deg) scale(1.18);transform-origin:60% 50%}
+.kh-spalte{overflow:hidden}
+.kh-lauf{display:flex;flex-direction:column;gap:10px;animation:kh-hoch 90s linear infinite}
+.kh-s2 .kh-lauf{animation-name:kh-runter;animation-duration:110s}
+.kh-s3 .kh-lauf{animation-duration:100s}
+.kh-lauf img{width:100%;height:auto;filter:saturate(.9) brightness(.92)}
+@keyframes kh-hoch{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes kh-runter{from{transform:translateY(-50%)}to{transform:translateY(0)}}
+.kh-schleier{position:absolute;inset:0;background:linear-gradient(90deg,#000 0%,#000 26%,rgba(0,0,0,.72) 46%,rgba(0,0,0,.12) 78%,rgba(0,0,0,.25) 100%),linear-gradient(0deg,rgba(0,0,0,.7) 0%,transparent 40%)}
+.kh-text{position:relative;z-index:1;width:100%;padding-top:clamp(80px,14vh,160px);padding-bottom:clamp(40px,9vh,110px)}
+.kh-text h1{max-width:13ch}
+.kh-text .lead{max-width:40ch;color:var(--hell)}
+.kh-wege{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+@media (max-width:760px){.kh{min-height:calc(var(--buehne) - var(--kopfhoehe))}.kh-wand{inset:0 -20% 0 -10%;opacity:.55}.kh-schleier{background:linear-gradient(0deg,#000 8%,rgba(0,0,0,.6) 55%,rgba(0,0,0,.35) 100%)}.kh-text{padding-bottom:calc(84px + env(safe-area-inset-bottom))}}
+@media (prefers-reduced-motion:reduce){.kh-lauf{animation:none}}
+/* Italien */
+.it-kopf{max-width:760px;margin-bottom:clamp(30px,5vw,64px)}
+.it-wand{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(10px,1.4vw,22px);align-items:start}
+.it-wand figure{margin:0}
+.it-wand a{display:block;overflow:hidden;background:var(--f2)}
+.it-wand img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.it-wand a:hover img{transform:scale(1.04)}
+.it-wand figcaption{margin-top:10px;color:var(--hell-sacht);font-size:14px}
+.it-gross{grid-column:span 2}.it-gross a{aspect-ratio:3/4}
+.it-hoch{grid-column:span 2}.it-hoch a{aspect-ratio:3/4}
+.it-quer{grid-column:span 3}.it-quer a{aspect-ratio:16/10}
+@media (max-width:860px){.it-wand{grid-template-columns:repeat(2,1fr)}.it-gross,.it-hoch,.it-quer{grid-column:span 1;grid-row:auto}.it-quer a{aspect-ratio:3/4}.it-gross{grid-column:span 2}}
+/* Instagram-Band */
+.ig{background:var(--f1);border-top:1px solid var(--haar);border-bottom:1px solid var(--haar)}
+.ig-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;padding-top:clamp(40px,6vw,80px);padding-bottom:clamp(40px,6vw,80px)}
+.ig .plan{margin-bottom:6px}
+.ig-zahl{margin:0;font-family:var(--schrift-gross);font-stretch:125%;font-weight:200;font-size:clamp(54px,8vw,128px);line-height:1;color:var(--licht)}
+.ig-satz{margin:8px 0 0;max-width:46ch;color:var(--hell-leise)}
+.ig-knopf{gap:12px;min-height:58px;padding:0 28px}
+.ig-knopf svg{width:22px;height:22px}
