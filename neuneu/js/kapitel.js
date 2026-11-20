@@ -90,6 +90,7 @@
       var vor = el.querySelector(".u-vor"), linie = el.querySelector(".u-linie"), st = el.querySelector(".k-stage");
       var a = el.querySelector(".u-wort.a"), b = el.querySelector(".u-wort.b");
       return function (p) {
+        if (handy.matches) return;
         var t = teil(.16, .82, p), x = (1 - t) * 100;
         vor.style.clipPath = "inset(0 " + (100 - x).toFixed(2) + "% 0 0)";
         linie.style.transform = "translate3d(" + (x / 100 * st.clientWidth).toFixed(1) + "px,0,0)";
@@ -149,15 +150,48 @@
   liste.forEach(function (k) { k.fn(0); });
   // Wechsel zwischen Handy und großem Bildschirm (Drehen): Reste der Scroll-Animation entfernen bzw. neu setzen
   var umschalten = function () {
-    alle(document, ".k-haeuser [style], .k-hand [style]").forEach(function (x) { x.removeAttribute("style"); });
+    alle(document, ".k-haeuser [style], .k-hand [style], .k-umbau .k-stage [style]").forEach(function (x) { x.removeAttribute("style"); });
     liste.forEach(function (k) { k.fn(k.stand); });
     messen();
   };
   if (handy.addEventListener) handy.addEventListener("change", umschalten); else if (handy.addListener) handy.addListener(umschalten);
-  if (handy.matches) alle(document, ".k-haeuser [style], .k-hand [style]").forEach(function (x) { x.removeAttribute("style"); });
+  if (handy.matches) alle(document, ".k-haeuser [style], .k-hand [style], .k-umbau .k-stage [style]").forEach(function (x) { x.removeAttribute("style"); });
   window.addEventListener("scroll", messen, { passive: true });
   window.addEventListener("resize", messen);
   messen();
+
+  // Umbau am Handy: Regler zum Ziehen; beim ersten Erscheinen fährt er einmal durchs Bild
+  (function () {
+    var u = document.querySelector(".k-umbau"); if (!u) return;
+    var st = u.querySelector(".k-stage"), zieht = false, beruehrt = false, anim = 0;
+    var setze = function (p) { u.style.setProperty("--p", Math.max(0, Math.min(100, p)) + "%"); };
+    var ausX = function (x) { var b = st.getBoundingClientRect(); return (x - b.left) / b.width * 100; };
+    st.addEventListener("pointerdown", function (e) {
+      if (!handy.matches || (e.button !== undefined && e.button !== 0) || e.target.closest("a")) return;
+      beruehrt = true; cancelAnimationFrame(anim); zieht = true;
+      try { st.setPointerCapture(e.pointerId); } catch (_) {}
+      setze(ausX(e.clientX));
+    });
+    st.addEventListener("pointermove", function (e) { if (zieht) setze(ausX(e.clientX)); });
+    var los = function () { zieht = false; };
+    st.addEventListener("pointerup", los); st.addEventListener("pointercancel", los); st.addEventListener("lostpointercapture", los);
+    var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var fahre = function () {
+      if (ruhig || beruehrt || !handy.matches) return;
+      var wege = [[50, 90, 800], [90, 10, 1500], [10, 50, 900]], i = 0, t0 = performance.now();
+      var schritt = function (t) {
+        if (beruehrt) return;
+        var w = wege[i], k = Math.min(1, (t - t0) / w[2]), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        setze(w[0] + (w[1] - w[0]) * e);
+        if (k >= 1) { i++; t0 = t; if (i >= wege.length) return; }
+        anim = requestAnimationFrame(schritt);
+      };
+      anim = requestAnimationFrame(schritt);
+    };
+    setze(50);
+    var io2 = new IntersectionObserver(function (es) { if (es[0].isIntersecting && handy.matches) { io2.disconnect(); setTimeout(fahre, 300); } }, { threshold: .55 });
+    io2.observe(st);
+  })();
 
   // Große Wörter erscheinen, wenn sie ins Bild kommen
   var io = new IntersectionObserver(function (e) { e.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("sichtbar"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -10% 0px" });

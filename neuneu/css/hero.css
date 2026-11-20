@@ -400,3 +400,19 @@ html:not(.bewegt) .p-note .note-linie i{transform:none}
 }
 @media (max-aspect-ratio:6/5) and (min-width:761px){.jb-fam img{object-position:53% 0}}
 @media (min-aspect-ratio:6/5) and (min-width:761px){.jb-fam .jb-pic{position:absolute;top:0;bottom:0;left:30%;right:0;width:auto;height:100%;-webkit-mask-image:linear-gradient(to right,transparent,#000 24%);mask-image:linear-gradient(to right,transparent,#000 24%)}.jb-fam img{object-position:8% 30%}}
+
+/* Umbau am Handy (Leon 20.11.): kein langes Scrollen, sondern ein Regler zum Ziehen wie auf der Umbau-Seite */
+.u-griff{display:none}
+@media (max-width:760px){
+ .bewegt .k-umbau[data-k]{height:auto}
+ .bewegt .k-umbau[data-k] .k-stage{position:relative;top:auto;height:min(82svh,720px);min-height:480px;touch-action:pan-y;cursor:ew-resize;user-select:none;-webkit-user-select:none}
+ .bewegt .k-umbau{--p:50%}
+ .bewegt .k-umbau .u-vor{clip-path:inset(0 calc(100% - var(--p)) 0 0)!important}
+ .bewegt .k-umbau .u-linie{left:var(--p);width:2px;margin-left:-1px;background:var(--hell);transform:none!important;opacity:1!important;z-index:4}
+ .bewegt .k-umbau .u-griff{display:block;position:absolute;top:40%;left:var(--p);z-index:4;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:var(--hell);box-shadow:0 8px 28px rgba(0,0,0,.4);pointer-events:none}
+ .u-griff i::before,.u-griff i::after{content:"";position:absolute;top:50%;width:9px;height:9px;margin-top:-5px;border-left:2px solid #000;border-bottom:2px solid #000}
+ .u-griff i::before{left:13px;transform:rotate(45deg)}.u-griff i::after{right:13px;transform:rotate(-135deg)}
+ .bewegt .k-umbau .u-wort{opacity:1!important;top:calc(40% - 66px);padding:6px 12px;background:rgba(0,0,0,.55);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+ .bewegt .k-umbau .u-text{bottom:22px}
+ .k-umbau .u-text .k-satz{max-width:30ch}
+}
