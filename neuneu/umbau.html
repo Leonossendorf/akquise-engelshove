@@ -12,7 +12,7 @@
 <link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/publicsans-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css?v=20261103b">
-<link rel="stylesheet" href="css/umbau.css?v=20261119a">
+<link rel="stylesheet" href="css/umbau.css?v=20261120a">
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
@@ -27,44 +27,51 @@
 </header>
 <main id="inhalt">
 
-<section class="p-kopf ub-kopf"><img src="img/ub/u1-nach-1248.webp" alt="Umgebauter Bungalow mit Pool und Holzdeck"><div class="wrap"><p class="plan">Umbau und Modernisierung</p><h1>Vom Vorher zum Nachher.</h1><p class="lead">Aus einem Bestandshaus wird ein neues Haus. Wir planen den Umbau und führen ihn mit eigenen Leuten aus, auch im bewohnten Bestand.</p></div></section>
-<section class="abschnitt ub"><div class="wrap">
-  <div class="ub-kopfzeile"><p class="plan">Zwei Beispiele</p><h2>Tippen Sie auf „Vorher zeigen“.</h2></div>
-  <article class="vn" data-vn>
-  <div class="vn-bild">
-    <img class="vn-nach" src="img/ub/u1-nach-1248.webp" alt="Bungalow mit Pool, nach dem Umbau" loading="lazy" decoding="async">
-    <img class="vn-vor" src="img/ub/u1-vor-1248.webp" alt="Bungalow mit Pool, vor dem Umbau" loading="lazy" decoding="async">
-    <span class="vn-marke" aria-hidden="true">Nachher</span>
-    <button type="button" class="vn-knopf" aria-pressed="false">Vorher zeigen</button>
+<section class="ub-held" aria-label="Umbau und Modernisierung">
+  <div class="vs vs--held" data-vs style="--p:50%;--a:2.4">
+    <img src="img/ub/u1-nach-s1200.webp" srcset="img/ub/u1-nach-s1200.webp 1200w, img/ub/u1-nach-s2400.webp 2400w" sizes="100vw" alt="Bungalow mit Pool, nach dem Umbau" fetchpriority="high" decoding="async" draggable="false">
+    <div class="vs-vor"><img src="img/ub/u1-vor-s1200.webp" srcset="img/ub/u1-vor-s1200.webp 1200w, img/ub/u1-vor-s2400.webp 2400w" sizes="100vw" alt="Bungalow mit Pool, vor dem Umbau" fetchpriority="high" decoding="async" draggable="false"></div>
+    <span class="vs-wort vs-a" aria-hidden="true">Vorher</span><span class="vs-wort vs-b" aria-hidden="true">Nachher</span>
+    <span class="vs-griff" aria-hidden="true"><i></i></span>
+    <input class="vs-r" type="range" min="0" max="100" value="50" aria-label="Bungalow mit Pool: Vorher und Nachher vergleichen">
   </div>
-  <div class="vn-text"><h3>Bungalow mit Pool</h3><p>Aus einem weißen Bungalow wird ein offenes Haus: heller Klinker, große Glasflächen, ein schwarzer Fensterrahmen als Akzent, dazu Pool und Holzdeck.</p></div>
-</article>
-  <article class="vn" data-vn>
-  <div class="vn-bild">
-    <img class="vn-nach" src="img/ub/u2-nach-1024.webp" alt="Haus am Waldrand, nach dem Umbau" loading="lazy" decoding="async">
-    <img class="vn-vor" src="img/ub/u2-vor-1024.webp" alt="Haus am Waldrand, vor dem Umbau" loading="lazy" decoding="async">
-    <span class="vn-marke" aria-hidden="true">Nachher</span>
-    <button type="button" class="vn-knopf" aria-pressed="false">Vorher zeigen</button>
+  <div class="wrap ub-held-text"><p class="plan">Umbau und Modernisierung</p><h1>Vom Vorher zum Nachher.</h1>
+  <p class="lead">Aus einem Bestandshaus wird ein neues Haus. Wir planen den Umbau und bauen ihn mit eigenen Leuten, auch im bewohnten Bestand.</p></div>
+</section>
+<div class="wrap ub-hinweis"><p><span class="ub-pfeil" aria-hidden="true"></span>Ziehen Sie den Regler in jedem Bild nach links oder rechts.</p><p class="ub-erst">01 · Bungalow mit Pool: Aus einem weißen Bungalow wird ein offenes Haus: heller Klinker, große Glasflächen, ein schwarzer Fensterrahmen als Akzent, dazu Pool und Holzdeck.</p></div>
+<section class="ub-b" aria-label="Haus am Waldrand">
+  <div class="vs" data-vs style="--p:50%;--a:1.6">
+    <img src="img/ub/u2-nach-s1000.webp" srcset="img/ub/u2-nach-s1000.webp 1000w, img/ub/u2-nach-s2000.webp 2000w" sizes="100vw" alt="Haus am Waldrand, nach dem Umbau" loading="lazy" decoding="async" draggable="false">
+    <div class="vs-vor"><img src="img/ub/u2-vor-s1000.webp" srcset="img/ub/u2-vor-s1000.webp 1000w, img/ub/u2-vor-s2000.webp 2000w" sizes="100vw" alt="Haus am Waldrand, vor dem Umbau" loading="lazy" decoding="async" draggable="false"></div>
+    <span class="vs-wort vs-a" aria-hidden="true">Vorher</span><span class="vs-wort vs-b" aria-hidden="true">Nachher</span>
+    <span class="vs-griff" aria-hidden="true"><i></i></span>
+    <input class="vs-r" type="range" min="0" max="100" value="50" aria-label="Haus am Waldrand: Vorher und Nachher vergleichen">
   </div>
-  <div class="vn-text"><h3>Haus am Waldrand</h3><p>Am Hang, mit Blick in den Wald: Aus dem verwinkelten Altbau wird ein klarer Baukörper aus hellem Klinker mit raumhohen Fenstern und neuer Terrasse.</p></div>
-</article>
-</div></section>
-<section class="abschnitt ub-oben"><div class="wrap">
-  <div class="ub-kopfzeile"><p class="plan">Von oben</p><h2>Dasselbe Grundstück, vorher und nachher.</h2><p class="lead">Ziehen Sie den Schieber.</p></div>
-  <div class="schieber" data-schieber>
-    <img src="img/k/u-nach-1800.webp" alt="Grundstück nach dem Umbau, senkrecht von oben: neues Dach mit Solarmodulen, Pool, Terrasse" loading="lazy" decoding="async">
-    <div class="schieber-vor"><img src="img/k/u-vor-1800.webp" alt="Dasselbe Grundstück vor dem Umbau" loading="lazy" decoding="async"></div>
-    <span class="schieber-wort a">Vorher</span><span class="schieber-wort b">Nachher</span>
-    <input type="range" min="0" max="100" value="50" aria-label="Vorher und Nachher vergleichen">
-    <span class="schieber-griff" aria-hidden="true"></span>
+  <div class="wrap ub-t"><p class="plan">02</p><h2>Haus am Waldrand.</h2><p>Am Hang, mit Blick in den Wald: Aus dem verwinkelten Altbau wird ein klarer Baukörper aus hellem Klinker mit raumhohen Fenstern und neuer Terrasse.</p></div>
+</section><section class="ub-b ub-b--rechts" aria-label="Esszimmer und Wohnen">
+  <div class="vs" data-vs style="--p:50%;--a:1.75">
+    <img src="img/ub/esszimmer-nach-s1000.webp" srcset="img/ub/esszimmer-nach-s1000.webp 1000w, img/ub/esszimmer-nach-s2000.webp 2000w" sizes="100vw" alt="Esszimmer und Wohnen, nach dem Umbau" loading="lazy" decoding="async" draggable="false">
+    <div class="vs-vor"><img src="img/ub/esszimmer-vor-s1000.webp" srcset="img/ub/esszimmer-vor-s1000.webp 1000w, img/ub/esszimmer-vor-s2000.webp 2000w" sizes="100vw" alt="Esszimmer und Wohnen, vor dem Umbau" loading="lazy" decoding="async" draggable="false"></div>
+    <span class="vs-wort vs-a" aria-hidden="true">Vorher</span><span class="vs-wort vs-b" aria-hidden="true">Nachher</span>
+    <span class="vs-griff" aria-hidden="true"><i></i></span>
+    <input class="vs-r" type="range" min="0" max="100" value="50" aria-label="Esszimmer und Wohnen: Vorher und Nachher vergleichen">
   </div>
-</div></section>
-<section class="abschnitt ub-alt"><div class="wrap">
-  <div class="ub-kopfzeile"><p class="plan">Weitere Umbauten</p><h2>Im kleinen Bild das Vorher.</h2></div>
-  <div class="p-fotos ub-raster"><figure><a href="img/ub/2018-coesfeld-strasse-1800.webp" data-lb><img src="img/ub/2018-coesfeld-strasse-900.webp" alt="Coesfeld, Straßenseite: großes Bild nachher, kleines Bild vorher" loading="lazy" decoding="async"></a><figcaption>Coesfeld, Straßenseite</figcaption></figure><figure><a href="img/ub/2018-coesfeld-garten-1800.webp" data-lb><img src="img/ub/2018-coesfeld-garten-900.webp" alt="Coesfeld, Gartenseite: großes Bild nachher, kleines Bild vorher" loading="lazy" decoding="async"></a><figcaption>Coesfeld, Gartenseite</figcaption></figure><figure><a href="img/ub/2018-rueckansicht-1800.webp" data-lb><img src="img/ub/2018-rueckansicht-900.webp" alt="Rückansicht mit neuer Terrasse: großes Bild nachher, kleines Bild vorher" loading="lazy" decoding="async"></a><figcaption>Rückansicht mit neuer Terrasse</figcaption></figure><figure><a href="img/ub/2018-gartenansicht-1800.webp" data-lb><img src="img/ub/2018-gartenansicht-900.webp" alt="Gartenansicht mit Anbau: großes Bild nachher, kleines Bild vorher" loading="lazy" decoding="async"></a><figcaption>Gartenansicht mit Anbau</figcaption></figure><figure><a href="img/ub/2018-esszimmer-1800.webp" data-lb><img src="img/ub/2018-esszimmer-900.webp" alt="Esszimmer und Wintergarten: großes Bild nachher, kleines Bild vorher" loading="lazy" decoding="async"></a><figcaption>Esszimmer und Wintergarten</figcaption></figure><figure><a href="img/ub/2018-kueche-1800.webp" data-lb><img src="img/ub/2018-kueche-900.webp" alt="Küche und Essbereich: großes Bild nachher, kleines Bild vorher" loading="lazy" decoding="async"></a><figcaption>Küche und Essbereich</figcaption></figure></div>
-  <div class="ub-mehr"><p>Auch Gewerbe: der Umbau des Friseursalons Nolte in Rheine und das Landrefugium im Münsterland, ein ehemaliger Hühnerstall, der heute ein Wohnhaus ist.</p>
+  <div class="wrap ub-t"><p class="plan">03</p><h2>Esszimmer und Wohnen.</h2><p>Vorher ein abgetrenntes Esszimmer hinter einer Tür, nachher ein offener Raum mit Kamin, Lichtfugen in der Decke und Holzboden.</p></div>
+</section><section class="ub-b" aria-label="Dasselbe Grundstück, von oben">
+  <div class="vs" data-vs style="--p:50%;--a:1.511">
+    <img src="img/k/u-nach-1800.webp" alt="Grundstück nach dem Umbau, senkrecht von oben: neues Dach mit Solarmodulen, Pool, Terrasse" loading="lazy" decoding="async" draggable="false">
+    <div class="vs-vor"><img src="img/k/u-vor-1800.webp" alt="Dasselbe Grundstück vor dem Umbau" loading="lazy" decoding="async" draggable="false"></div>
+    <span class="vs-wort vs-a" aria-hidden="true">Vorher</span><span class="vs-wort vs-b" aria-hidden="true">Nachher</span>
+    <span class="vs-griff" aria-hidden="true"><i></i></span>
+    <input class="vs-r" type="range" min="0" max="100" value="50" aria-label="Grundstück von oben: Vorher und Nachher vergleichen">
+  </div>
+  <div class="wrap ub-t"><p class="plan">04</p><h2>Dasselbe Grundstück, von oben.</h2><p>Senkrecht von oben fotografiert: neues Dach mit Solarmodulen, Pool und Terrasse. Ziehen Sie den Regler, um vorher und nachher zu vergleichen.</p></div>
+</section>
+<section class="abschnitt ub-ende"><div class="wrap">
+  <h2>Ihr Haus ist das nächste.</h2>
+  <p class="lead">Auch Gewerbe: der Umbau des Friseursalons Nolte in Rheine und das Landrefugium im Münsterland, ein ehemaliger Hühnerstall, der heute ein Wohnhaus ist.</p>
   <p class="pr-links"><a class="pr-link" href="https://www.youtube.com/watch?v=0UCf6fsBvzU" target="_blank" rel="noopener">Film: Umbau Friseur Nolte</a><a class="pr-link" href="https://www.baunetzwissen.de/nachhaltig-bauen/objekte/wohnen/landrefugium-muensterland-9870075" target="_blank" rel="noopener">Landrefugium bei BauNetz Wissen</a></p>
-  <p><a class="btn btn--hell" href="kontakt.html?thema=bauvorhaben">Umbau anfragen</a></p></div>
+  <p><a class="btn btn--hell" href="kontakt.html?thema=bauvorhaben">Umbau anfragen</a></p>
 </div></section>
 </main>
 <footer class="fuss">
@@ -88,6 +95,6 @@
 </footer>
 <div class="daumen" aria-label="Schnellkontakt"><a class="d-tel" href="tel:+495973909230">Anrufen</a><a class="d-anf" href="kontakt.html?thema=bauvorhaben">Anfragen</a></div>
 <script src="js/app.js?v=20261031c"></script>
-<script src="js/umbau.js?v=20261119a"></script>
+<script src="js/umbau.js?v=20261120a"></script>
 </body>
 </html>
