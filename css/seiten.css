@@ -40,7 +40,7 @@
 .kb-form-in{position:sticky;top:calc(var(--leiste) + var(--kopfhoehe) + 16px)}
 .kb-form-in h2{margin:0 0 20px;font-size:clamp(26px,2.6vw,40px);font-weight:200;line-height:1.1}
 .kb-form .formular{max-width:none}
-@media (max-width:900px){.kb{grid-template-columns:1fr}.kb-form-in{position:static}.kb-liste{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.kb-liste li{flex:none;width:62vw;max-width:300px;scroll-snap-align:center;opacity:1;transform:none}.kb-liste img{filter:none}}
+@media (max-width:900px){.kb{grid-template-columns:minmax(0,1fr)}.kb>*{min-width:0}.kb-form-in{position:static}.kb-liste{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.kb-liste li{flex:none;width:62vw;max-width:300px;scroll-snap-align:center;opacity:1;transform:none}.kb-liste img{filter:none}}
 
 /* Stile: drei große Bilder, jedes klappt Beispiele auf */
 .stile{background:#000;color:var(--hell)}

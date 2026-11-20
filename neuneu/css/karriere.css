@@ -61,4 +61,4 @@
 .bw-float::after{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-5px}
 .bw-float:hover{background:var(--licht)}
 .bw-float.weg{opacity:0;transform:translateY(16px);pointer-events:none}
-@media (max-width:760px){.bw-float{display:none}}
+@media (max-width:760px){.daumen{display:none!important}.bw-float{left:var(--gutter);right:var(--gutter);justify-content:center;min-height:54px;bottom:calc(14px + env(safe-area-inset-bottom))}}
