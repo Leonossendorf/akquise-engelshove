@@ -17,6 +17,7 @@
         return v;
       };
       return function (p) {
+        el.classList.toggle("ende", p > .74);   // bei 2026 tritt die große Zahl zurück, damit die Familie Platz hat
         var v = wert(p), rest = v;
         // Zählwerk: rechts läuft durch, die Stelle davor rollt erst beim Übertrag
         [1000, 100, 10, 1].forEach(function (b, i) {

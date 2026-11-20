@@ -413,6 +413,6 @@ html:not(.bewegt) .p-note .note-linie i{transform:none}
    Hoch (Handy, Tablet): Bild als Band unter dem Text, damit keine Gesichter verdeckt werden. */
 .jb-pic{display:block;width:100%;height:100%;position:relative;z-index:1}
 .jb-fam .jb-blur{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(26px) brightness(.62) saturate(1.1)}
-@media (min-aspect-ratio:6/5){.jb-fam .jb-blur{display:none}.jb-fam .jb-pic img{object-position:100% 50%}.k-jahre .jt{width:calc(100% - var(--gutter)*2)}.bewegt .k-jahre .jt li:last-child{left:auto;right:0;max-width:24ch}html:not(.bewegt) .k-jahre .jt li:last-child{margin-left:auto;max-width:24ch}}
-@media (max-aspect-ratio:6/5){.jb-fam .jb-pic{position:absolute;left:0;right:0;top:24%;height:auto;aspect-ratio:1.1;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent)}.jb-fam .jb-pic img{object-position:47% 40%}}
-@media (max-width:760px) and (max-aspect-ratio:6/5){.jb-fam .jb-pic{top:37%;aspect-ratio:.92}}
+@media (min-aspect-ratio:6/5){.jb-fam .jb-blur{display:none}.jb-fam .jb-pic img{object-position:50% 10%}.k-jahre .jt{width:calc(100% - var(--gutter)*2)}.k-jahre .jt li:last-child{max-width:none;text-shadow:0 1px 16px rgba(0,0,0,.7),0 0 2px rgba(0,0,0,.5)}.k-jahre .uhr{transition:transform .9s cubic-bezier(.2,.7,.2,1);transform-origin:0 100%}.k-jahre.ende .uhr{transform:scale(.6)}}
+@media (max-aspect-ratio:6/5){.jb-fam .jb-pic{position:absolute;left:0;right:0;top:24%;height:auto;aspect-ratio:1.3;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent)}.jb-fam .jb-pic img{object-position:47% 40%}}
+@media (max-width:760px) and (max-aspect-ratio:6/5){.jb-fam .jb-pic{top:36%;aspect-ratio:1.42}}
