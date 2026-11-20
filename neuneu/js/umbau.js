@@ -39,4 +39,9 @@
     }
     setze(50);
   });
+  var ende = document.querySelector(".ub-ende");
+  if (ende) {
+    if (!("IntersectionObserver" in window) || ruhig) ende.classList.add("da");
+    else { var io2 = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { ende.classList.add("da"); io2.disconnect(); } }, { threshold: .3 }); io2.observe(ende); }
+  }
 })();
