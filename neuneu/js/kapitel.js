@@ -5,6 +5,7 @@
   var alle = function (w, s) { return Array.prototype.slice.call(w.querySelectorAll(s)); };
   var teil = function (a, b, p) { var t = Math.max(0, Math.min(1, (p - a) / (b - a))); return t * t * (3 - 2 * t); };
   var strecke = function (a, b, p) { return Math.max(0, Math.min(1, (p - a) / (b - a))); };
+  var handy = window.matchMedia("(max-width:760px)");
 
   var K = {
     jahre: function (el) {
@@ -51,6 +52,7 @@
     haeuser: function (el) {
       var kopf = el.querySelector(".h-kopf"), te = alle(el, ".h-teil"), mehr = el.querySelector(".h-mehr"), leiste = alle(el, ".h-leiste i"), n = te.length, s = .08, slot = (1 - s - .04) / n;
       return function (p) {
+        if (handy.matches) return;
         kopf.style.opacity = 1 - teil(.03, .09, p);
         te.forEach(function (x, i) {
           var a = s + i * slot, q = strecke(a, a + slot, p), rein = i === 0 ? teil(.02, .09, p) : teil(a, a + slot * .3, p);
@@ -77,6 +79,7 @@
       var weg = 0, mess = function () { weg = Math.max(0, reihe.scrollWidth - st.clientWidth); };
       mess(); window.addEventListener("resize", mess); window.addEventListener("load", mess);
       return function (p) {
+        if (handy.matches) return;
         var t = strecke(.1, .94, p);
         reihe.style.transform = "translate3d(" + (-weg * t).toFixed(1) + "px,0,0)";
         kopf.style.opacity = 1 - teil(.86, .94, p);
@@ -134,7 +137,9 @@
     liste.forEach(function (k) {
       var r = k.el.getBoundingClientRect();
       if (r.bottom < -h || r.top > h * 2) { if (r.bottom < -h && k.ziel !== 1) { k.ziel = 1; } else if (r.top > h * 2 && k.ziel !== 0) { k.ziel = 0; } return; }
-      var weg = r.height - k.st.offsetHeight, oben = parseFloat(getComputedStyle(k.st).top) || 0;
+      var weg = r.height - k.st.offsetHeight;
+      if (weg <= 1) { k.ziel = 0; k.stand = 0; return; }
+      var oben = parseFloat(getComputedStyle(k.st).top) || 0;
       k.ziel = Math.max(0, Math.min(1, (oben - r.top) / weg));
     });
     // Beim Neuladen mitten auf der Seite steht jedes Kapitel sofort richtig, statt von vorn anzulaufen
@@ -142,6 +147,14 @@
     if (!laeuft) { laeuft = true; requestAnimationFrame(schritt); }
   };
   liste.forEach(function (k) { k.fn(0); });
+  // Wechsel zwischen Handy und großem Bildschirm (Drehen): Reste der Scroll-Animation entfernen bzw. neu setzen
+  var umschalten = function () {
+    alle(document, ".k-haeuser [style], .k-hand [style]").forEach(function (x) { x.removeAttribute("style"); });
+    liste.forEach(function (k) { k.fn(k.stand); });
+    messen();
+  };
+  if (handy.addEventListener) handy.addEventListener("change", umschalten); else if (handy.addListener) handy.addListener(umschalten);
+  if (handy.matches) alle(document, ".k-haeuser [style], .k-hand [style]").forEach(function (x) { x.removeAttribute("style"); });
   window.addEventListener("scroll", messen, { passive: true });
   window.addEventListener("resize", messen);
   messen();

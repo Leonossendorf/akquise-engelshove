@@ -363,3 +363,31 @@ html:not(.bewegt) .p-note{position:relative;left:auto;bottom:auto;opacity:1;padd
 html:not(.bewegt) .p-note .note-linie i{transform:none}
 
 .tu-weg{margin-top:22px}
+
+/* Handy (Jochen 20.11.: zu viel Wischen): Neue Häuser und Alles aus einer Hand als seitliche Reihen, die man überspringen kann */
+.h-strip{display:contents}
+.wisch-hinweis{display:none}
+@media (max-width:760px){
+ .bewegt .k-haeuser[data-k],.bewegt .k-hand[data-k]{height:auto}
+ .k-haeuser .k-stage,.k-hand .k-stage,.bewegt .k-haeuser[data-k] .k-stage,.bewegt .k-hand[data-k] .k-stage{position:relative;top:auto;height:auto;min-height:0;overflow:visible;padding:64px 0 56px;display:block}
+ .k-haeuser .k-stage,.bewegt .k-haeuser[data-k] .k-stage{display:flex;flex-direction:column;align-items:stretch}
+ .k-haeuser .h-kopf{order:-1}
+ .k-haeuser .h-mehr{align-self:flex-start}
+ .k-haeuser .h-kopf,html:not(.bewegt) .h-kopf{position:static;inset:auto;display:block;min-height:0;padding:0 var(--gutter);margin-bottom:22px;opacity:1!important}
+ .k-hand .hd-kopf,html:not(.bewegt) .hd-kopf{position:static;margin:0 0 22px;padding:0 var(--gutter);opacity:1!important}
+ .wisch-hinweis{display:flex;align-items:center;gap:10px;margin:14px 0 0;color:var(--licht);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+ .wisch-hinweis::after{content:"";width:28px;height:1px;background:currentColor;box-shadow:6px 0 0 -0px currentColor}
+ .h-strip,.hd-reihe,.bewegt .hd-reihe,html:not(.bewegt) .hd-reihe{position:static;display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding:0 var(--gutter);padding:0 var(--gutter);transform:none!important;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .h-strip::-webkit-scrollbar,.hd-reihe::-webkit-scrollbar{display:none}
+ .h-teil,.bewegt .h-teil,html:not(.bewegt) .h-teil{position:relative;inset:auto;flex:none;width:84vw;height:min(66svh,540px);min-height:0;opacity:1!important;visibility:visible!important;-webkit-mask-image:none!important;mask-image:none!important;pointer-events:auto!important;scroll-snap-align:start}
+ .h-teil img{transform:none!important}
+ .h-name,html:not(.bewegt) .h-name{position:absolute;left:18px;right:18px;bottom:18px;padding:0;font-size:28px;opacity:1!important;transform:none!important}
+ .h-leiste{display:none}
+ .h-mehr,html:not(.bewegt) .h-mehr{display:inline-flex;position:static;margin:22px var(--gutter) 0;opacity:1!important}
+ .hd-reihe{gap:28px}
+ .hd-gruppe{scroll-snap-align:start}
+ .hd-karten,html:not(.bewegt) .hd-karten{flex-wrap:nowrap}
+ .hd-k{width:72vw;scroll-snap-align:start}
+ .hd-lauf{display:none}
+}
+.hd-dialog:not([open]),.tu-dialog:not([open]){display:none}
