@@ -411,7 +411,8 @@ html:not(.bewegt) .p-note .note-linie i{transform:none}
 
 /* 2026: Jochen mit Jannis und Lorenz (Leon 20.11.). Breit: Bild rechts, Text und Jahreszahl links auf Schwarz.
    Hoch (Handy, Tablet): Bild als Band unter dem Text, damit keine Gesichter verdeckt werden. */
-.jb-pic{display:block;width:100%;height:100%}
-@media (min-aspect-ratio:6/5){.jb-fam .jb-pic{position:absolute;top:0;bottom:0;left:30%;right:0;width:auto;height:100%;-webkit-mask-image:linear-gradient(to right,transparent,#000 24%);mask-image:linear-gradient(to right,transparent,#000 24%)}.jb-fam img{object-position:40% 35%}}
-@media (max-aspect-ratio:6/5){.jb-fam .jb-pic{position:absolute;left:0;right:0;top:24%;height:auto;aspect-ratio:1.1;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent)}.jb-fam img{object-position:47% 40%}}
+.jb-pic{display:block;width:100%;height:100%;position:relative;z-index:1}
+.jb-fam .jb-blur{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(26px) brightness(.62) saturate(1.1)}
+@media (min-aspect-ratio:6/5){.jb-fam .jb-blur{display:none}.jb-fam .jb-pic{height:120%}.jb-fam .jb-pic img{object-position:50% 0}}
+@media (max-aspect-ratio:6/5){.jb-fam .jb-pic{position:absolute;left:0;right:0;top:24%;height:auto;aspect-ratio:1.1;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent)}.jb-fam .jb-pic img{object-position:47% 40%}}
 @media (max-width:760px) and (max-aspect-ratio:6/5){.jb-fam .jb-pic{top:31%;aspect-ratio:.92}}
