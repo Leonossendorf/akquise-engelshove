@@ -391,3 +391,12 @@ html:not(.bewegt) .p-note .note-linie i{transform:none}
  .hd-lauf{display:none}
 }
 .hd-dialog:not([open]),.tu-dialog:not([open]){display:none}
+
+/* Familienfoto 2026: am Handy tiefer gesetzt, damit der Text oben keine Gesichter verdeckt (Leon 20.11.) */
+.jb-pic{display:block;width:100%;height:100%}
+@media (max-width:760px){
+ .jb-fam .jb-pic{position:absolute;left:0;right:0;top:15%;height:85%;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 16%);mask-image:linear-gradient(to bottom,transparent,#000 16%)}
+ .jb-fam img{object-position:53% 50%}
+}
+@media (max-aspect-ratio:6/5) and (min-width:761px){.jb-fam img{object-position:53% 0}}
+@media (min-aspect-ratio:6/5) and (min-width:761px){.jb-fam .jb-pic{position:absolute;top:0;bottom:0;left:30%;right:0;width:auto;height:100%;-webkit-mask-image:linear-gradient(to right,transparent,#000 24%);mask-image:linear-gradient(to right,transparent,#000 24%)}.jb-fam img{object-position:8% 30%}}
