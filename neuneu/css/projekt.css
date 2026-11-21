@@ -51,3 +51,37 @@ html:not(.bewegt) .l-reihe{position:relative;flex-wrap:wrap;padding-top:180px}
 .leise a{color:var(--licht)}
 @media (max-width:860px){.l-zwei,.l-g2{grid-template-columns:1fr}.l-werte .wrap{grid-template-columns:1fr 1fr}.l-g3{grid-template-columns:1fr}.l-sc{bottom:calc(84px + env(safe-area-inset-bottom))}.l-hinweis{bottom:64px}.l-lam-t,.l-reihe{bottom:calc(76px + env(safe-area-inset-bottom))}}
 @media (max-width:760px){.l-held-t{padding-bottom:calc(76px + env(safe-area-inset-bottom))}.l-lam .l-b::after{background:linear-gradient(to top,rgba(0,0,0,.84),rgba(0,0,0,0) 62%)}.l-lam .l-voll{object-position:62% 50%}}
+
+/* Highlight-Seiten: Rundgang, ruhiges Vollbild, Werte in 2 bis 4 Spalten */
+.l-werte--3 .wrap{grid-template-columns:repeat(3,1fr)}.l-werte--2 .wrap{grid-template-columns:repeat(2,1fr)}.l-werte--1 .wrap{grid-template-columns:1fr}
+.l-werte b{white-space:normal}
+.l-gang .l-marke{z-index:3;text-shadow:0 1px 14px rgba(0,0,0,.7)}
+.g-reihe{position:absolute;inset:0;margin:0;padding:0;list-style:none}
+.g-reihe li{position:absolute;inset:0;overflow:hidden;background:#000;will-change:opacity}
+.g-reihe img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;will-change:transform}
+.g-reihe li::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82),rgba(0,0,0,0) 50%);pointer-events:none}
+.g-reihe p{position:absolute;z-index:2;left:var(--gutter);bottom:clamp(40px,9vh,96px);width:min(30ch,calc(100% - var(--gutter)*2));margin:0;font-family:var(--schrift-gross);font-stretch:125%;font-weight:250;font-size:clamp(22px,2.7vw,44px);line-height:1.17;text-wrap:balance}
+.g-reihe p i{display:block;margin-bottom:12px;font-family:var(--schrift-text);font-stretch:100%;font-style:normal;font-weight:400;font-size:14px;letter-spacing:.14em;color:var(--licht)}
+.bewegt .g-reihe li+li{opacity:0}
+.l-gang .wisch-hinweis{display:none}
+html:not(.bewegt) .l-gang .l-b{min-height:0}html:not(.bewegt) .g-reihe{position:relative;display:grid;gap:8px}html:not(.bewegt) .g-reihe li{position:relative;aspect-ratio:16/9}
+.l-ruhe{position:relative;background:#000}.l-ruhe>img{display:block;width:100%;height:min(86vh,62vw);min-height:420px;object-fit:cover}
+.l-ruhe::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.86),rgba(0,0,0,0) 56%);pointer-events:none}
+.l-ruhe-t{position:absolute;left:0;right:0;bottom:clamp(30px,8vh,84px);z-index:2}.l-ruhe-t h2{max-width:16ch;font-weight:200;font-size:clamp(32px,4.6vw,76px)}.l-ruhe-t p:not(.plan){max-width:46ch;color:var(--hell)}.l-ruhe-t .plan{color:var(--licht)}
+.l-vs{background:#000;padding:clamp(40px,7vw,110px) 0}.l-vs .wrap>.plan{color:var(--licht)}.l-vs h2{max-width:18ch;margin-bottom:.5em}.l-vs .lead{max-width:52ch;margin-bottom:clamp(22px,3vw,40px)}
+.l-vs .vs{margin-top:8px}.l-vs .vs+p{margin:12px 0 clamp(26px,4vw,56px);color:var(--hell-leise);max-width:60ch}
+.l-g3.l-g3--gleich{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:860px){.l-werte--3 .wrap{grid-template-columns:1fr}.l-g3.l-g3--gleich{grid-template-columns:1fr}}
+@media (max-width:760px){
+ .bewegt .l-k.l-gang,.bewegt .l-k.l-raeume{height:auto}
+ .bewegt .l-gang .l-b,.bewegt .l-raeume .l-b{position:relative;top:auto;height:auto;min-height:0;overflow:visible}
+ .l-gang .l-marke{position:static;margin:0 var(--gutter) 4px;padding-top:34px}
+ .l-gang .wisch-hinweis{display:block;margin:0 var(--gutter) 14px;color:var(--hell-sacht);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+ .g-reihe{position:relative;inset:auto;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--gutter) 34px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .g-reihe::-webkit-scrollbar,.l-reihe::-webkit-scrollbar{display:none}
+ .g-reihe li,.bewegt .g-reihe li+li{position:relative;inset:auto;flex:none;width:84vw;aspect-ratio:4/5;scroll-snap-align:center;opacity:1}
+ .g-reihe p{left:18px;bottom:22px;width:calc(100% - 36px);font-size:21px}
+ .l-raeume .l-r-k{position:static;padding:34px var(--gutter) 16px}
+ .bewegt .l-raeume .l-reihe,.l-raeume .l-reihe{position:relative;bottom:auto;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:34px;scrollbar-width:none;transform:none!important}
+ .l-raeume .l-reihe li{scroll-snap-align:center}
+}

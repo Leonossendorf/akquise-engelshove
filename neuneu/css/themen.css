@@ -1,0 +1,32 @@
+
+/* Projektübersicht, Gewerbebau, Garten und Pools (21.11.) */
+.karte--fotos{display:flex;flex-direction:column}.karte-auf{display:flex;flex-direction:column;color:var(--hell);text-decoration:none;cursor:zoom-in}
+.karte-n{display:inline-block;margin-top:10px;color:var(--licht);font-size:15px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.karte:hover figure img,.karte-auf:hover figure img{transform:scale(1.03)}
+.karte:target,.karte--fotos:target{outline:1px solid var(--licht);outline-offset:12px}
+.karten>*{scroll-margin-top:calc(var(--leiste) + var(--kopfhoehe) + 30px)}
+.weitere{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--haar)}
+.weitere li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) auto;gap:6px 30px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--haar)}
+.weitere b{font-family:var(--schrift-gross);font-stretch:125%;font-weight:300;font-size:clamp(18px,1.6vw,24px)}.weitere span{color:var(--hell-leise);font-size:16px}.weitere a{color:var(--licht);font-size:15px;white-space:nowrap}
+@media (max-width:760px){.weitere li{grid-template-columns:1fr}}
+.lb-t{position:absolute;left:14px;top:14px;max-width:calc(100% - 140px);color:var(--hell-leise);font-size:14px}
+.gw{padding:clamp(34px,6vw,96px) 0;background:#000}.gw:nth-of-type(even){background:var(--f1)}
+.gw-in{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(24px,5vw,90px);align-items:center}
+.gw--rechts .gw-bilder{order:2}.gw--rechts .gw-in{grid-template-columns:minmax(0,1fr) minmax(0,1.65fr)}
+.gw-bilder .karte-auf{display:block}.gw-gross{margin:0;overflow:hidden;background:#0c0c0c}.gw-gross img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.gw-bilder .karte-auf:hover .gw-gross img{transform:scale(1.025)}
+.gw-klein{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}.gw-klein img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.gw-t h2{font-weight:200;font-size:clamp(30px,3.8vw,62px)}.gw-t .plan{color:var(--licht)}.gw-t p:not(.plan){color:var(--hell-leise);max-width:46ch}.gw-t .held-wege{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+.gw-kopf{padding-bottom:clamp(20px,3vw,40px)}
+@media (max-width:860px){.gw-in,.gw--rechts .gw-in{grid-template-columns:1fr}.gw--rechts .gw-bilder{order:0}}
+.gp-oben .lead{max-width:56ch}.gp-vier{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:clamp(22px,3vw,40px)}
+.gp-vier figure{margin:0}.gp-vier img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}.gp-vier figcaption{margin-top:8px;color:var(--hell-sacht);font-size:14px}
+@media (max-width:860px){.gp-vier{grid-template-columns:1fr 1fr}}
+.g-reihe p small{display:block;margin-top:12px;font-family:var(--schrift-text);font-stretch:100%;font-weight:400;font-size:15px;color:var(--hell-leise)}
+.gal-filter{position:fixed;left:var(--gutter);top:calc(var(--leiste) + var(--kopfhoehe) + 10px);z-index:40;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100% - var(--gutter)*2)}
+.gal-filter button{min-height:34px;padding:0 12px;background:rgba(0,0,0,.45);border:1px solid rgba(243,242,239,.35);color:var(--hell);font:inherit;font-size:13px;cursor:pointer;backdrop-filter:blur(8px)}
+.gal-filter button:hover,.gal-filter button[aria-pressed="true"]{background:var(--licht);border-color:var(--licht);color:#000}
+@media (max-width:760px){.gal-filter{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;right:0;max-width:none;padding-right:var(--gutter)}.gal-filter button{flex:none}}
+.recht .wrap{max-width:900px}.recht h2{margin:1.8em 0 .5em;font-size:clamp(24px,2.4vw,36px)}.recht h3{margin:1.6em 0 .4em;font-size:clamp(19px,1.6vw,24px)}
+.recht p,.recht li{color:var(--hell-leise);max-width:72ch}.recht p,.recht li,.recht h2,.recht h3{overflow-wrap:anywhere;hyphens:auto}.recht ul{padding-left:1.2em}.recht a{color:var(--hell)}
+.recht-kammern{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px clamp(20px,3vw,40px)}.recht-kammern h3{margin-top:1em;font-size:18px}.recht-kammern p{margin:.3em 0}

@@ -311,3 +311,7 @@ a:hover{text-decoration-color:var(--licht)}
 .p-platz .held-wege{display:flex;flex-wrap:wrap;gap:10px}
 .p-platz .wrap{padding-bottom:clamp(30px,8vh,80px)}
 @media (max-width:760px){.p-platz .wrap{padding-bottom:calc(84px + env(safe-area-inset-bottom))}}
+
+[hidden]{display:none!important}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.form-fehler{margin:12px 0 0;color:#ff9d8a;font-size:15px}.form-fehler:empty{display:none}

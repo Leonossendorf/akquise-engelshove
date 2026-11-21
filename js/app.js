@@ -53,16 +53,19 @@
   var lbZeige = function (n) {
     lbNr = (n + lbListe.length) % lbListe.length;
     lb.querySelector("img").src = lbListe[lbNr].href;
+    var t = lbListe[lbNr].dataset.t;
+    lb.querySelector(".lb-t").textContent = (t ? t + " · " : "") + (lbListe.length > 1 ? (lbNr + 1) + " / " + lbListe.length : "");
   };
   var lbZu = function () { if (lb) { lb.remove(); lb = null; document.documentElement.style.overflow = ""; } };
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest("a[data-lb]");
     if (!a) return;
     e.preventDefault();
-    var gruppe = a.closest(".p-fotos, .g-grid, .scans");
-    lbListe = Array.prototype.slice.call((gruppe || document).querySelectorAll("a[data-lb]")).filter(function (x) { return x.offsetParent !== null; });
+    // Gruppe: eine Fotostrecke oder die Bilder eines Projekts (data-lbg, dort liegen die weiteren Bilder unsichtbar bereit)
+    var gruppe = a.closest("[data-lbg], .p-fotos, .g-grid, .scans"), frei = gruppe && gruppe.hasAttribute("data-lbg");
+    lbListe = Array.prototype.slice.call((gruppe || document).querySelectorAll("a[data-lb]")).filter(function (x) { return frei || x.offsetParent !== null; });
     lb = document.createElement("div"); lb.className = "lb";
-    lb.innerHTML = '<img alt=""><button type="button" class="lb-zu">Schließen</button><button type="button" class="lb-z">Zurück</button><button type="button" class="lb-v">Weiter</button>';
+    lb.innerHTML = '<img alt=""><span class="lb-t"></span><button type="button" class="lb-zu">Schließen</button><button type="button" class="lb-z">Zurück</button><button type="button" class="lb-v">Weiter</button>';
     document.body.appendChild(lb); document.documentElement.style.overflow = "hidden";
     lbZeige(lbListe.indexOf(a));
     lb.addEventListener("click", function (x) {
@@ -112,6 +115,7 @@
   });
 
   // Formulare mit Weichen
+  var geladen = Date.now();
   document.querySelectorAll("form[data-demo]").forEach(function (form) {
     var weichen = form.querySelectorAll("[data-weiche]");
     var radios = form.querySelectorAll('input[name="thema"]');
@@ -129,6 +133,8 @@
     if (m) { var r = form.querySelector('input[name="thema"][value="' + m[1] + '"]'); if (r) { r.checked = true; } }
     var s = (location.search + location.hash).match(/stelle=([a-z-]+)/);
     if (s) { var st = form.querySelector('input[name="stelle"][value="' + s[1] + '"]'); if (st) st.checked = true; }
+    var ar = (location.search + location.hash).match(/art=([a-z-]+)/);
+    if (ar) { var at = form.querySelector('input[name="art"][value="' + ar[1] + '"]'); if (at) at.checked = true; }
     zeigen();
 
     form.addEventListener("submit", function (e) {
@@ -139,6 +145,23 @@
       if (feld) feld.classList.toggle("ungueltig", !ok);
       if (!ok) { (tel || mail).focus(); return; }
       var best = form.querySelector(".bestaetigung");
+      // Echter Versand, sobald das Formular ein Ziel hat (data-ziel). Ohne Ziel bleibt es bei der Vorschau unten.
+      if (form.dataset.ziel) {
+        var knopf = form.querySelector('button[type="submit"]'), alt = knopf.textContent, meldung = form.querySelector(".form-fehler");
+        if (!meldung) { meldung = document.createElement("p"); meldung.className = "form-fehler"; meldung.setAttribute("role", "alert"); knopf.parentNode.insertBefore(meldung, knopf.nextSibling); }
+        var daten = new FormData(form);
+        daten.set("thema", thema()); daten.set("dauer", String(Date.now() - geladen)); daten.set("seite", location.pathname.split("/").pop() || "index.html");
+        daten.set("id", form.dataset.id || (form.dataset.id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : "00000000-0000-4000-8000-" + String(Date.now()).slice(-12)));
+        knopf.disabled = true; knopf.textContent = "Wird gesendet …"; meldung.textContent = "";
+        fetch(form.dataset.ziel, { method: "POST", body: daten }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); }).then(function (x) {
+          knopf.disabled = false; knopf.textContent = alt;
+          if (!x.ok) { meldung.textContent = (x.j && x.j.errors && (x.j.errors.telefon || x.j.errors.email || x.j.errors.lebenslauf)) || (x.j && x.j.error) || "Das hat leider nicht geklappt. Bitte rufen Sie uns an: 05973 / 90 923 0."; return; }
+          form.dataset.id = "";
+          if (best) { var tx = best.querySelector("[data-text]"); if (tx) tx.textContent = thema() === "bewerbung" ? "Ihre Bewerbung ist bei uns. Wir melden uns bei Ihnen." : "Ihre Nachricht ist bei uns. Wir melden uns bei Ihnen."; best.classList.add("sichtbar"); best.setAttribute("tabindex", "-1"); best.focus(); }
+          form.reset(); zeigen();
+        }).catch(function () { knopf.disabled = false; knopf.textContent = alt; meldung.textContent = "Keine Verbindung. Bitte noch einmal versuchen oder anrufen: 05973 / 90 923 0."; });
+        return;
+      }
       if (best) {
         var text = best.querySelector("[data-text]");
         if (text) {

@@ -43,6 +43,16 @@
     } else figs.forEach(zeig);
     var zaehlen = function () { zaehler.textContent = (aktuell() + 1) + " / " + figs.length; };
     window.addEventListener("scroll", zaehlen, { passive: true }); zaehlen();
+    // Rubriken: zeigt nur die Bilder mit dem passenden Tag (aus dem Bildarchiv), Reihenfolge bleibt
+    var alleFigs = figs.slice(), chips = alle(document, ".gal-filter button");
+    var waehle = function (w, ohneSprung) {
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", c.dataset.w === w ? "true" : "false"); });
+      alleFigs.forEach(function (f) { f.hidden = !(w === "alle" || (" " + (f.dataset.t || "") + " ").indexOf(" " + w + " ") >= 0); });
+      figs = alleFigs.filter(function (f) { return !f.hidden; });
+      stopp(); if (!ohneSprung) window.scrollTo(0, 0); zaehlen();
+    };
+    chips.forEach(function (c) { c.addEventListener("click", function () { waehle(c.dataset.w); }); });
+    var hw = location.hash.replace("#", ""); if (hw && chips.some(function (c) { return c.dataset.w === hw; })) waehle(hw, true);
     // Die Diashow läuft von selbst los; wer selbst scrollt, übernimmt. Musik startet mit der ersten Berührung, solange sie nicht abgeschaltet wurde.
     var starte = function () { if (!lauf && !document.hidden) { auto.setAttribute("aria-pressed", "true"); lauf = setInterval(function () { var a = aktuell(); if (a >= figs.length - 1) return stopp(); geh(a + 1); }, 5200); } };
     setTimeout(starte, 2600);
