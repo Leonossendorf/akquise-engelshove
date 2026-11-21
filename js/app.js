@@ -35,17 +35,28 @@
     });
   }
 
-  // Satellitenkarte: Punkt zeigt Bild und Text
+  // Satellitenkarte: Ein Ort zeigt alle Projekte von dort
   var sat = document.querySelector("[data-sat]");
   if (sat) {
-    var si = sat.querySelector(".sat-info"), slink = si.querySelector(".sat-link"), simg = si.querySelector("img"), sh = si.querySelector("h3"), sp = si.querySelector("p");
-    sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (b) {
+    var knoepfe = sat.querySelectorAll(".sat-pkt,.sat-weit"), orte = sat.querySelectorAll(".sat-ort");
+    knoepfe.forEach(function (b) {
       var waehlen = function () {
-        sat.querySelectorAll(".sat-pkt,.sat-weit").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-        simg.src = b.dataset.bild; sh.textContent = b.dataset.titel; sp.textContent = b.dataset.text; slink.href = b.dataset.link;
+        knoepfe.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+        orte.forEach(function (o) { o.hidden = o.dataset.ort !== b.dataset.ort; });
       };
       b.addEventListener("click", waehlen); b.addEventListener("mouseenter", waehlen);
     });
+  }
+
+  // Großer Abschluss: Bild und Text erscheinen, sobald er ins Bild kommt
+  var enden = document.querySelectorAll(".ende");
+  if (enden.length) {
+    if (reduziert || !("IntersectionObserver" in window)) enden.forEach(function (e) { e.classList.add("da"); });
+    else {
+      document.documentElement.classList.add("bewegt-ende");
+      var ioe = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("da"); ioe.unobserve(x.target); } }); }, { threshold: .28 });
+      enden.forEach(function (e) { ioe.observe(e); });
+    }
   }
 
   // Große Ansicht für Fotos und Scans

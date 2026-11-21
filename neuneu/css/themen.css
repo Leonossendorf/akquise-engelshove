@@ -1,5 +1,36 @@
 
 /* Projektübersicht, Gewerbebau, Garten und Pools (21.11.) */
+.sat-pkt span i,.sat-weit i{display:inline-block;min-width:18px;margin-left:6px;padding:0 5px;border-radius:9px;background:var(--licht);color:#000;font-style:normal;font-size:11px;line-height:18px;text-align:center;text-shadow:none}
+.sat-pkt.mehr::before{width:11px;height:11px;margin:-5.5px 0 0 -5.5px;background:var(--licht)}
+.sat-ort .plan{margin:0 0 14px;color:var(--licht)}
+.sat-eintrag{display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--haar);color:var(--hell);text-decoration:none}
+.sat-eintrag:last-of-type{border-bottom:1px solid var(--haar)}
+.sat-eintrag img{width:100%;aspect-ratio:3/2;object-fit:cover;background:#0c0c0c}
+.sat-eintrag b{display:block;font-family:var(--schrift-gross);font-stretch:125%;font-weight:300;font-size:clamp(17px,1.35vw,21px);line-height:1.2}
+.sat-eintrag i{display:block;margin-top:4px;color:var(--hell-sacht);font-style:normal;font-size:13px}.sat-eintrag em{display:block;margin-top:4px;color:var(--hell-leise);font-style:normal;font-size:14px}
+.sat-eintrag:hover b{color:var(--licht)}
+.sat-ort.einzel .sat-eintrag{display:block;padding:0;border:0}.sat-ort.einzel .sat-eintrag img{margin-bottom:16px}.sat-ort.einzel .sat-eintrag b{font-size:clamp(22px,2vw,30px)}.sat-ort.einzel .sat-eintrag em{font-size:16px}
+/* Großer Abschluss der Unterseiten */
+.ende{position:relative;min-height:calc(var(--buehne) - var(--kopfhoehe));display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;text-align:center}
+.ende-bild{position:absolute;inset:0}.ende-bild img{width:100%;height:100%;max-width:none;object-fit:cover;transform:scale(1.12);transition:transform 3.2s cubic-bezier(.2,.7,.2,1)}
+.ende.da .ende-bild img{transform:scale(1);animation:ende-drift 22s ease-in-out 3.2s infinite alternate}
+.ende::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 58%,rgba(0,0,0,.42),rgba(0,0,0,.8) 80%),linear-gradient(to bottom,#000,rgba(0,0,0,0) 24%,rgba(0,0,0,0) 72%,#000);pointer-events:none}
+.ende-in{position:relative;z-index:1;width:100%;padding:clamp(90px,16vh,190px) var(--gutter)}
+.ende-wort{margin:0 0 .1em;max-width:none;font-family:var(--schrift-gross);font-stretch:125%;font-weight:150;font-size:min(calc(165vw / var(--n,10)),14vw,26vh);line-height:.98;letter-spacing:-.025em;text-wrap:balance}
+.ende-satz{margin:0 auto clamp(24px,4.4vh,44px);max-width:34ch;color:var(--hell);font-size:clamp(18px,1.5vw,24px);font-weight:300;line-height:1.4}
+.ende-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:clamp(14px,1.6vw,26px);min-width:min(600px,92vw);padding:clamp(18px,2.6vh,30px) clamp(28px,4vw,60px);border:1px solid var(--licht);border-radius:999px;background:rgba(227,178,122,.12);color:var(--hell);text-decoration:none;font-family:var(--schrift-gross);font-stretch:125%;font-weight:300;font-size:clamp(21px,2.4vw,40px);line-height:1.1;transition:background-color .25s ease,color .25s ease;animation:ende-atmen 3.4s ease-in-out infinite}
+.ende-cta i{position:relative;flex:none;width:clamp(26px,2.6vw,44px);height:2px;background:currentColor;transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.ende-cta i::after{content:"";position:absolute;right:0;top:50%;width:11px;height:11px;margin-top:-6px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg)}
+.ende-cta:hover,.ende-cta:focus-visible{background:var(--licht);color:#000;animation:none}.ende-cta:hover i,.ende-cta:focus-visible i{width:clamp(40px,4vw,70px)}
+.ende-klein{max-width:none;margin:clamp(14px,2.6vh,26px) auto 0;color:var(--hell-leise);font-size:16px}.ende-klein a{color:var(--hell)}
+.ende-quelle{margin:clamp(26px,5vh,54px) auto 0;max-width:60ch;color:var(--hell-sacht);font-size:13px}.ende-quelle a{color:var(--hell-leise)}
+.bewegt-ende .ende-in>*{opacity:0;transform:translateY(30px);transition:opacity 1s ease,transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.bewegt-ende .ende-in>*:nth-child(2){transition-delay:.14s}.bewegt-ende .ende-in>*:nth-child(3){transition-delay:.3s}.bewegt-ende .ende-in>*:nth-child(4){transition-delay:.44s}.bewegt-ende .ende-in>*:nth-child(5){transition-delay:.56s}
+.bewegt-ende .ende.da .ende-in>*{opacity:1;transform:none}
+@keyframes ende-atmen{0%,100%{box-shadow:0 0 0 0 rgba(227,178,122,.5)}65%{box-shadow:0 0 0 26px rgba(227,178,122,0)}}
+@keyframes ende-drift{from{transform:scale(1)}to{transform:scale(1.07) translate3d(-1%,-1%,0)}}
+@media (max-width:760px){.ende{min-height:78vh}.ende-in{padding-bottom:calc(110px + env(safe-area-inset-bottom))}.ende-cta{min-width:0;width:100%}.ende-wort{font-size:min(calc(190vw / var(--n,10)),19vw)}}
+@media (prefers-reduced-motion:reduce){.ende-bild img,.ende.da .ende-bild img{transform:none;animation:none;transition:none}.ende-cta{animation:none}}
 .karte--fotos{display:flex;flex-direction:column}.karte-auf{display:flex;flex-direction:column;color:var(--hell);text-decoration:none;cursor:zoom-in}
 .karte-n{display:inline-block;margin-top:10px;color:var(--licht);font-size:15px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
 .karte:hover figure img,.karte-auf:hover figure img{transform:scale(1.03)}
