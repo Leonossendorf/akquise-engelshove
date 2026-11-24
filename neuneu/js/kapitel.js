@@ -30,7 +30,8 @@
           var a = sb[i], o = i === 0 ? teil(0, .08, p) : teil(a, a + .1, p);
           if (i < bilder.length - 1 && p > sb[i + 1] + .1) o = 0;
           b.style.opacity = o; b.style.visibility = o > 0 ? "visible" : "hidden";
-          if (o > 0) b.firstElementChild.style.transform = "scale(" + (1.14 - .14 * strecke(a - .05, a + .34, p)).toFixed(4) + ")";
+          // Das Familienbild steht ruhig: seine weiche Ebene mitzuzoomen ließ Handys ruckeln.
+          if (o > 0 && i < bilder.length - 1) b.firstElementChild.style.transform = "scale(" + (1.14 - .14 * strecke(a - .05, a + .34, p)).toFixed(4) + ")";
         });
         txt.forEach(function (t, i) {
           var a = sb[i] + .03, o = teil(a, a + .06, p) * (i === 3 ? 1 : 1 - teil(sb[i + 1], sb[i + 1] + .05, p));
@@ -193,6 +194,17 @@
     var io2 = new IntersectionObserver(function (es) { if (es[0].isIntersecting && handy.matches) { io2.disconnect(); setTimeout(fahre, 300); } }, { threshold: .55 });
     io2.observe(st);
   })();
+
+  // Bilder vorab puffern: Jedes Kapitel lädt seine Bilder, sobald es noch gut zwei Bildschirme entfernt ist, also bevor man ankommt.
+  // Das erste Kapitel kommt schon kurz nach dem Start dran (außer im Datensparmodus oder bei sehr langsamem Netz).
+  var puffern = function (k) { alle(k, "img[loading=lazy]").forEach(function (b) { b.loading = "eager"; }); };
+  var kap = alle(document, ".k"), netz = navigator.connection || {};
+  var io3 = new IntersectionObserver(function (e) { e.forEach(function (x) { if (x.isIntersecting) { puffern(x.target); io3.unobserve(x.target); } }); }, { rootMargin: "250% 0px 250% 0px" });
+  kap.forEach(function (k) { io3.observe(k); });
+  if (kap[0] && !netz.saveData && !/(^|-)2g|3g/.test(netz.effectiveType || "")) {
+    var frueh = function () { setTimeout(function () { puffern(kap[0]); }, 2500); };
+    if (document.readyState === "complete") frueh(); else window.addEventListener("load", frueh);
+  }
 
   // Große Wörter erscheinen, wenn sie ins Bild kommen
   var io = new IntersectionObserver(function (e) { e.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("sichtbar"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -10% 0px" });

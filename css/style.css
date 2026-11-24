@@ -13,6 +13,7 @@
 @supports (height:100svh){:root{--buehne:calc(100svh - var(--leiste))}}
 *{box-sizing:border-box}
 html{background:#000;scroll-behavior:smooth}
+html{overflow-x:clip}
 body{margin:0;background:#000;color:var(--hell);font-family:var(--schrift-text);font-size:18px;font-weight:350;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
 img,video{max-width:100%;height:auto;display:block}
 a{color:inherit;text-underline-offset:4px;text-decoration-thickness:1px}

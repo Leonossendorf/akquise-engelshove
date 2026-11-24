@@ -141,11 +141,15 @@
   // Film: läuft mit Ton los, wenn der Browser das erlaubt. Sonst stumm, und der Ton kommt bei der ersten Berührung der Seite dazu.
   // Der Film läuft einmal und bleibt stehen, danach lädt ein Hinweis zum Scrollen ein.
   var film = el("video"), tonKnopf = el(".ton"), haltKnopf = el(".halt");
-  var sparen = navigator.connection && navigator.connection.saveData;
+  // Datensparmodus oder sehr langsames Netz (2G/3G): kein Film von selbst, das Standbild bleibt, der Knopf „Film abspielen“ startet ihn.
+  var netz = navigator.connection || {};
+  var sparen = !!netz.saveData || /(^|-)2g|3g/.test(netz.effectiveType || "");
   var angehalten = !!(reduziert || sparen), tonGewollt = !reduziert, tonWartet = false, winkAn = false;
+  // Hochkant (Handy): eigener Hochkant-Film, rund 2 MB. Quer: 720p, auf großen Schirmen 1080p.
+  var hoch = window.matchMedia && window.matchMedia("(max-aspect-ratio:4/5)").matches;
   var filmLaden = function () {
     if (film.getAttribute("src")) return;
-    film.setAttribute("src", Math.max(window.innerWidth, window.innerHeight) > 1280 ? film.dataset.gross : film.dataset.klein);
+    film.setAttribute("src", hoch && film.dataset.hoch ? film.dataset.hoch : Math.max(window.innerWidth, window.innerHeight) > 1280 ? film.dataset.gross : film.dataset.klein);
   };
   var knopfText = function () {
     haltKnopf.textContent = angehalten ? (film.ended ? "Film noch einmal" : "Film abspielen") : "Film anhalten";
@@ -201,7 +205,9 @@
   };
   window.addEventListener("scroll", beimScrollen, { passive: true });
   window.addEventListener("resize", function () { groesse(); beimScrollen(); });
-  if (!angehalten) filmStart();
+  // Der Film kommt zuletzt: erst wenn Seite, Schrift und Standbild da sind, damit er im Mobilnetz nichts ausbremst.
+  var filmLos = function () { setTimeout(function () { if (!angehalten && !filmWeg) filmStart(); }, 150); };
+  if (document.readyState === "complete") filmLos(); else window.addEventListener("load", filmLos);
   // Wer keinen Film sieht, bekommt den Hinweis nach ein paar Sekunden
   setTimeout(function () { if (film.paused) wink(true); }, 8000);
   messen(); kopfGrund();
