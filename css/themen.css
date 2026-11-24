@@ -1,4 +1,8 @@
 
+.fragen-liste{margin-top:clamp(22px,3vw,40px);border-top:1px solid var(--haar)}
+.frage-a{max-width:70ch;padding:0 0 22px;font-size:18px}
+.frage-a p{margin:0 0 .7em}
+.frage-a a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
 /* Projektübersicht, Gewerbebau, Garten und Pools (21.11.) */
 .sat-pkt span i,.sat-weit i{display:inline-block;min-width:18px;margin-left:6px;padding:0 5px;border-radius:9px;background:var(--licht);color:#000;font-style:normal;font-size:11px;line-height:18px;text-align:center;text-shadow:none}
 .sat-pkt.mehr::before{width:11px;height:11px;margin:-5.5px 0 0 -5.5px;background:var(--licht)}
