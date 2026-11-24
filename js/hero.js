@@ -181,7 +181,7 @@
   var filmLage = function (f) {
     var weg = f >= 1;
     if (weg !== filmWeg) { filmWeg = weg; if (weg) film.pause(); else if (!angehalten && aktiv === 1) filmStart(); }
-    if (!film.muted) film.volume = Math.max(0, 1 - f);
+    if (!film.muted && isFinite(f)) film.volume = Math.min(1, Math.max(0, 1 - f));
   };
   film.addEventListener("ended", function () { angehalten = true; knopfText(); wink(true); });
   haltKnopf.addEventListener("click", function () {
