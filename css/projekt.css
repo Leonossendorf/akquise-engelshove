@@ -71,6 +71,7 @@ html:not(.bewegt) .l-gang .l-b{min-height:0}html:not(.bewegt) .g-reihe{position:
 .l-vs{background:#000;padding:clamp(40px,7vw,110px) 0}.l-vs .wrap>.plan{color:var(--licht)}.l-vs h2{max-width:18ch;margin-bottom:.5em}.l-vs .lead{max-width:52ch;margin-bottom:clamp(22px,3vw,40px)}
 .l-vs .vs{margin-top:8px}.l-vs .vs+p{margin:12px 0 clamp(26px,4vw,56px);color:var(--hell-leise);max-width:60ch}
 .l-g3.l-g3--gleich{grid-template-columns:1fr 1fr 1fr}
+.bewegt .l-voll.tag{will-change:opacity}.bewegt .tag-w.b{opacity:0}
 @media (max-width:860px){.l-werte--3 .wrap{grid-template-columns:1fr}.l-g3.l-g3--gleich{grid-template-columns:1fr}}
 @media (max-width:760px){
  .bewegt .l-k.l-gang,.bewegt .l-k.l-raeume{height:auto}

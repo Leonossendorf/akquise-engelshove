@@ -138,63 +138,76 @@
   };
   var kopfGrund = function () { kopf.classList.toggle("fest", ablauf.getBoundingClientRect().bottom < 120); };
 
-  // Film: läuft mit Ton los, wenn der Browser das erlaubt. Sonst stumm, und der Ton kommt bei der ersten Berührung der Seite dazu.
-  // Der Film läuft einmal und bleibt stehen, danach lädt ein Hinweis zum Scrollen ein.
+  // Film: läuft mit Ton los, wenn der Browser das erlaubt, sonst stumm. Der Film läuft einmal und bleibt stehen, danach lädt ein Hinweis zum Scrollen ein.
+  // Feste Regeln (Leon 24.11.): „Film anhalten / abspielen“ schaltet nur den Film, „Ton an / aus“ nur den Ton, ein Tipp aufs laufende Bild
+  // schaltet den Ton wie der Ton-Knopf. Sonst hält kein Tipp den Film an. Die Knöpfe zeigen immer, was der Film gerade wirklich tut
+  // (abgelesen am Video selbst), nicht, was das Skript vorhatte.
+  // Vorher kam der Ton bei der ersten Berührung der Seite (pointerdown): Auf dem Handy gilt das nicht als Erlaubnis, der Browser hielt den Film
+  // dann an, und der Knopf zeigte weiter „Film anhalten“.
   var film = el("video"), tonKnopf = el(".ton"), haltKnopf = el(".halt");
   // Datensparmodus oder sehr langsames Netz (2G/3G): kein Film von selbst, das Standbild bleibt, der Knopf „Film abspielen“ startet ihn.
   var netz = navigator.connection || {};
   var sparen = !!netz.saveData || /(^|-)2g|3g/.test(netz.effectiveType || "");
-  var angehalten = !!(reduziert || sparen), tonGewollt = !reduziert, tonWartet = false, winkAn = false;
+  var angehalten = !!(reduziert || sparen);   // der Film soll stehen: vom Besucher angehalten, zu Ende gelaufen oder gar nicht erst gestartet
+  var tonGewollt = !reduziert, winkAn = false;
   // Hochkant (Handy): eigener Hochkant-Film, rund 2 MB. Quer: 720p, auf großen Schirmen 1080p.
   var hoch = window.matchMedia && window.matchMedia("(max-aspect-ratio:4/5)").matches;
   var filmLaden = function () {
     if (film.getAttribute("src")) return;
     film.setAttribute("src", hoch && film.dataset.hoch ? film.dataset.hoch : Math.max(window.innerWidth, window.innerHeight) > 1280 ? film.dataset.gross : film.dataset.klein);
   };
+  var steht = function () { return film.getAttribute("src") ? film.paused || film.ended : angehalten; };   // vor dem Laden zählt die Absicht
   var knopfText = function () {
-    haltKnopf.textContent = angehalten ? (film.ended ? "Film noch einmal" : "Film abspielen") : "Film anhalten";
-    tonKnopf.textContent = film.muted ? "Ton an" : "Ton aus";
+    var h = film.ended ? "Film noch einmal" : steht() ? "Film abspielen" : "Film anhalten", t = film.muted ? "Ton an" : "Ton aus";
+    if (haltKnopf.textContent !== h) haltKnopf.textContent = h;
+    if (tonKnopf.textContent !== t) tonKnopf.textContent = t;
   };
   var wink = function (an) { winkAn = an; if (E.wink) E.wink.classList.toggle("da", an && stand < .01); };
+  var laut = function () { var f = teil(0, .2, stand); return isFinite(f) ? Math.min(1, Math.max(0, 1 - f)) : 1; };
+  var stummWeiter = function () {   // Ton (noch) nicht erlaubt: der Film läuft stumm, der Wunsch nach Ton bleibt für später gemerkt
+    film.muted = true;
+    var v = film.play(); if (v && v.catch) v.catch(knopfText);
+    knopfText();
+  };
   var filmStart = function () {
     filmLaden();
     if (film.ended) film.currentTime = 0;
     wink(false);
     film.muted = !tonGewollt;
+    if (!film.muted) film.volume = laut();
     var v = film.play();
-    if (v && v.catch) v.catch(function () {
-      if (!film.muted) {
-        film.muted = true; tonWartet = true; knopfText();
-        var v2 = film.play();
-        if (v2 && v2.catch) v2.catch(function () { angehalten = true; knopfText(); });
-      } else { angehalten = true; knopfText(); }
-    });
+    if (v && v.catch) v.catch(function () { if (film.muted) knopfText(); else stummWeiter(); });   // selbst stumm nicht erlaubt (Stromsparmodus): Standbild und „Film abspielen“
     knopfText();
   };
-  var tonFrei = function () {
-    if (!tonWartet || !tonGewollt) return;
-    tonWartet = false;
-    if (!filmWeg && !angehalten) { film.muted = false; film.volume = 1; }
+  var sollLaufen = function () { return !angehalten && !filmWeg && aktiv === 1 && !document.hidden; };
+  var tonSchalten = function () {
+    var an = film.muted;
+    tonGewollt = an; film.muted = !an;
+    if (an) film.volume = laut();
     knopfText();
+    // Sicherung: hält der Browser den Film beim Einschalten des Tons doch an, läuft er stumm weiter statt stehen zu bleiben
+    if (an) setTimeout(function () { if (sollLaufen() && film.paused && !film.ended) stummWeiter(); }, 80);
   };
-  ["pointerdown", "keydown", "touchend"].forEach(function (n) { window.addEventListener(n, tonFrei, { passive: true }); });
   var filmLage = function (f) {
     var weg = f >= 1;
-    if (weg !== filmWeg) { filmWeg = weg; if (weg) film.pause(); else if (!angehalten && aktiv === 1) filmStart(); }
+    if (weg !== filmWeg) { filmWeg = weg; if (weg) film.pause(); else if (sollLaufen()) filmStart(); }
     if (!film.muted && isFinite(f)) film.volume = Math.min(1, Math.max(0, 1 - f));
   };
+  ["play", "playing", "pause", "volumechange", "emptied"].forEach(function (n) { film.addEventListener(n, knopfText); });
   film.addEventListener("ended", function () { angehalten = true; knopfText(); wink(true); });
   haltKnopf.addEventListener("click", function () {
-    angehalten = !angehalten;
-    if (angehalten) { film.pause(); knopfText(); } else filmStart();
+    if (steht()) { angehalten = false; filmStart(); } else { angehalten = true; film.pause(); knopfText(); }
   });
-  tonKnopf.addEventListener("click", function () {
-    tonGewollt = film.muted;
-    tonWartet = false;
-    film.muted = !tonGewollt;
-    if (tonGewollt) { film.volume = 1; if (angehalten || film.paused) { angehalten = false; filmStart(); } }
-    knopfText();
+  tonKnopf.addEventListener("click", tonSchalten);
+  E.film.addEventListener("click", function (e) {   // Tipp aufs laufende Bild: Ton an oder aus. Links und Knöpfe machen nur ihr Eigenes.
+    if (e.target.closest("a,button") || film.paused || film.ended || filmWeg) return;
+    tonSchalten();
   });
+  // Zurück im Fenster oder aus dem Verlauf: Hat der Browser den Film von sich aus angehalten, läuft er weiter
+  var bereit = false;
+  var wieder = function () { if (bereit && sollLaufen() && film.paused && !film.ended) filmStart(); else knopfText(); };
+  document.addEventListener("visibilitychange", wieder);
+  window.addEventListener("pageshow", function (e) { if (e.persisted) wieder(); });
 
   if (!reduziert) { ablauf.classList.add("laeuft"); malen(0); mauerStart(); }
   knopfText();
@@ -206,7 +219,7 @@
   window.addEventListener("scroll", beimScrollen, { passive: true });
   window.addEventListener("resize", function () { groesse(); beimScrollen(); });
   // Der Film kommt zuletzt: erst wenn Seite, Schrift und Standbild da sind, damit er im Mobilnetz nichts ausbremst.
-  var filmLos = function () { setTimeout(function () { if (!angehalten && !filmWeg) filmStart(); }, 150); };
+  var filmLos = function () { setTimeout(function () { bereit = true; if (sollLaufen() && film.paused) filmStart(); }, 150); };
   if (document.readyState === "complete") filmLos(); else window.addEventListener("load", filmLos);
   // Wer keinen Film sieht, bekommt den Hinweis nach ein paar Sekunden
   setTimeout(function () { if (film.paused) wink(true); }, 8000);
