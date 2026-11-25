@@ -219,7 +219,20 @@
   window.addEventListener("scroll", beimScrollen, { passive: true });
   window.addEventListener("resize", function () { groesse(); beimScrollen(); });
   // Der Film kommt zuletzt: erst wenn Seite, Schrift und Standbild da sind, damit er im Mobilnetz nichts ausbremst.
-  var filmLos = function () { setTimeout(function () { bereit = true; if (sollLaufen() && film.paused) filmStart(); }, 150); };
+  // Die Bilder der Licht-Szene (Tagbild, Abendbild, Lichter) liegen unter dem Film und werden erst beim Scrollen sichtbar. Sie stehen im HTML
+  // nur als data-src und laden kurz nach dem Start oder bei der ersten Berührung. Grund (Leon 25.11.): Lagen sie gleich im HTML, wertete
+  // Googles PageSpeed je nach Lauf eines von ihnen oder die Überschrift als „größtes Element“, die Wertung schwankte zwischen 81 und 96.
+  var szeneDa = false;
+  var szeneLaden = function () {
+    if (szeneDa) return; szeneDa = true;
+    Array.prototype.forEach.call(ablauf.querySelectorAll("img[data-src]"), function (b) {
+      if (b.dataset.srcset) b.setAttribute("srcset", b.dataset.srcset);
+      b.setAttribute("src", b.dataset.src);
+    });
+  };
+  if (reduziert) szeneLaden();
+  else ["scroll", "wheel", "touchstart", "pointerdown", "keydown"].forEach(function (n) { window.addEventListener(n, szeneLaden, { passive: true, once: true }); });
+  var filmLos = function () { setTimeout(szeneLaden, 2500); setTimeout(function () { bereit = true; if (sollLaufen() && film.paused) filmStart(); }, 150); };
   if (document.readyState === "complete") filmLos(); else window.addEventListener("load", filmLos);
   // Wer keinen Film sieht, bekommt den Hinweis nach ein paar Sekunden
   setTimeout(function () { if (film.paused) wink(true); }, 8000);
