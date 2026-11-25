@@ -148,7 +148,9 @@
   // Datensparmodus oder sehr langsames Netz (2G/3G): kein Film von selbst, das Standbild bleibt, der Knopf „Film abspielen“ startet ihn.
   var netz = navigator.connection || {};
   var sparen = !!netz.saveData || /(^|-)2g|3g/.test(netz.effectiveType || "");
-  var angehalten = !!(reduziert || sparen);   // der Film soll stehen: vom Besucher angehalten, zu Ende gelaufen oder gar nicht erst gestartet
+  // Nur zum Messen: www.engelshove.de/?probe=ohnefilm zeigt die Seite ohne automatischen Filmstart (Vergleich in Googles PageSpeed, 25.11.)
+  var probe = /[?&]probe=ohnefilm/.test(location.search);
+  var angehalten = !!(reduziert || sparen || probe);   // der Film soll stehen: vom Besucher angehalten, zu Ende gelaufen oder gar nicht erst gestartet
   var tonGewollt = !reduziert, winkAn = false;
   // Hochkant (Handy): eigener Hochkant-Film, rund 2 MB. Quer: 720p, auf großen Schirmen 1080p.
   var hoch = window.matchMedia && window.matchMedia("(max-aspect-ratio:4/5)").matches;
@@ -209,7 +211,9 @@
   document.addEventListener("visibilitychange", wieder);
   window.addEventListener("pageshow", function (e) { if (e.persisted) wieder(); });
 
-  if (!reduziert) { ablauf.classList.add("laeuft"); malen(0); mauerStart(); }
+  // mauerStart (WebGL für das Haus aus Steinen) läuft nicht mehr beim Öffnen, sondern erst mit szeneLaden: Die Szene liegt unter dem Film,
+  // und die Vorbereitung kostet auf langsamen Handys ein bis zwei Sekunden Rechenzeit (25.11., Googles PageSpeed).
+  if (!reduziert) { ablauf.classList.add("laeuft"); malen(0); }
   knopfText();
   var plan = false;
   var beimScrollen = function () {
@@ -229,6 +233,8 @@
       if (b.dataset.srcset) b.setAttribute("srcset", b.dataset.srcset);
       b.setAttribute("src", b.dataset.src);
     });
+    // in einer ruhigen Lücke, damit weder der Filmstart noch das erste Scrollen ruckelt
+    (window.requestIdleCallback || function (f) { setTimeout(f, 60); })(mauerStart, { timeout: 600 });
   };
   if (reduziert) szeneLaden();
   else ["scroll", "wheel", "touchstart", "pointerdown", "keydown"].forEach(function (n) { window.addEventListener(n, szeneLaden, { passive: true, once: true }); });
